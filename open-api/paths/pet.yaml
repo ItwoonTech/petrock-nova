@@ -1,0 +1,270 @@
+pets/pet_id:
+  post:
+    security: []
+    tags:
+      - pet
+    summary: 新しいペット情報を登録する
+    operationId: createPet
+    parameters:
+      - name: pet_id
+        in: path
+        required: true
+        schema:
+          type: string
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              pet_id:
+                type: string
+                description: ペットのID
+              name:
+                type: string
+                description: ペットの名前
+              category:
+                type: string
+                description: ペットのカテゴリ (e.g., dog, cat)
+              birth_date:
+                type: string
+                format: date
+                description: ペットの誕生日
+              gender:
+                type: string
+                enum: [male, female, none]
+                description: ペットの性別
+              picture_name:
+                type: string
+                description: 撮影した写真の名前
+              pet_info:
+                type: array
+                items:
+                  $ref: '#/components/schemas/PetInfo'
+                description: ペットの情報リスト
+              image_name:
+                type: string
+                description: ペットのプロフィール画像の名前
+            required:
+              - name
+              - category
+              - birth_date
+              - gender
+              - picture_name
+
+    responses:
+      '201':
+        description: ペット情報の登録に成功
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Pet'
+            examples:
+              example1:
+                $ref: '#/components/examples/ExamplePet'
+      '400':
+        description: 入力が無効
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Error'
+            example:
+              message: 'Bad Request'
+      '500':
+        description: サーバーエラー
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Error'
+            example:
+              message: 'Internal Server Error'
+
+  get:
+    security: []
+    tags:
+      - pet
+    summary: 特定のペット情報を取得する
+    description: 指定された'pet_id'に紐づくペット情報を取得する
+    operationId: getPet
+    parameters:
+      - name: pet_id
+        in: path
+        required: true
+        schema:
+          type: string
+    responses:
+      '200':
+        description: ペット情報の取得に成功
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Pet'
+            examples:
+              example1:
+                $ref: '#/components/examples/ExamplePet'
+      '404':
+        description: ペット情報が見つかりません
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Error'
+            example:
+              message: 'Not Found'
+      '500':
+        description: サーバーエラー
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Error'
+            example:
+              message: 'Internal Server Error'
+
+  put:
+    security: []
+    tags:
+      - pet
+    summary: ペット情報を更新する
+    description: 指定された'pet_id'に紐づくペット情報を更新する
+    operationId: updatePet
+    parameters:
+      - name: pet_id
+        in: path
+        required: true
+        schema:
+          type: string
+    requestBody:
+      required: false
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              pet_info:
+                type: array
+                items:
+                  $ref: '#/components/schemas/PetInfo'
+                description: 更新するペットの情報リスト
+    responses:
+      '200':
+        description: ペット情報の更新に成功
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Pet'
+            examples:
+              example1:
+                $ref: '#/components/examples/ExamplePet'
+      '404':
+        description: ペット情報が見つかりません
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Error'
+            example:
+              message: 'Not Found'
+      '500':
+        description: サーバーエラー
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Error'
+            example:
+              message: 'Internal Server Error'
+
+components:
+  schemas:
+    Pet:
+      type: object
+      properties:
+        pet_id:
+          type: string
+          description: ペットID (Primary Key)
+        name:
+          type: string
+          description: ペットの名前
+        category:
+          type: string
+          description: ペットのカテゴリ
+        birth_date:
+          type: string
+          format: date
+          description: ペットの誕生日
+        gender:
+          type: string
+          enum: [male, female, none]
+          description: ペットの性別
+        pet_info:
+          type: array
+          items:
+            $ref: '#/components/schemas/PetInfo'
+          description: ペットの情報リスト
+        image_name:
+          type: string
+          description: ペットのプロフィール画像の名前
+        created_at:
+          type: string
+          format: date-time
+          description: 作られた日時
+        updated_at:
+          type: string
+          format: date-time
+          description: 更新された日時
+
+    PetInfo:
+      type: object
+      properties:
+        pet_info_title:
+          type: string
+          description: ペット情報のタイトル
+        pet_info_description:
+          type: string
+          description: ペット情報の説明
+        pet_info_icon:
+          type: string
+          description: ペット情報のアイコン
+      required:
+        - pet_info_title
+        - pet_info_description
+        - pet_info_icon
+
+    Error:
+      type: object
+      properties:
+        message:
+          type: string
+          description: エラーメッセージ
+
+  examples:
+    ExamplePet:
+      value:
+        pet_id: 'cfea3ecc-7250-4ccf-a41d-ea7f896a9cc5'
+        name: 'ポチ'
+        category: 'dog'
+        birth_date: '2023-01-01'
+        gender: 'male'
+        pet_info: [
+          {
+            pet_info_title: '好きな食べ物',
+            pet_info_description: 'ドッグフード',
+            pet_info_icon: 'Bone'
+          },
+          {
+            pet_info_title: '散歩の時間',
+            pet_info_description: '朝と夕方',
+            pet_info_icon: 'Dog'
+          },
+          {
+            pet_info_title: '好きなこと',
+            pet_info_description: '走る',
+            pet_info_icon: 'Smile'
+          },
+          {
+            pet_info_title: '嫌いなもの',
+            pet_info_description: '玉ねぎ',
+            pet_info_icon: 'Frown'
+          }
+        ]
+        image_name: 'https://picsum.photos/id/582/720/720'
+        created_at: '2025-06-15T10:00:00Z'
+        updated_at: '2025-06-15T10:00:00Z'

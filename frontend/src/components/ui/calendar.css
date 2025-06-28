@@ -1,0 +1,23 @@
+.day-picker-caption {
+  color: #978264;
+}
+
+.day-picker-day {
+  margin: 0;
+}
+
+.day-picker-cell {
+  padding: 2px;
+}
+
+.day-picker-button {
+  border-radius: 8px;
+}
+
+.day-picker-button:hover {
+  background-color: #F2ECE3;
+}
+
+.day-picker-button:focus {
+  background-color: #F2ECE3;
+} 

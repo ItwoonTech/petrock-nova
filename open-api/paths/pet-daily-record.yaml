@@ -1,0 +1,466 @@
+pet/pet_id/daily-records/date:
+  post:
+    security: []
+    tags:
+      - pet-daily-record
+    summary: 新しい日々の記録を作成する
+    description: 新しい日々の記録を作成する
+    operationId: createPetDailyRecord
+    parameters:
+      - name: pet_id
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: date
+        in: path
+        required: true
+        schema:
+          type: string
+          format: date
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            properties:
+              date:
+                type: string
+                format: date
+                description: 日付
+              picture_name:
+                type: string
+                description: 日付に紐づく写真のファイル名
+              reacted:
+                type: boolean
+                description: 親のリアクション
+              advice:
+                type: string
+                description: AIのアドバイス
+              comment:
+                type: string
+                description: ユーザのコメント
+              weather:
+                type: string
+                description: 天気
+              temperature:
+                type: string
+                description: 気温
+              category:
+                type: string
+                description: ペットのカテゴリー
+              birth_date:
+                type: string
+                format: date
+                description: ペットの誕生日
+              task:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Task'
+                description: タスクのリスト
+            required:
+              - picture_name
+              - weather
+              - temperature
+              - category
+              - birth_date
+    responses:
+      '200':
+        description: 日々の記録の作成に成功
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PetDailyRecord'
+            examples:
+              example1:
+                $ref: '#/components/examples/ExamplePetDailyRecord'
+              example2:
+                $ref: '#/components/examples/ExamplePetDailyRecord2'
+      '400':
+        description: 入力が無効
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Error'
+            example:
+              message: 'task must be an array'
+      '500':
+        description: サーバーエラー
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Error'
+            example:
+              message: 'Internal server error'
+
+  get:
+    security: []
+    tags:
+      - pet-daily-record
+    summary: 特定の日付の日々の記録を取得する
+    description: 指定された'pet_id'と'date'に紐づく日々の記録を取得する
+    operationId: getPetDailyRecord
+    parameters:
+      - name: pet_id
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: date
+        in: path
+        required: true
+        schema:
+          type: string
+          format: date
+    responses:
+      '200':
+        description: 日々の記録の取得に成功
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PetDailyRecord'
+            examples:
+              example1:
+                $ref: '#/components/examples/ExamplePetDailyRecord'
+              example2:
+                $ref: '#/components/examples/ExamplePetDailyRecord2'
+      '404':
+        description: 日々の記録が見つかりません
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Error'
+            example:
+              message: 'Not Found'
+      '500':
+        description: サーバーエラー
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Error'
+            example:
+              message: 'Internal server error'
+
+  put:
+    security: []
+    tags:
+      - pet-daily-record
+    summary: 日々の記録を更新する
+    description: 指定された'pet_id'と'date'に紐づく日々の記録を更新する
+    operationId: updatePetDailyRecord
+    parameters:
+      - name: pet_id
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: date
+        in: path
+        required: true
+        schema:
+          type: string
+          format: date
+    requestBody:
+      required: false
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              reacted:
+                type: boolean
+                description: 更新されたリアクション
+              comment:
+                type: string
+                description: ユーザのコメント
+              task:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Task'
+                description: 更新されたタスクのリスト
+
+    responses:
+      '200':
+        description: 日々の記録の更新に成功
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PetDailyRecord'
+            examples:
+              example1:
+                $ref: '#/components/examples/ExamplePetDailyRecord'
+              example2:
+                $ref: '#/components/examples/ExamplePetDailyRecord2'
+      '404':
+        description: 日々の記録が見つかりません
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Error'
+            example:
+              message: 'Not Found'
+      '500':
+        description: サーバーエラー
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Error'
+            example:
+              message: 'Internal server error'
+
+components:
+  schemas:
+    Task:
+      type: object
+      properties:
+        task_title:
+          type: string
+          description: タスクのタイトル
+        task_description:
+          type: string
+          description: タスクの概要
+        task_time:
+          type: string
+          format: time
+          description: タスクの時間
+        completed:
+          type: boolean
+          description: タスクの完了状態
+        repeat:
+          type: boolean
+          description: タスクの繰り返し設定
+        sub_task:
+          type: array
+          items:
+            $ref: '#/components/schemas/SubTask'
+          description: サブタスクのリスト
+      required:
+        - task_title
+        - task_time
+        - completed
+        - repeat
+
+    SubTask:
+      type: object
+      properties:
+        title:
+          type: string
+          description: サブタスクのタイトル
+        description:
+          type: string
+          description: サブタスクの説明
+        completed:
+          type: boolean
+          description: サブタスクの完了状態
+        sub_task_time:
+          type: string
+          format: time
+          description: サブタスクの時間
+      required:
+        - title
+        - description
+        - completed
+        - sub_task_time
+
+    PetDailyRecord:
+      type: object
+      properties:
+        pet_id:
+          type: string
+          description: ペットのID
+        date:
+          type: string
+          format: date
+          description: 日付
+        picture_name:
+          type: string
+          description: 当日撮影した写真のファイル名
+        reacted:
+          type: boolean
+          description: 親のリアクション
+        advice:
+          type: string
+          description: AIのアドバイス
+        comment:
+          type: string
+          description: ユーザのコメント
+        weather:
+          type: string
+          description: 天気
+        temperature:
+          type: string
+          description: 気温
+        task:
+          type: array
+          items:
+            $ref: '#/components/schemas/Task'
+          description: タスクのリスト
+        created_at:
+          type: string
+          format: date-time
+          description: 作られた日時
+        updated_at:
+          type: string
+          format: date-time
+          description: 更新された日時
+    Error:
+      type: object
+      properties:
+        message:
+          type: string
+          description: エラーメッセージ
+
+  examples:
+    ExamplePetDailyRecord:
+      value:
+        pet_id: 'cfea3ecc-7250-4ccf-a41d-ea7f896a9cc5'
+        date: '2025-06-14'
+        picture_name: 'https://picsum.photos/id/237/720/720'
+        reacted: false
+        advice: '少し寒かったね。\nあたたかくしてくれて\nありがとう！'
+        comment: '楽しかったね！'
+        weather: '晴れ'
+        temperature: '20.5'
+        task: [
+          {
+            task_title: '朝の散歩',
+            task_description: '2km走る',
+            task_time: '08:00',
+            completed: true,
+            repeat: true,
+            sub_task: [
+              {
+                title: 'リードの装着',
+                description: '首輪とリードを付ける',
+                completed: true,
+                sub_task_time: '07:55'
+              },
+              {
+                title: '公園まで散歩',
+                description: '近所の公園まで散歩',
+                completed: false,
+                sub_task_time: '08:00'
+              }
+            ]
+          },
+          {
+            task_title: 'おやつ',
+            task_description: 'お気に入りのおやつをあげる',
+            task_time: '10:00',
+            completed: false,
+            repeat: false,
+            sub_task: []
+          },
+          {
+            task_title: 'ブラッシング',
+            task_description: '毛並みを整える',
+            task_time: '15:00',
+            completed: false,
+            repeat: false,
+            sub_task: []
+          },
+          {
+            task_title: 'シャンプー',
+            task_description: '体を清潔にする',
+            task_time: '18:00',
+            completed: false,
+            repeat: true,
+            sub_task: []
+          }
+        ]
+        created_at: '2025-06-15T10:00:00Z'
+        updated_at: '2025-06-15T10:00:00Z'
+    ExamplePetDailyRecord2:
+      value:
+        pet_id: 'cfea3ecc-7250-4ccf-a41d-ea7f896a9cc5'
+        date: '2025-06-16'
+        picture_name: 'https://picsum.photos/id/237/720/720'
+        reacted: true
+        advice: '今日は暑かったね。\n水分補給をしっかりして\n休憩も取れたね！'
+        comment: '元気いっぱいだったよ！'
+        weather: '晴れ'
+        temperature: '28.5'
+        task: [
+          {
+            task_title: '朝の散歩',
+            task_description: '1.5km走る',
+            task_time: '07:30',
+            completed: true,
+            repeat: true,
+            sub_task: [
+              {
+                title: 'リードの装着',
+                description: '首輪とリードを付ける',
+                completed: true,
+                sub_task_time: '07:25'
+              },
+              {
+                title: '公園まで散歩',
+                description: '近所の公園まで散歩',
+                completed: true,
+                sub_task_time: '07:30'
+              }
+            ]
+          },
+          {
+            task_title: 'おやつ',
+            task_description: '夏用のおやつをあげる',
+            task_time: '11:00',
+            completed: true,
+            repeat: false,
+            sub_task: []
+          },
+          {
+            task_title: 'ブラッシング',
+            task_description: '毛並みを整える',
+            task_time: '16:00',
+            completed: true,
+            repeat: false,
+            sub_task: []
+          },
+          {
+            task_title: 'シャンプー',
+            task_description: '体を清潔にする',
+            task_time: '19:00',
+            completed: true,
+            repeat: true,
+            sub_task: []
+          }
+        ]
+        created_at: '2025-06-16T10:00:00Z'
+        updated_at: '2025-06-16T10:00:00Z'
+    ExamplePetDailyRecord3:
+      value:
+        pet_id: 'cfea3ecc-7250-4ccf-a41d-ea7f896a9cc5'
+        date: '2024-03-20'
+        picture_name: 'https://picsum.photos/id/237/720/720'
+        reacted: false
+        advice: '今日は暖かくしよう！'
+        comment: '楽しかったね！'
+        weather: '晴れ'
+        temperature: "20.5"
+        task: [
+          {
+            task_title: '朝の散歩',
+            task_description: '2km走る',
+            task_time: '08:00',
+            completed: true,
+            repeat: true,
+            sub_task: [
+              {
+                title: 'リードの装着',
+                description: '首輪とリードを付ける',
+                completed: true,
+                sub_task_time: '07:55'
+              },
+              {
+                title: '公園まで散歩',
+                description: '近所の公園まで散歩',
+                completed: false,
+                sub_task_time: '08:00'
+              }
+            ]
+          }
+        ]
+        created_at: '2025-06-15T10:00:00Z'
+        updated_at: '2025-06-15T10:00:00Z'

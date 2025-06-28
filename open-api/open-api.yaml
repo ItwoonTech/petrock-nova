@@ -1,0 +1,33 @@
+openapi: 3.0.0
+info:
+  title: Petrock AI API
+  description: このOpen APIは、ユーザ情報、ペット情報、ペットの日々の記録、チャット履歴、ファイルのアップロードを管理するためのAPIです。
+  version: 1.0.0
+
+servers:
+  - url: http://localhost:3000
+    description: Local development server
+
+tags:
+  - name: user
+    description: ユーザに関する情報を管理するAPI
+  - name: pet
+    description: ペットに関する情報を管理するAPI
+  - name: pet-daily-record
+    description: ペットの日々の記録を管理するAPI
+  - name: pet-chat
+    description: チャット履歴を管理するAPI
+  - name: s3
+    description: S3に関するAPI
+
+paths:
+  /users/{user_id}:
+    $ref: './paths/user.yaml#/users~1user_id'
+  /pets/{pet_id}:
+    $ref: './paths/pet.yaml#/pets~1pet_id'
+  /pets/{pet_id}/daily-records/{date}:
+    $ref: './paths/pet-daily-record.yaml#/pet~1pet_id~1daily-records~1date'
+  /pets/{pet_id}/chats:
+    $ref: './paths/pet-chat.yaml#/pet~1pet_id~1chats'
+  /s3/presigned-url:
+    $ref: './paths/s3.yaml#/s3~1presigned-url'

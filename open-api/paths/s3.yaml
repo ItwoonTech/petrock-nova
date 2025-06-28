@@ -1,0 +1,80 @@
+s3/presigned-url:
+  get:
+    security: []
+    tags:
+      - s3
+    summary: S3から署名付きURLを取得する
+    operationId: getS3PresignedUrl
+    parameters:
+      - name: pet_id
+        in: query
+        required: true
+        schema:
+          type: string
+          description: ペットID
+        example: 'golden'
+      - name: picture_name
+        in: query
+        required: true
+        schema:
+          type: string
+          description: ファイル名
+        example: '985f4ed3-6164-4c7c-ae3e-c06038ae703c.jpg'
+      - name: operation
+        in: query
+        required: false
+        schema:
+          type: string
+          description: ダウンロード(get:default)かアップロード(post)か
+        example: 'post'
+    responses:
+      '200':
+        description: 署名付きURLの取得に成功
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                url:
+                  type: string
+                  description: 署名付きURL
+            examples:
+              example1:
+                $ref: '#/components/examples/ExampleS3PresignedUrl'
+      '400':
+        description: 入力が無効
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Error'
+            example:
+              message: 'Bad Request'
+      '500':
+        description: サーバーエラー
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Error'
+            example:
+              message: 'Internal Server Error'
+
+components:
+  schemas:
+    S3PresignedUrl:
+      type: object
+      properties:
+        url:
+          type: string
+          description: 署名付きURL
+
+    Error:
+      type: object
+      properties:
+        message:
+          type: string
+          description: エラーメッセージ
+
+  examples:
+    ExampleS3PresignedUrl:
+      value:
+        url: 'https://picsum.photos/id/237/720/720'

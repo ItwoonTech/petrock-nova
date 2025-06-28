@@ -1,0 +1,11 @@
+services:
+  prism:
+    image: stoplight/prism:latest
+    container_name: prism
+    platform: linux/amd64
+    command: mock -h 0.0.0.0 /open-api.yaml
+    volumes:
+      - ./open-api.yaml:/open-api.yaml
+      - ./paths:/paths
+    ports:
+      - "4010:4010"

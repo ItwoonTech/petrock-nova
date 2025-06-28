@@ -1,0 +1,133 @@
+name: Notify Discord on PR Events
+
+on:
+  pull_request:
+    types:
+      - opened
+      - reopened
+      - closed
+  pull_request_review:
+    types:
+    - submitted
+
+jobs:
+  notify_pr_event:
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set PR information
+        id: set_pr_data
+        run: |
+          if [[ "${{ github.event.action }}" == "opened" ]]; then
+            echo "status=opened" >> $GITHUB_OUTPUT
+            echo "color=5763719" >> $GITHUB_OUTPUT  # 緑色
+            echo "emoji=🆕" >> $GITHUB_OUTPUT
+          elif [[ "${{ github.event.action }}" == "reopened" ]]; then
+            echo "status=reopened" >> $GITHUB_OUTPUT
+            echo "color=16776960" >> $GITHUB_OUTPUT  # 黄色
+            echo "emoji=🔄" >> $GITHUB_OUTPUT
+          elif [[ "${{ github.event.action }}" == "closed" ]]; then
+            if [[ "${{ github.event.pull_request.merged }}" == "true" ]]; then
+              echo "status=merged" >> $GITHUB_OUTPUT
+              echo "color=10181046" >> $GITHUB_OUTPUT  # 紫色
+              echo "emoji=✅" >> $GITHUB_OUTPUT
+            else
+              echo "status=closed" >> $GITHUB_OUTPUT
+              echo "color=15548997" >> $GITHUB_OUTPUT  # 赤色
+              echo "emoji=❌" >> $GITHUB_OUTPUT
+            fi
+          fi
+
+          # 時刻をフォーマット
+          echo "timestamp=$(date -u +'%Y-%m-%dT%H:%M:%SZ')" >> $GITHUB_OUTPUT
+
+      - name: Notify Discord
+        run: |
+          curl -H "Content-Type: application/json" \
+               -X POST \
+               -d '{
+                 "embeds": [{
+                   "title": "${{ steps.set_pr_data.outputs.emoji }} PR #${{ github.event.pull_request.number }} ${{ steps.set_pr_data.outputs.status }}: ${{ github.event.pull_request.title }}",
+                   "url": "${{ github.event.pull_request.html_url }}",
+                   "color": ${{ steps.set_pr_data.outputs.color }},
+                   "fields": [
+                     {
+                       "name": "Repository",
+                       "value": "${{ github.repository }}",
+                       "inline": true
+                     },
+                     {
+                       "name": "Author",
+                       "value": "${{ github.event.pull_request.user.login }}",
+                       "inline": true
+                     },
+                     {
+                       "name": "Branch",
+                       "value": "`${{ github.event.pull_request.head.ref }}` → `${{ github.event.pull_request.base.ref }}`",
+                       "inline": false
+                     }
+                   ],
+                   "thumbnail": {
+                     "url": "${{ github.event.pull_request.user.avatar_url }}"
+                   },
+                   "footer": {
+                     "text": "GitHub Actions",
+                     "icon_url": "https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png"
+                   },
+                   "timestamp": "${{ steps.set_pr_data.outputs.timestamp }}"
+                 }]
+               }' \
+               ${{ secrets.DISCORD_WEBHOOK_URL }}
+
+  notify_review_event:
+    if: github.event_name == 'pull_request_review'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Notify Discord on Review
+        run: |
+          STATE="${{ github.event.review.state }}"
+          case "$STATE" in
+            "approved")
+              COLOR=5763719
+              EMOJI="✅"
+              ;;
+            "changes_requested")
+              COLOR=15548997
+              EMOJI="🛑"
+              ;;
+            "commented")
+              COLOR=16776960
+              EMOJI="💬"
+              ;;
+            *)
+              COLOR=0
+              EMOJI="❓"
+              ;;
+          esac
+
+          TIMESTAMP=$(date -u +'%Y-%m-%dT%H:%M:%SZ')
+
+          curl -H "Content-Type: application/json" -X POST -d "{
+            \"embeds\": [{
+              \"title\": \"$EMOJI Review ${STATE^^} on PR #${{ github.event.pull_request.number }}: ${{ github.event.pull_request.title }}\",
+              \"url\": \"${{ github.event.pull_request.html_url }}\",
+              \"color\": $COLOR,
+              \"fields\": [
+                {
+                  \"name\": \"Reviewer\",
+                  \"value\": \"${{ github.event.review.user.login }}\",
+                  \"inline\": true
+                },
+                {
+                  \"name\": \"Repository\",
+                  \"value\": \"${{ github.repository }}\",
+                  \"inline\": true
+                }
+              ],
+              \"footer\": {
+                \"text\": \"GitHub Actions\",
+                \"icon_url\": \"https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png\"
+              },
+              \"timestamp\": \"$TIMESTAMP\"
+            }]
+          }" ${{ secrets.DISCORD_WEBHOOK_URL }}
