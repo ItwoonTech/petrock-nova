@@ -138,11 +138,11 @@ test_update_pet() {
   print_result "$status_code" 200 "$body"
 }
 
-# GET /pets/{pet_id}/daily-records/{date}
-test_get_daily_record() {
-  echo "Testing GET /pets/$PET_ID/daily-records/$DATE"
+# GET /pets/{pet_id}/diaries/{date}
+test_get_diary() {
+  echo "Testing GET /pets/$PET_ID/diaries/$DATE"
   response=$(
-    curl -s -w "\n%{http_code}" -X GET "$BASE_URL/pets/$PET_ID/daily-records/$DATE"
+    curl -s -w "\n%{http_code}" -X GET "$BASE_URL/pets/$PET_ID/diaries/$DATE"
   )
 
   status_code=$(echo "$response" | tail -n1)
@@ -150,11 +150,11 @@ test_get_daily_record() {
   print_result "$status_code" 200 "$body"
 }
 
-# POST /pets/{pet_id}/daily-records
-test_create_daily_record() {
-  echo "Testing POST /pets/$PET_ID/daily-records"
+# POST /pets/{pet_id}/diaries
+test_create_diary() {
+  echo "Testing POST /pets/$PET_ID/diaries"
   response=$(
-    curl -s -w "\n%{http_code}" -X POST "$BASE_URL/pets/$PET_ID/daily-records" \
+    curl -s -w "\n%{http_code}" -X POST "$BASE_URL/pets/$PET_ID/diaries" \
     -H "Content-Type: application/json" \
     -d '{
       "date": "2024-03-20",
@@ -187,11 +187,11 @@ test_create_daily_record() {
   print_result "$status_code" 200 "$body"
 }
 
-# PUT /pets/{pet_id}/daily-records/{date}
-test_update_daily_record() {
-  echo "Testing PUT /pets/$PET_ID/daily-records/$DATE"
+# PUT /pets/{pet_id}/diaries/{date}
+test_update_diary() {
+  echo "Testing PUT /pets/$PET_ID/diaries/$DATE"
   response=$(
-    curl -s -w "\n%{http_code}" -X PUT "$BASE_URL/pets/$PET_ID/daily-records/$DATE" \
+    curl -s -w "\n%{http_code}" -X PUT "$BASE_URL/pets/$PET_ID/diaries/$DATE" \
     -H "Content-Type: application/json" \
     -d '{
       "reaction": "更新されたリアクション",
@@ -269,9 +269,9 @@ menu() {
     "Create Pet" 
     "Get Pet"
     "Update Pet"
-    "Create Daily Record"
-    "Get Daily Record"
-    "Update Daily Record"
+    "Create Diary"
+    "Get Diary"
+    "Update Diary"
     "Create Chat" 
     "Get Chat"
     "Get Presigned URL" 
@@ -298,14 +298,14 @@ menu() {
       "Update Pet")
         test_update_pet
         ;;
-      "Create Daily Record")
-        test_create_daily_record
+      "Create Diary")
+        test_create_diary
         ;;
-      "Get Daily Record")
-        test_get_daily_record
+      "Get Diary")
+        test_get_diary
         ;;
-      "Update Daily Record")
-        test_update_daily_record
+      "Update Diary")
+        test_update_diary
         ;;
       "Create Chat")
         test_create_chat
@@ -323,9 +323,9 @@ menu() {
         test_create_pet
         test_get_pet
         test_update_pet
-        test_create_daily_record
-        test_get_daily_record
-        test_update_daily_record
+        test_create_diary
+        test_get_diary
+        test_update_diary
         test_create_chat
         test_get_chat
         test_get_presigned_url

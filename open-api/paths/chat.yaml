@@ -2,10 +2,10 @@ pet/pet_id/chats:
   post:
     security: []
     tags:
-      - pet-chat
+      - chat
     summary: 新しいチャットメッセージを作成する
     description: 新しいチャットメッセージを作成する
-    operationId: createPetChat
+    operationId: createChat
     parameters:
       - name: pet_id
         in: path
@@ -30,10 +30,10 @@ pet/pet_id/chats:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/PetChat'
+              $ref: '#/components/schemas/Chat'
             examples:
               example1:
-                $ref: '#/components/examples/ExamplePetChat1'
+                $ref: '#/components/examples/ExampleChat1'
       '400':
         description: 入力が無効
         content:
@@ -54,10 +54,10 @@ pet/pet_id/chats:
   get:
     security: []
     tags:
-      - pet-chat
+      - chat
     summary: チャットメッセージ一覧を取得する
     description: 指定された'pet_id'に紐づく全てのチャットメッセージを取得する
-    operationId: getPetChat
+    operationId: getChat
     parameters:
       - name: pet_id
         in: path
@@ -70,10 +70,10 @@ pet/pet_id/chats:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/PetChat'
+              $ref: '#/components/schemas/Chat'
             examples:
               example1:
-                $ref: '#/components/examples/ExamplePetChat2'
+                $ref: '#/components/examples/ExampleChat2'
       '404':
         description: チャットメッセージが見つかりません
         content:
@@ -93,7 +93,7 @@ pet/pet_id/chats:
 
 components:
   schemas:
-    PetChatRequest:
+    ChatRequest:
       type: object
       properties:
         pet_id:
@@ -113,7 +113,7 @@ components:
         - pet_id
         - content
 
-    PetChat:
+    Chat:
       type: array
       items:
         type: object
@@ -139,9 +139,17 @@ components:
           description: エラーメッセージ
 
   examples:
-    ExamplePetChat1:
-      value: '昼頃が良いです'
-    ExamplePetChat2:
+    ExampleChat1:
+      value: [
+        {
+          pet_id: '42c829b1-b69a-4d27-b755-322f4661215d',
+          sender: 'ai',
+          content: '昼頃が良いです',
+          created_at: '2025-06-15T10:00:00Z'
+        }
+      ]
+
+    ExampleChat2:
       value: [
         {
           pet_id: '42c829b1-b69a-4d27-b755-322f4661215d',
