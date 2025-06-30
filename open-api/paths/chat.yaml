@@ -25,7 +25,7 @@ pet/pet_id/chats:
             required:
               - content
     responses:
-      '200':
+      '201':
         description: チャットメッセージの作成に成功
         content:
           application/json:
@@ -93,44 +93,11 @@ pet/pet_id/chats:
 
 components:
   schemas:
-    ChatRequest:
-      type: object
-      properties:
-        pet_id:
-          type: string
-          description: ペットのID
-        sender:
-          type: string
-          description: メッセージの送信者
-        content:
-          type: string
-          description: チャットメッセージの内容
-        created_at:
-          type: string
-          format: date-time
-          description: 送信時間
-      required:
-        - pet_id
-        - content
-
     Chat:
       type: array
       items:
-        type: object
-        properties:
-          pet_id:
-            type: string
-            description: ペットのID
-          sender:
-            type: string
-            description: メッセージの送信者
-          content:
-            type: string
-            description: メッセージの内容
-          created_at:
-            type: string
-            format: date-time
-            description: メッセージの送信時間
+        type: string
+
     Error:
       type: object
       properties:
@@ -140,39 +107,12 @@ components:
 
   examples:
     ExampleChat1:
-      value: [
-        {
-          pet_id: '42c829b1-b69a-4d27-b755-322f4661215d',
-          sender: 'ai',
-          content: '昼頃が良いです',
-          created_at: '2025-06-15T10:00:00Z'
-        }
-      ]
+      value: '昼頃が良いです'
 
     ExampleChat2:
       value: [
-        {
-          pet_id: '42c829b1-b69a-4d27-b755-322f4661215d',
-          sender: 'user',
-          content: 'お散歩にいつ行けばいいですか？',
-          created_at: '2025-06-15T10:00:00Z'
-        },
-        {
-          pet_id: '42c829b1-b69a-4d27-b755-322f4661215d',
-          sender: 'ai',
-          content: '昼頃が良いです',
-          created_at: '2025-06-15T10:01:00Z'
-        },
-        {
-          pet_id: '42c829b1-b69a-4d27-b755-322f4661215d',
-          sender: 'user',
-          content: 'わかりました。12時に行きましょう',
-          created_at: '2025-06-15T10:02:00Z'
-        },
-        {
-          pet_id: '42c829b1-b69a-4d27-b755-322f4661215d',
-          sender: 'ai',
-          content: 'はい、気をつけて行ってきてください',
-          created_at: '2025-06-15T10:03:00Z'
-        }
+        'お散歩にいつ行けばいいですか？',
+        '昼頃が良いです',
+        'わかりました。12時に行きましょう',
+        'はい、気をつけて行ってきてください',
       ]
