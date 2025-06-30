@@ -59,6 +59,7 @@ users/user_id:
               $ref: '#/components/schemas/Error'
             example:
               message: 'Internal Server Error'
+
   get:
     security: []
     tags:

@@ -65,7 +65,7 @@ pet/pet_id/diaries/date:
               - category
               - birth_date
     responses:
-      '200':
+      '201':
         description: 日々の記録の作成に成功
         content:
           application/json:

@@ -1,5 +1,5 @@
 s3/presigned-url:
-  get:
+  post:
     security: []
     tags:
       - s3
@@ -28,16 +28,12 @@ s3/presigned-url:
           description: ダウンロード(get:default)かアップロード(post)か
         example: 'post'
     responses:
-      '200':
+      '201':
         description: 署名付きURLの取得に成功
         content:
           application/json:
             schema:
-              type: object
-              properties:
-                url:
-                  type: string
-                  description: 署名付きURL
+              $ref: '#/components/schemas/S3PresignedUrl'
             examples:
               example1:
                 $ref: '#/components/examples/ExampleS3PresignedUrl'
