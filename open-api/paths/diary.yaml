@@ -3,8 +3,8 @@ pet/pet_id/diaries/date:
     security: []
     tags:
       - diary
-    summary: 新しい日々の記録を作成する
-    description: 新しい日々の記録を作成する
+    summary: 新しい日記を作成する
+    description: 新しい日記を作成する
     operationId: createDiary
     parameters:
       - name: pet_id
@@ -66,7 +66,7 @@ pet/pet_id/diaries/date:
               - birth_date
     responses:
       '201':
-        description: 日々の記録の作成に成功
+        description: 日記の作成に成功
         content:
           application/json:
             schema:
@@ -97,8 +97,8 @@ pet/pet_id/diaries/date:
     security: []
     tags:
       - diary
-    summary: 特定の日付の日々の記録を取得する
-    description: 指定された'pet_id'と'date'に紐づく日々の記録を取得する
+    summary: 特定の日付の日記を取得する
+    description: 指定された'pet_id'と'date'に紐づく日記を取得する
     operationId: getDiary
     parameters:
       - name: pet_id
@@ -114,7 +114,7 @@ pet/pet_id/diaries/date:
           format: date
     responses:
       '200':
-        description: 日々の記録の取得に成功
+        description: 日記の取得に成功
         content:
           application/json:
             schema:
@@ -125,7 +125,7 @@ pet/pet_id/diaries/date:
               example2:
                 $ref: '#/components/examples/ExampleDiary2'
       '404':
-        description: 日々の記録が見つかりません
+        description: 日記が見つかりません
         content:
           application/json:
             schema:
@@ -145,8 +145,8 @@ pet/pet_id/diaries/date:
     security: []
     tags:
       - diary
-    summary: 日々の記録を更新する
-    description: 指定された'pet_id'と'date'に紐づく日々の記録を更新する
+    summary: 日記を更新する
+    description: 指定された'pet_id'と'date'に紐づく日記を更新する
     operationId: updateDiary
     parameters:
       - name: pet_id
@@ -181,7 +181,7 @@ pet/pet_id/diaries/date:
 
     responses:
       '200':
-        description: 日々の記録の更新に成功
+        description: 日記の更新に成功
         content:
           application/json:
             schema:
@@ -192,7 +192,7 @@ pet/pet_id/diaries/date:
               example2:
                 $ref: '#/components/examples/ExampleDiary2'
       '404':
-        description: 日々の記録が見つかりません
+        description: 日記が見つかりません
         content:
           application/json:
             schema:
