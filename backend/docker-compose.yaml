@@ -15,11 +15,11 @@ services:
       - "localstack-data:/var/lib/localstack"
       - "/var/run/docker.sock:/var/run/docker.sock"
     networks:
-      - petrock_ai
+      - petrock_nova
 
 volumes:
   localstack-data:
 
 networks:
-  petrock_ai:
-    name: petrock_ai
+  petrock_nova:
+    name: petrock_nova
