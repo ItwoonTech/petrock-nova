@@ -131,7 +131,7 @@ pet/pet_id/diaries/date:
             schema:
               $ref: '#/components/schemas/Error'
             example:
-              message: 'Not Found'
+              message: '日記が見つかりませんでした'
       '500':
         description: サーバーエラー
         content:
@@ -198,7 +198,7 @@ pet/pet_id/diaries/date:
             schema:
               $ref: '#/components/schemas/Error'
             example:
-              message: 'Not Found'
+              message: '日記が見つかりませんでした'
       '500':
         description: サーバーエラー
         content:
