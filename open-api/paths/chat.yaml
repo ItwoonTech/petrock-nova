@@ -1,0 +1,119 @@
+pet/pet_id/chats:
+  post:
+    security: []
+    tags:
+      - chat
+    summary: 新しいチャットメッセージを作成する
+    description: 新しいチャットメッセージを作成する
+    operationId: createChatMessage
+    parameters:
+      - name: pet_id
+        in: path
+        required: true
+        schema:
+          type: string
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              content:
+                type: string
+                description: メッセージの内容
+            required:
+              - content
+    responses:
+      '201':
+        description: チャットメッセージの作成に成功
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ChatMessage'
+            examples:
+              example1:
+                value: 'お散歩にいつ行けばいいですか？'
+      '400':
+        description: 入力が無効
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Error'
+            example:
+              message: 'Bad Request'
+      '500':
+        description: サーバーエラー
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Error'
+            example:
+              message: 'Internal Server Error'
+
+  get:
+    security: []
+    tags:
+      - chat
+    summary: チャット履歴を取得する
+    description: 指定された'pet_id'に紐づくチャット履歴を取得する
+    operationId: getChatHistory
+    parameters:
+      - name: pet_id
+        in: path
+        required: true
+        schema:
+          type: string
+    responses:
+      '200':
+        description: チャット履歴の取得に成功
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ChatHistory'
+            examples:
+              example1:
+                $ref: '#/components/examples/ExampleChatHistory'
+      '404':
+        description: チャット履歴が見つかりません
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Error'
+            example:
+              message: 'チャット履歴が見つかりませんでした'
+      '500':
+        description: サーバーエラー
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Error'
+            example:
+              message: 'Internal Server Error'
+
+components:
+  schemas:
+    ChatMessage:
+      type: string
+      description: メッセージの内容
+
+    ChatHistory:
+      type: array
+      items:
+        $ref: '#/components/schemas/ChatMessage'
+
+    Error:
+      type: object
+      properties:
+        message:
+          type: string
+          description: エラーメッセージ
+
+  examples:
+    ExampleChatHistory:
+      value: [
+        'お散歩にいつ行けばいいですか？',
+        '昼頃が良いです',
+        'わかりました。12時に行きましょう',
+        'はい、気をつけて行ってきてください',
+      ]

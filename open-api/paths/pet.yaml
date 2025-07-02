@@ -3,7 +3,7 @@ pets/pet_id:
     security: []
     tags:
       - pet
-    summary: 新しいペット情報を登録する
+    summary: 新しいペットを登録する
     operationId: createPet
     parameters:
       - name: pet_id
@@ -55,7 +55,7 @@ pets/pet_id:
 
     responses:
       '201':
-        description: ペット情報の登録に成功
+        description: ペットの登録に成功
         content:
           application/json:
             schema:
@@ -84,8 +84,8 @@ pets/pet_id:
     security: []
     tags:
       - pet
-    summary: 特定のペット情報を取得する
-    description: 指定された'pet_id'に紐づくペット情報を取得する
+    summary: 特定のペットを取得する
+    description: 指定された'pet_id'に紐づくペットを取得する
     operationId: getPet
     parameters:
       - name: pet_id
@@ -95,7 +95,7 @@ pets/pet_id:
           type: string
     responses:
       '200':
-        description: ペット情報の取得に成功
+        description: ペットの取得に成功
         content:
           application/json:
             schema:
@@ -104,13 +104,13 @@ pets/pet_id:
               example1:
                 $ref: '#/components/examples/ExamplePet'
       '404':
-        description: ペット情報が見つかりません
+        description: ペットが見つかりません
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/Error'
             example:
-              message: 'Not Found'
+              message: 'ペットが見つかりませんでした'
       '500':
         description: サーバーエラー
         content:
@@ -124,8 +124,8 @@ pets/pet_id:
     security: []
     tags:
       - pet
-    summary: ペット情報を更新する
-    description: 指定された'pet_id'に紐づくペット情報を更新する
+    summary: ペットを更新する
+    description: 指定された'pet_id'に紐づくペットを更新する
     operationId: updatePet
     parameters:
       - name: pet_id
@@ -147,7 +147,7 @@ pets/pet_id:
                 description: 更新するペットの情報リスト
     responses:
       '200':
-        description: ペット情報の更新に成功
+        description: ペットの更新に成功
         content:
           application/json:
             schema:
@@ -156,13 +156,13 @@ pets/pet_id:
               example1:
                 $ref: '#/components/examples/ExamplePet'
       '404':
-        description: ペット情報が見つかりません
+        description: ペットが見つかりません
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/Error'
             example:
-              message: 'Not Found'
+              message: 'ペットが見つかりませんでした'
       '500':
         description: サーバーエラー
         content:
@@ -216,10 +216,10 @@ components:
       properties:
         pet_info_title:
           type: string
-          description: ペット情報のタイトル
+          description: ペットの情報のタイトル
         pet_info_description:
           type: string
-          description: ペット情報の説明
+          description: ペットの情報の説明
         pet_info_icon:
           type: string
           description: ペット情報のアイコン

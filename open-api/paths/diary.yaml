@@ -1,11 +1,11 @@
-pet/pet_id/daily-records/date:
+pet/pet_id/diaries/date:
   post:
     security: []
     tags:
-      - pet-daily-record
-    summary: 新しい日々の記録を作成する
-    description: 新しい日々の記録を作成する
-    operationId: createPetDailyRecord
+      - diary
+    summary: 新しい日記を作成する
+    description: 新しい日記を作成する
+    operationId: createDiary
     parameters:
       - name: pet_id
         in: path
@@ -65,17 +65,17 @@ pet/pet_id/daily-records/date:
               - category
               - birth_date
     responses:
-      '200':
-        description: 日々の記録の作成に成功
+      '201':
+        description: 日記の作成に成功
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/PetDailyRecord'
+              $ref: '#/components/schemas/Diary'
             examples:
               example1:
-                $ref: '#/components/examples/ExamplePetDailyRecord'
+                $ref: '#/components/examples/ExampleDiary1'
               example2:
-                $ref: '#/components/examples/ExamplePetDailyRecord2'
+                $ref: '#/components/examples/ExampleDiary2'
       '400':
         description: 入力が無効
         content:
@@ -96,10 +96,10 @@ pet/pet_id/daily-records/date:
   get:
     security: []
     tags:
-      - pet-daily-record
-    summary: 特定の日付の日々の記録を取得する
-    description: 指定された'pet_id'と'date'に紐づく日々の記録を取得する
-    operationId: getPetDailyRecord
+      - diary
+    summary: 特定の日付の日記を取得する
+    description: 指定された'pet_id'と'date'に紐づく日記を取得する
+    operationId: getDiary
     parameters:
       - name: pet_id
         in: path
@@ -114,24 +114,24 @@ pet/pet_id/daily-records/date:
           format: date
     responses:
       '200':
-        description: 日々の記録の取得に成功
+        description: 日記の取得に成功
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/PetDailyRecord'
+              $ref: '#/components/schemas/Diary'
             examples:
               example1:
-                $ref: '#/components/examples/ExamplePetDailyRecord'
+                $ref: '#/components/examples/ExampleDiary1'
               example2:
-                $ref: '#/components/examples/ExamplePetDailyRecord2'
+                $ref: '#/components/examples/ExampleDiary2'
       '404':
-        description: 日々の記録が見つかりません
+        description: 日記が見つかりません
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/Error'
             example:
-              message: 'Not Found'
+              message: '日記が見つかりませんでした'
       '500':
         description: サーバーエラー
         content:
@@ -144,10 +144,10 @@ pet/pet_id/daily-records/date:
   put:
     security: []
     tags:
-      - pet-daily-record
-    summary: 日々の記録を更新する
-    description: 指定された'pet_id'と'date'に紐づく日々の記録を更新する
-    operationId: updatePetDailyRecord
+      - diary
+    summary: 日記を更新する
+    description: 指定された'pet_id'と'date'に紐づく日記を更新する
+    operationId: updateDiary
     parameters:
       - name: pet_id
         in: path
@@ -181,24 +181,24 @@ pet/pet_id/daily-records/date:
 
     responses:
       '200':
-        description: 日々の記録の更新に成功
+        description: 日記の更新に成功
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/PetDailyRecord'
+              $ref: '#/components/schemas/Diary'
             examples:
               example1:
-                $ref: '#/components/examples/ExamplePetDailyRecord'
+                $ref: '#/components/examples/ExampleDiary1'
               example2:
-                $ref: '#/components/examples/ExamplePetDailyRecord2'
+                $ref: '#/components/examples/ExampleDiary2'
       '404':
-        description: 日々の記録が見つかりません
+        description: 日記が見つかりません
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/Error'
             example:
-              message: 'Not Found'
+              message: '日記が見つかりませんでした'
       '500':
         description: サーバーエラー
         content:
@@ -262,7 +262,7 @@ components:
         - completed
         - sub_task_time
 
-    PetDailyRecord:
+    Diary:
       type: object
       properties:
         pet_id:
@@ -311,7 +311,7 @@ components:
           description: エラーメッセージ
 
   examples:
-    ExamplePetDailyRecord:
+    ExampleDiary1:
       value:
         pet_id: 'cfea3ecc-7250-4ccf-a41d-ea7f896a9cc5'
         date: '2025-06-14'
@@ -370,8 +370,9 @@ components:
         ]
         created_at: '2025-06-15T10:00:00Z'
         updated_at: '2025-06-15T10:00:00Z'
-    ExamplePetDailyRecord2:
-      value:
+
+    ExampleDiary2:
+      value:  
         pet_id: 'cfea3ecc-7250-4ccf-a41d-ea7f896a9cc5'
         date: '2025-06-16'
         picture_name: 'https://picsum.photos/id/237/720/720'
@@ -429,7 +430,8 @@ components:
         ]
         created_at: '2025-06-16T10:00:00Z'
         updated_at: '2025-06-16T10:00:00Z'
-    ExamplePetDailyRecord3:
+
+    ExampleDiary3:
       value:
         pet_id: 'cfea3ecc-7250-4ccf-a41d-ea7f896a9cc5'
         date: '2024-03-20'
