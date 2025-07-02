@@ -5,7 +5,7 @@ pet/pet_id/chats:
       - chat
     summary: 新しいチャットメッセージを作成する
     description: 新しいチャットメッセージを作成する
-    operationId: createChat
+    operationId: createChatMessage
     parameters:
       - name: pet_id
         in: path
@@ -30,10 +30,10 @@ pet/pet_id/chats:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Chat'
+              $ref: '#/components/schemas/ChatMessage'
             examples:
               example1:
-                $ref: '#/components/examples/ExampleChat1'
+                value: 'お散歩にいつ行けばいいですか？'
       '400':
         description: 入力が無効
         content:
@@ -55,9 +55,9 @@ pet/pet_id/chats:
     security: []
     tags:
       - chat
-    summary: チャットメッセージ一覧を取得する
-    description: 指定された'pet_id'に紐づく全てのチャットメッセージを取得する
-    operationId: getChat
+    summary: チャット履歴を取得する
+    description: 指定された'pet_id'に紐づくチャット履歴を取得する
+    operationId: getChatHistory
     parameters:
       - name: pet_id
         in: path
@@ -66,22 +66,22 @@ pet/pet_id/chats:
           type: string
     responses:
       '200':
-        description: チャットメッセージの取得に成功
+        description: チャット履歴の取得に成功
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Chat'
+              $ref: '#/components/schemas/ChatHistory'
             examples:
               example1:
-                $ref: '#/components/examples/ExampleChat2'
+                $ref: '#/components/examples/ExampleChatHistory'
       '404':
-        description: チャットメッセージが見つかりません
+        description: チャット履歴が見つかりません
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/Error'
             example:
-              message: 'Not Found'
+              message: 'チャット履歴が見つかりませんでした'
       '500':
         description: サーバーエラー
         content:
@@ -93,10 +93,14 @@ pet/pet_id/chats:
 
 components:
   schemas:
-    Chat:
+    ChatMessage:
+      type: string
+      description: メッセージの内容
+
+    ChatHistory:
       type: array
       items:
-        type: string
+        $ref: '#/components/schemas/ChatMessage'
 
     Error:
       type: object
@@ -106,10 +110,7 @@ components:
           description: エラーメッセージ
 
   examples:
-    ExampleChat1:
-      value: '昼頃が良いです'
-
-    ExampleChat2:
+    ExampleChatHistory:
       value: [
         'お散歩にいつ行けばいいですか？',
         '昼頃が良いです',
