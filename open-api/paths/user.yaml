@@ -64,8 +64,8 @@ users/user_id:
     security: []
     tags:
       - user
-    summary: 特定のユーザ情報を取得する
-    description: 指定された'user_id'に紐づくユーザ情報を取得する
+    summary: 特定のユーザを取得する
+    description: 指定された'user_id'に紐づくユーザを取得する
     operationId: getUser
     parameters:
       - name: user_id
@@ -75,7 +75,7 @@ users/user_id:
           type: string
     responses:
       '200':
-        description: ユーザ情報の取得に成功
+        description: ユーザの取得に成功
         content:
           application/json:
             schema:
@@ -84,13 +84,13 @@ users/user_id:
               example1:
                 $ref: '#/components/examples/ExampleUser'
       '404':
-        description: ユーザ情報が見つかりません
+        description: ユーザが見つかりません
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/Error'
             example:
-              message: 'Not Found'
+              message: 'ユーザが見つかりませんでした'
       '500':
         description: サーバーエラー
         content:
@@ -104,8 +104,8 @@ users/user_id:
     security: []
     tags:
       - user
-    summary: ユーザ情報を更新する
-    description: 指定された'user_id'に紐づくユーザ情報を更新する
+    summary: ユーザを更新する
+    description: 指定された'user_id'に紐づくユーザを更新する
     operationId: updateUser
     parameters:
       - name: user_id
@@ -129,7 +129,7 @@ users/user_id:
                 description: ユーザの新しいロール
     responses:
       '200':
-        description: ユーザ情報の更新に成功
+        description: ユーザの更新に成功
         content:
           application/json:
             schema:
@@ -138,13 +138,13 @@ users/user_id:
               example1:
                 $ref: '#/components/examples/ExampleUser'
       '404':
-        description: ユーザ情報が見つかりません
+        description: ユーザが見つかりません
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/Error'
             example:
-              message: 'Not Found'
+              message: 'ユーザが見つかりませんでした'
       '500':
         description: サーバーエラー
         content:
