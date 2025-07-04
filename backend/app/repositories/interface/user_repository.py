@@ -7,16 +7,16 @@ class UserRepository(ABC):
     """ユーザーリポジトリのインターフェース"""
 
     @abstractmethod
-    def get_user(self, user_id: str) -> User | None:
+    def get_by_id(self, user_id: str) -> User | None:
         """ユーザーを取得する"""
         pass
 
     @abstractmethod
-    def create_user(self, user: User) -> User:
+    def create(self, user: User) -> User:
         """ユーザーを作成する"""
         pass
 
     @abstractmethod
-    def update_user(self, user: User) -> User:
+    def update(self, user: User) -> User:
         """ユーザーを更新する"""
         pass

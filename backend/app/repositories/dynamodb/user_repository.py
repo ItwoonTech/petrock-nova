@@ -17,7 +17,7 @@ class DynamoDBUserRepository(UserRepository):
         self.dynamodb = boto3.resource("dynamodb", region_name=region_name)
         self.table = self.dynamodb.Table(table_name)
 
-    def get_user(self, user_id: str) -> User | None:
+    def get_by_id(self, user_id: str) -> User | None:
         """ユーザーを取得する
 
         Args:
@@ -33,7 +33,7 @@ class DynamoDBUserRepository(UserRepository):
 
         return User.from_dict(response["Item"])
 
-    def create_user(self, user: User) -> User:
+    def create(self, user: User) -> User:
         """ユーザーを作成する
 
         Args:
@@ -41,10 +41,10 @@ class DynamoDBUserRepository(UserRepository):
         """
         self.table.put_item(Item=user.to_dict())
 
-        created_user = self.get_user(user.user_id)
+        created_user = self.get_by_id(user.user_id)
         return created_user
 
-    def update_user(self, user: User) -> User:
+    def update(self, user: User) -> User:
         """ユーザーを更新する
 
         Args:
@@ -52,5 +52,5 @@ class DynamoDBUserRepository(UserRepository):
         """
         self.table.put_item(Item=user.to_dict())
 
-        updated_user = self.get_user(user.user_id)
+        updated_user = self.get_by_id(user.user_id)
         return updated_user
