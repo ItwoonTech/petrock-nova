@@ -29,7 +29,8 @@ select = [
 ]
 
 ignore = [
-    "I001",  # unsorted imports
+    "I001", # unsorted imports
+    "B008", # function-call-in-default-argument
 ]
 
 [dependency-groups]
