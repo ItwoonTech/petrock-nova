@@ -1,8 +1,9 @@
 from __future__ import annotations
 
-from dataclasses import dataclass, replace
 from datetime import UTC, datetime
 from enum import Enum
+
+from pydantic import BaseModel, Field
 
 
 class UserRole(Enum):
@@ -13,17 +14,16 @@ class UserRole(Enum):
     GENERAL = "general"
 
 
-@dataclass(frozen=True)
-class User:
+class User(BaseModel):
     """ユーザー"""
 
-    user_id: str
-    pet_id: str
-    user_name: str
+    user_id: str = Field(min_length=1)
+    pet_id: str = Field(min_length=1)
+    user_name: str = Field(min_length=1)
     user_role: UserRole
-    password: str
-    created_at: datetime = datetime.now(UTC)
-    updated_at: datetime = datetime.now(UTC)
+    password: str = Field(min_length=4)
+    created_at: datetime = Field(default_factory=lambda: datetime.now(UTC))
+    updated_at: datetime = Field(default_factory=lambda: datetime.now(UTC))
 
     def to_dict(self) -> dict:
         """ユーザーを辞書に変換する"""
@@ -55,4 +55,4 @@ class User:
         if "updated_at" not in kwargs:
             kwargs["updated_at"] = datetime.now(UTC)
 
-        return replace(self, **kwargs)
+        return self.model_copy(update=kwargs)
