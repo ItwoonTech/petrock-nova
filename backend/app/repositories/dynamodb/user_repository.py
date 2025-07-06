@@ -41,8 +41,7 @@ class DynamoDBUserRepository(UserRepository):
         """
         self.table.put_item(Item=user.to_dict())
 
-        created_user = self.get_by_id(user.user_id)
-        return created_user
+        return user
 
     def update(self, user: User) -> User:
         """ユーザーを更新する
@@ -52,5 +51,4 @@ class DynamoDBUserRepository(UserRepository):
         """
         self.table.put_item(Item=user.to_dict())
 
-        updated_user = self.get_by_id(user.user_id)
-        return updated_user
+        return user
