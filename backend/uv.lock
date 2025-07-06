@@ -226,6 +226,7 @@ dependencies = [
     { name = "boto3" },
     { name = "fastapi" },
     { name = "mangum" },
+    { name = "pydantic" },
 ]
 
 [package.dev-dependencies]
@@ -239,6 +240,7 @@ requires-dist = [
     { name = "boto3", specifier = ">=1.39.1" },
     { name = "fastapi", specifier = ">=0.115.14" },
     { name = "mangum", specifier = ">=0.19.0" },
+    { name = "pydantic", specifier = ">=2.11.7" },
 ]
 
 [package.metadata.requires-dev]
