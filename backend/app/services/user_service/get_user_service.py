@@ -16,6 +16,7 @@ class GetUserService:
     def __init__(self, user_repository: UserRepository):
         self.user_repository = user_repository
 
-    def execute(self, request: GetUserServiceRequest) -> GetUserServiceResponse:
+    def execute(self, request: GetUserServiceRequest) -> GetUserServiceResponse | None:
         user = self.user_repository.get_by_id(request.user_id)
-        return GetUserServiceResponse(user=user)
+
+        return GetUserServiceResponse(user=user) if user else None
