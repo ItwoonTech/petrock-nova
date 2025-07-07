@@ -7,9 +7,7 @@ Parameters:
     Type: String
   PetTableName:
     Type: String
-  DailyRecordTableName:
-    Type: String
-  ChatTableName:
+  DiaryRecordTableName:
     Type: String
 
 Resources:
@@ -39,11 +37,11 @@ Resources:
         - AttributeName: pet_id
           KeyType: HASH
 
-  DailyRecordTable:
+  DiaryRecordTable:
     Type: AWS::DynamoDB::Table
     Properties:
       TableName: 
-        Ref: DailyRecordTableName
+        Ref: DiaryRecordTableName
       BillingMode: PAY_PER_REQUEST
       AttributeDefinitions:
         - AttributeName: pet_id
@@ -56,19 +54,6 @@ Resources:
         - AttributeName: date
           KeyType: RANGE
 
-  ChatTable:
-    Type: AWS::DynamoDB::Table
-    Properties:
-      TableName: 
-        Ref: ChatTableName
-      BillingMode: PAY_PER_REQUEST
-      AttributeDefinitions:
-        - AttributeName: pet_id
-          AttributeType: S
-      KeySchema:
-        - AttributeName: pet_id
-          KeyType: HASH
-
 Outputs:
   UserTableName:
     Description: User Table Name
@@ -78,11 +63,7 @@ Outputs:
     Description: Pet Table Name
     Value: 
       Ref: PetTable
-  DailyRecordTableName:
-    Description: DailyRecord Table Name
+  DiaryRecordTableName:
+    Description: DiaryRecord Table Name
     Value: 
-      Ref: DailyRecordTable
-  ChatTableName:
-    Description: Chat Table Name
-    Value: 
-      Ref: ChatTable
+      Ref: DiaryRecordTable
