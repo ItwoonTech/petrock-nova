@@ -8,6 +8,7 @@ dependencies = [
     "boto3>=1.39.1",
     "fastapi>=0.115.14",
     "mangum>=0.19.0",
+    "pydantic>=2.11.7",
 ]
 
 [tool.ruff]
@@ -29,7 +30,8 @@ select = [
 ]
 
 ignore = [
-    "I001",  # unsorted imports
+    "I001", # unsorted imports
+    "B008", # function-call-in-default-argument
 ]
 
 [dependency-groups]
