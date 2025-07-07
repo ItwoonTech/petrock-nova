@@ -7,7 +7,7 @@ Parameters:
     Type: String
   PetTableName:
     Type: String
-  DiaryRecordTableName:
+  DiaryTableName:
     Type: String
 
 Resources:
@@ -37,11 +37,11 @@ Resources:
         - AttributeName: pet_id
           KeyType: HASH
 
-  DiaryRecordTable:
+  DiaryTable:
     Type: AWS::DynamoDB::Table
     Properties:
       TableName: 
-        Ref: DiaryRecordTableName
+        Ref: DiaryTableName
       BillingMode: PAY_PER_REQUEST
       AttributeDefinitions:
         - AttributeName: pet_id
@@ -63,7 +63,7 @@ Outputs:
     Description: Pet Table Name
     Value: 
       Ref: PetTable
-  DiaryRecordTableName:
-    Description: DiaryRecord Table Name
+  DiaryTableName:
+    Description: Diary Table Name
     Value: 
-      Ref: DiaryRecordTable
+      Ref: DiaryTable
