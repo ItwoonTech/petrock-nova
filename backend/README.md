@@ -10,7 +10,13 @@ source .venv/bin/activate
 deactivate
 ```
 
-### Lambdaの起動
+## FastAPIの起動
+
+```
+uv run fastapi dev
+```
+
+## Lambdaの起動
 
 ```sh
 sam build
