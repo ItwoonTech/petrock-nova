@@ -1,0 +1,31 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: 'S3 Bucket for Petrock Nova'
+
+Parameters:
+  PetImageBucketName:
+    Type: String
+
+Resources:
+  PetrockBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName:
+        Ref: PetImageBucketName
+      CorsConfiguration:
+        CorsRules:
+          - AllowedHeaders:
+              - '*'
+            AllowedMethods:
+              - GET
+              - PUT
+              - POST
+            AllowedOrigins:
+              - '*'
+            ExposedHeaders:
+              - x-amz-request-id
+
+Outputs:
+  BucketName:
+    Description: S3バケット名
+    Value:
+      Ref: PetrockBucket
