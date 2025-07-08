@@ -10,17 +10,6 @@ class UpdateUserServiceRequest(BaseModel):
     user_role: str | None
     password: str | None
 
-    def to_dict(self) -> dict:
-        result = {}
-        if self.user_name is not None:
-            result["user_name"] = self.user_name
-        if self.user_role is not None:
-            result["user_role"] = self.user_role
-        if self.password is not None:
-            result["password"] = self.password
-
-        return result
-
 
 class UpdateUserServiceResponse(BaseModel):
     user: User
@@ -36,7 +25,7 @@ class UpdateUserService:
         if current_user is None:
             raise ValueError("ユーザーが見つかりませんでした")
 
-        updated_user = current_user.update(**request.to_dict())
+        updated_user = current_user.update(request.model_dump(exclude_unset=True))
         self.user_repository.update(updated_user)
 
         return UpdateUserServiceResponse(user=updated_user)
