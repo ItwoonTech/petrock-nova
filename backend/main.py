@@ -1,3 +1,9 @@
+# fmt: off
+from dotenv import load_dotenv
+
+load_dotenv()
+# fmt: on
+
 from fastapi import FastAPI
 
 from app.api.routers.user_router import router as user_router
