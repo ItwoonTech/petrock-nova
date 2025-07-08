@@ -11,12 +11,15 @@ class UpdateUserServiceRequest(BaseModel):
     password: str | None
 
     def to_dict(self) -> dict:
-        return {
-            "user_id": self.user_id,
-            "user_name": self.user_name,
-            "user_role": self.user_role,
-            "password": self.password,
-        }
+        result = {}
+        if self.user_name is not None:
+            result["user_name"] = self.user_name
+        if self.user_role is not None:
+            result["user_role"] = self.user_role
+        if self.password is not None:
+            result["password"] = self.password
+
+        return result
 
 
 class UpdateUserServiceResponse(BaseModel):
