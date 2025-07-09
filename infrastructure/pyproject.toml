@@ -1,0 +1,9 @@
+[project]
+name = "petrock-nova-infra"
+version = "0.0.0"
+description = "Petrock Novaのインフラストラクチャ"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "aws-sam-cli-local>=1.70.0",
+]
