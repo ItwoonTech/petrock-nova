@@ -2,13 +2,13 @@ from fastapi import APIRouter, Depends, HTTPException, status
 
 from app.api.dependencies import get_get_user_service
 from app.api.schemas.user_schema import GetUserResponse
-from app.services.user_service.get_user_service import GetUserService
+from app.services.user_service.get_user_service import GetUserService, GetUserServiceRequest
 
 router = APIRouter()
 
 
 @router.get(
-    "",
+    "/{user_id}",
     response_model=GetUserResponse,
     tags=["User"],
     summary="ユーザーを取得する",
@@ -18,7 +18,8 @@ def get_user(
     user_id: str,
     get_user_service: GetUserService = Depends(get_get_user_service),
 ):
-    response = get_user_service.execute(user_id)
+    request = GetUserServiceRequest(user_id=user_id)
+    response = get_user_service.execute(request)
 
     if response is None:
         raise HTTPException(
