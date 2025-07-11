@@ -17,6 +17,8 @@ delete-remote:
 
 help:
 	@echo "利用可能なコマンド:"
-	@echo "  make deploy      - LocalStackにデプロイ"
-	@echo "  make delete      - LocalStackのスタックを削除"
-	@echo "  make help        - このヘルプを表示" 
+	@echo "  make deploy-local      - LocalStackにデプロイ"
+	@echo "  make delete-local      - LocalStackのスタックを削除"
+	@echo "  make deploy-remote     - 本番環境にデプロイ"
+	@echo "  make delete-remote     - 本番環境のスタックを削除"
+	@echo "  make help              - このヘルプを表示" 
