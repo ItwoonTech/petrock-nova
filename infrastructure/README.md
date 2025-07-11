@@ -22,8 +22,8 @@ DynamoDBやS3に保存されているデータは[LocalStack Desktop](https://do
 ## LocalStackへのデプロイ
 
 ```sh
-make deploy
-make delete
+make deploy-local
+make delete-local
 ```
 
 > [!NOTE]
@@ -36,6 +36,6 @@ ValueError: URL given to the parse method is not a valid S3 url http://localhost
 ## 本番環境へのデプロイ
 
 ```sh
-sam deploy --config-env prod
-sam delete --config-env prod
+make deploy-remote
+make delete-remote
 ```

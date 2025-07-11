@@ -1,13 +1,19 @@
 STACK_NAME = petrock-nova-infra
 ENDPOINT_URL = http://localhost:4566
 
-deploy:
+deploy-local:
 	samlocal deploy --config-env dev
 
-delete:
+delete-local:
 	aws cloudformation delete-stack \
 		--stack-name $(STACK_NAME) \
 		--endpoint-url $(ENDPOINT_URL)
+
+deploy-remote:
+	sam deploy --config-env prod
+
+delete-remote:
+	sam delete --config-env prod
 
 help:
 	@echo "利用可能なコマンド:"
