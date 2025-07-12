@@ -1,10 +1,3 @@
-# flake8: noqa: E402
-# fmt: off
-from dotenv import load_dotenv
-
-load_dotenv()
-# fmt: on
-
 from fastapi import FastAPI
 from mangum import Mangum
 
