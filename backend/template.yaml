@@ -2,6 +2,10 @@ AWSTemplateFormatVersion: '2010-09-09'
 Transform: AWS::Serverless-2016-10-31
 Description: FastAPI app on Lambda with Mangum
 
+Parameters:
+  UserTableName:
+    Type: String
+
 Resources:
   FastApiFunction:
     Type: AWS::Serverless::Function
@@ -22,4 +26,4 @@ Resources:
           DYNAMODB_ENDPOINT_URL:
             Ref: AWS::NoValue
           USER_TABLE_NAME:
-            Ref: AWS::NoValue
+            Ref: UserTableName
