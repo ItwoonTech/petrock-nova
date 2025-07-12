@@ -484,7 +484,6 @@ dependencies = [
     { name = "fastapi", extra = ["standard"] },
     { name = "mangum" },
     { name = "pydantic" },
-    { name = "python-dotenv" },
 ]
 
 [package.dev-dependencies]
@@ -500,7 +499,6 @@ requires-dist = [
     { name = "fastapi", extras = ["standard"], specifier = ">=0.115.14" },
     { name = "mangum", specifier = ">=0.19.0" },
     { name = "pydantic", specifier = ">=2.11.7" },
-    { name = "python-dotenv", specifier = ">=1.1.1" },
 ]
 
 [package.metadata.requires-dev]
