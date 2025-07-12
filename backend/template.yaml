@@ -17,3 +17,9 @@ Resources:
           Properties:
             Path: /{proxy+}
             Method: ANY
+      Environment:
+        Variables:
+          DYNAMODB_ENDPOINT_URL:
+            Ref: AWS::NoValue
+          USER_TABLE_NAME:
+            Ref: AWS::NoValue
