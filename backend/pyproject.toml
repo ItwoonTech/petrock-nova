@@ -38,8 +38,4 @@ ignore = [
 dev = [
     "boto3-stubs[essential]>=1.39.1",
     "ruff>=0.12.1",
-    "taskipy>=1.14.1",
 ]
-
-[tool.taskipy.tasks]
-start = "uv run python ./scripts/start_api.py"
