@@ -36,6 +36,8 @@ ValueError: URL given to the parse method is not a valid S3 url http://localhost
 ## 本番環境へのデプロイ
 
 ```sh
-make deploy-remote
-make delete-remote
+make deploy-remote profile=<profile_name>
+make delete-remote profile=<profile_name>
 ```
+
+`<profile_name>` には `~/.aws/credentials` に記載されているプロフィール名を指定する．
