@@ -1,7 +1,12 @@
 from fastapi import APIRouter, Depends, HTTPException, status
 
-from app.api.dependencies import get_get_user_service
-from app.api.schemas.user_schema import GetUserResponse
+from app.api.dependencies import get_create_user_service, get_get_user_service
+from app.api.schemas.user_schema import CreateUserRequestBody, GetUserResponseBody
+from app.services.user_service.create_user_service import (
+    CreateUserService,
+    CreateUserServiceRequest,
+    CreateUserServiceResponse,
+)
 from app.services.user_service.get_user_service import GetUserService, GetUserServiceRequest
 
 router = APIRouter()
@@ -9,7 +14,7 @@ router = APIRouter()
 
 @router.get(
     "/{user_id}",
-    response_model=GetUserResponse,
+    response_model=GetUserResponseBody,
     tags=["User"],
     summary="ユーザーを取得する",
     operation_id="get_user",
@@ -27,11 +32,32 @@ def get_user(
             detail="ユーザーが見つかりませんでした",
         )
 
-    user = response.user
-    return GetUserResponse(
-        user_id=user.user_id,
-        user_name=user.user_name,
-        user_role=user.user_role,
-        pet_id=user.pet_id,
-        password=user.password,
+    return GetUserResponseBody(
+        user_id=response.user_id,
+        pet_id=response.pet_id,
+        user_name=response.user_name,
+        user_role=response.user_role,
+        password=response.password,
     )
+
+
+@router.post(
+    "/{user_id}",
+    response_model=CreateUserServiceResponse,
+    tags=["User"],
+    summary="ユーザーを作成する",
+    operation_id="create_user",
+)
+def create_user(
+    user_id: str,
+    request_body: CreateUserRequestBody,
+    create_user_service: CreateUserService = Depends(get_create_user_service),
+):
+    request = CreateUserServiceRequest(
+        user_id=user_id,
+        user_name=request_body.user_name,
+        user_role=request_body.user_role,
+        password=request_body.password,
+    )
+
+    return create_user_service.execute(request)
