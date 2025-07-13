@@ -7,6 +7,16 @@ Parameters:
     Type: String
 
 Resources:
+  PetrockNovaAPI:
+    Type: AWS::Serverless::Api
+    Properties:
+      Name: PetrockNovaAPI
+      Cors:
+        AllowOrigin: "'*'"
+        AllowCredentials: false
+        AllowMethods: "'GET,POST,PUT,OPTIONS'"
+        AllowHeaders: "'Content-Type,Authorization'"
+
   FastApiFunction:
     Type: AWS::Serverless::Function
     Properties:
@@ -16,9 +26,11 @@ Resources:
       Timeout: 30
       MemorySize: 512
       Events:
-        Api:
+        PetrockNovaAPI:
           Type: Api
           Properties:
+            RestApiId:
+              Ref: PetrockNovaAPI
             Path: /{proxy+}
             Method: ANY
       Environment:
@@ -27,3 +39,8 @@ Resources:
             Ref: AWS::NoValue
           USER_TABLE_NAME:
             Ref: UserTableName
+
+Outputs:
+  ApiUrl:
+    Description: "API Gateway endpoint URL"
+    Value: !Sub "https://${PetrockNovaAPI}.execute-api.${AWS::Region}.amazonaws.com/Prod"
