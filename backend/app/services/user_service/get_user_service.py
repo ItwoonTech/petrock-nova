@@ -1,6 +1,7 @@
+from datetime import datetime
+
 from pydantic import BaseModel
 
-from app.models.user import User
 from app.repositories.interface.user_repository import UserRepository
 
 
@@ -9,7 +10,13 @@ class GetUserServiceRequest(BaseModel):
 
 
 class GetUserServiceResponse(BaseModel):
-    user: User
+    user_id: str
+    pet_id: str
+    user_name: str
+    user_role: str
+    password: str
+    created_at: datetime
+    updated_at: datetime
 
 
 class GetUserService:
@@ -19,4 +26,7 @@ class GetUserService:
     def execute(self, request: GetUserServiceRequest) -> GetUserServiceResponse | None:
         user = self.user_repository.get_by_id(request.user_id)
 
-        return GetUserServiceResponse(user=user) if user else None
+        if user is None:
+            return None
+
+        return GetUserServiceResponse(**user.to_dict())

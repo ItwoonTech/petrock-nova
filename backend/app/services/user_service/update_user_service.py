@@ -1,18 +1,26 @@
+from datetime import datetime
+
 from pydantic import BaseModel
 
-from app.models.user import User
+from app.models.user import User, UserRole
 from app.repositories.interface.user_repository import UserRepository
 
 
 class UpdateUserServiceRequest(BaseModel):
     user_id: str
     user_name: str | None
-    user_role: str | None
+    user_role: UserRole | None
     password: str | None
 
 
 class UpdateUserServiceResponse(BaseModel):
-    user: User
+    user_id: str
+    pet_id: str
+    user_name: str
+    user_role: str
+    password: str
+    created_at: datetime
+    updated_at: datetime
 
 
 class UpdateUserService:
@@ -25,7 +33,7 @@ class UpdateUserService:
         if current_user is None:
             raise ValueError("ユーザーが見つかりませんでした")
 
-        updated_user = current_user.update(request.model_dump(exclude_unset=True))
+        updated_user: User = current_user.update(request.model_dump(exclude_unset=True))
         self.user_repository.update(updated_user)
 
-        return UpdateUserServiceResponse(user=updated_user)
+        return UpdateUserServiceResponse(**updated_user.to_dict())
