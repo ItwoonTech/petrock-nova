@@ -1,0 +1,47 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: FastAPI app on Lambda with Mangum
+
+Parameters:
+  UserTableName:
+    Type: String
+
+Resources:
+  PetrockNovaAPI:
+    Type: AWS::Serverless::Api
+    Properties:
+      Name: PetrockNovaAPI
+      StageName: prod
+      Cors:
+        AllowOrigin: "'*'"
+        AllowCredentials: false
+        AllowMethods: "'GET,POST,PUT,OPTIONS'"
+        AllowHeaders: "'Content-Type,Authorization'"
+
+  FastApiFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: main.handler
+      Runtime: python3.11
+      CodeUri: ./
+      Timeout: 30
+      MemorySize: 512
+      Events:
+        PetrockNovaAPI:
+          Type: Api
+          Properties:
+            RestApiId:
+              Ref: PetrockNovaAPI
+            Path: /{proxy+}
+            Method: ANY
+      Environment:
+        Variables:
+          DYNAMODB_ENDPOINT_URL:
+            Ref: AWS::NoValue
+          USER_TABLE_NAME:
+            Ref: UserTableName
+
+Outputs:
+  ApiUrl:
+    Description: "API Gateway endpoint URL"
+    Value: !Sub "https://${PetrockNovaAPI}.execute-api.${AWS::Region}.amazonaws.com/prod"

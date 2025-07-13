@@ -1,3 +1,5 @@
+import os
+
 import boto3
 
 from app.models.user import User
@@ -14,7 +16,13 @@ class DynamoDBUserRepository(UserRepository):
             table_name (str): テーブル名
             region_name (str, optional): リージョン名
         """
-        self.dynamodb = boto3.resource("dynamodb", region_name=region_name)
+        DYNAMODB_ENDPOINT_URL = os.getenv("DYNAMODB_ENDPOINT_URL")
+
+        self.dynamodb = boto3.resource(
+            "dynamodb",
+            region_name=region_name,
+            endpoint_url=DYNAMODB_ENDPOINT_URL,
+        )
         self.table = self.dynamodb.Table(table_name)
 
     def get_by_id(self, user_id: str) -> User | None:

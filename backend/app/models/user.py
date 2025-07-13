@@ -40,6 +40,13 @@ class User(BaseModel):
     @classmethod
     def from_dict(cls, data: dict) -> User:
         """辞書からUserオブジェクトを作成する"""
+
+        model_fields = cls.model_fields.keys()
+
+        for field in model_fields:
+            if field not in data:
+                raise ValueError(f"{field} is required")
+
         return cls(
             user_id=data["user_id"],
             pet_id=data["pet_id"],

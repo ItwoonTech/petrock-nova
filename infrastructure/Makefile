@@ -10,10 +10,10 @@ delete-local:
 		--endpoint-url $(ENDPOINT_URL)
 
 deploy-remote:
-	sam deploy --config-env prod
+	sam deploy --config-env prod --profile $(profile)
 
 delete-remote:
-	sam delete --config-env prod
+	sam delete --config-env prod --profile $(profile)
 
 help:
 	@echo "利用可能なコマンド:"
