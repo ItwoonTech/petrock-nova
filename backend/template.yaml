@@ -11,6 +11,7 @@ Resources:
     Type: AWS::Serverless::Api
     Properties:
       Name: PetrockNovaAPI
+      StageName: prod
       Cors:
         AllowOrigin: "'*'"
         AllowCredentials: false
@@ -43,4 +44,4 @@ Resources:
 Outputs:
   ApiUrl:
     Description: "API Gateway endpoint URL"
-    Value: !Sub "https://${PetrockNovaAPI}.execute-api.${AWS::Region}.amazonaws.com/Prod"
+    Value: !Sub "https://${PetrockNovaAPI}.execute-api.${AWS::Region}.amazonaws.com/prod"
