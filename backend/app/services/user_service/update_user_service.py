@@ -33,7 +33,7 @@ class UpdateUserService:
         if current_user is None:
             raise ValueError("ユーザーが見つかりませんでした")
 
-        updated_user: User = current_user.update(request.model_dump(exclude_unset=True))
+        updated_user: User = current_user.update(**request.model_dump())
         self.user_repository.update(updated_user)
 
         return UpdateUserServiceResponse(**updated_user.to_dict())

@@ -58,8 +58,8 @@ class User(BaseModel):
         )
 
     def update(self, **kwargs) -> User:
-        """部分更新を行う（新しいインスタンスを返す）"""
-        if "updated_at" not in kwargs:
-            kwargs["updated_at"] = datetime.now(UTC)
+        updated_attrs = {k: v for k, v in kwargs.items() if v is not None}
+        updated_attrs.setdefault("updated_at", datetime.now(UTC))
 
-        return self.model_copy(update=kwargs)
+        # モデルに含まれていない属性は無視される
+        return self.model_copy(update=updated_attrs)
