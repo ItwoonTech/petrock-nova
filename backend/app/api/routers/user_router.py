@@ -1,13 +1,26 @@
 from fastapi import APIRouter, Depends, HTTPException, status
 
-from app.api.dependencies import get_create_user_service, get_get_user_service
-from app.api.schemas.user_schema import CreateUserRequestBody, GetUserResponseBody
+from app.api.dependencies import (
+    get_create_user_service,
+    get_get_user_service,
+    get_update_user_service,
+)
+from app.api.schemas.user_schema import (
+    CreateUserRequestBody,
+    GetUserResponseBody,
+    UpdateUserRequestBody,
+)
 from app.services.user_service.create_user_service import (
     CreateUserService,
     CreateUserServiceRequest,
     CreateUserServiceResponse,
 )
 from app.services.user_service.get_user_service import GetUserService, GetUserServiceRequest
+from app.services.user_service.update_user_service import (
+    UpdateUserService,
+    UpdateUserServiceRequest,
+    UpdateUserServiceResponse,
+)
 
 router = APIRouter()
 
@@ -61,3 +74,25 @@ def create_user(
     )
 
     return create_user_service.execute(request)
+
+
+@router.put(
+    "/{user_id}",
+    response_model=UpdateUserServiceResponse,
+    tags=["User"],
+    summary="ユーザーを更新する",
+    operation_id="update_user",
+)
+def update_user(
+    user_id: str,
+    request_body: UpdateUserRequestBody,
+    update_user_service: UpdateUserService = Depends(get_update_user_service),
+):
+    request = UpdateUserServiceRequest(
+        user_id=user_id,
+        user_name=request_body.user_name,
+        user_role=request_body.user_role,
+        password=request_body.password,
+    )
+
+    return update_user_service.execute(request)
