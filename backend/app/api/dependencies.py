@@ -6,6 +6,7 @@ from app.repositories.dynamodb.user_repository import DynamoDBUserRepository
 from app.repositories.interface.user_repository import UserRepository
 from app.services.user_service.create_user_service import CreateUserService
 from app.services.user_service.get_user_service import GetUserService
+from app.services.user_service.update_user_service import UpdateUserService
 
 USER_TABLE_NAME = os.getenv("USER_TABLE_NAME")
 
@@ -24,3 +25,9 @@ def get_create_user_service(
     user_repository: UserRepository = Depends(get_user_repository),
 ) -> CreateUserService:
     return CreateUserService(user_repository)
+
+
+def get_update_user_service(
+    user_repository: UserRepository = Depends(get_user_repository),
+) -> UpdateUserService:
+    return UpdateUserService(user_repository)
