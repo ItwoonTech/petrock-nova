@@ -95,4 +95,10 @@ def update_user(
         password=request_body.password,
     )
 
-    return update_user_service.execute(request)
+    try:
+        return update_user_service.execute(request)
+    except ValueError:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="ユーザーが見つかりませんでした",
+        )
