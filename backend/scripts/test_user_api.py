@@ -14,7 +14,7 @@ class UserAPIAction(Enum):
 
 
 def get_user(user_id: str) -> None:
-    print("Testing GET /users/{user_id}")
+    print(f"Testing GET /users/{user_id}")
 
     url = f"{API_BASE_URL}/users/{user_id}"
     headers = {"Content-Type": "application/json"}
@@ -28,7 +28,7 @@ def get_user(user_id: str) -> None:
 
 
 def create_user(user_id: str) -> None:
-    print("Testing POST /users/{user_id}")
+    print(f"Testing POST /users/{user_id}")
 
     url = f"{API_BASE_URL}/users/{user_id}"
     headers = {"Content-Type": "application/json"}
@@ -48,7 +48,7 @@ def create_user(user_id: str) -> None:
 
 
 def update_user(user_id: str) -> None:
-    print("Testing PUT /users/{user_id}")
+    print(f"Testing PUT /users/{user_id}")
 
     url = f"{API_BASE_URL}/users/{user_id}"
     headers = {"Content-Type": "application/json"}
