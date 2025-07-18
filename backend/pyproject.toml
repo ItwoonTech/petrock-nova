@@ -32,10 +32,14 @@ select = [
 ignore = [
     "I001", # unsorted imports
     "B008", # function-call-in-default-argument
+    "SIM102", # collapsible-if
+    "B904", # raise-without-from-inside-except
 ]
 
 [dependency-groups]
 dev = [
     "boto3-stubs[essential]>=1.39.1",
+    "inquirer>=3.4.0",
+    "requests>=2.32.4",
     "ruff>=0.12.1",
 ]

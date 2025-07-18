@@ -13,3 +13,9 @@ class CreateUserRequestBody(BaseModel):
     user_name: str
     user_role: str
     password: str
+
+
+class UpdateUserRequestBody(BaseModel):
+    user_name: str | None = None
+    user_role: str | None = None
+    password: str | None = None
