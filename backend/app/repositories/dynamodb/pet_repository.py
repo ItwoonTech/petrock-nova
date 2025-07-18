@@ -45,7 +45,10 @@ class DynamoDBPetRepository(PetRepository):
         """ペットを作成する
 
         Args:
-            pet (Pet): 作成されたペット
+            pet (Pet): 作成するペット
+
+        Returns:
+            Pet: 作成したペット
         """
         self.table.put_item(Item=pet.to_dict())
 
@@ -55,7 +58,10 @@ class DynamoDBPetRepository(PetRepository):
         """ペットを更新する
 
         Args:
-            pet (Pet): 更新されたペット
+            pet (Pet): 更新するペット
+
+        Returns:
+            Pet: 更新したペット
         """
         self.table.put_item(Item=pet.to_dict())
 

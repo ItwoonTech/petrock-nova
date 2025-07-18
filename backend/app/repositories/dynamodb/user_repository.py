@@ -45,7 +45,10 @@ class DynamoDBUserRepository(UserRepository):
         """ユーザーを作成する
 
         Args:
-            user (User): 作成されたユーザー
+            user (User): 作成するユーザー
+
+        Returns:
+            User: 作成したユーザー
         """
         self.table.put_item(Item=user.to_dict())
 
@@ -55,7 +58,10 @@ class DynamoDBUserRepository(UserRepository):
         """ユーザーを更新する
 
         Args:
-            user (User): 更新されたユーザー
+            user (User): 更新するユーザー
+
+        Returns:
+            User: 更新したユーザー
         """
         self.table.put_item(Item=user.to_dict())
 
