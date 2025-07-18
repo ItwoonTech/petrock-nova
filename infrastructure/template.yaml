@@ -50,6 +50,14 @@ Resources:
         PetImageBucketName:
           Fn::Sub: "${Environment}-${PetImageBucketName}"
 
+  lamdaStack:
+    Type: AWS::Serverless::Application
+    Properties:
+      Location: templates/lamda.yaml
+      Parameters:
+        PetTableName:
+          Fn::Sub: "${Environment}-${PetTableName}"
+
 Outputs:
   UserTableName:
     Value:

@@ -1,0 +1,20 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Transform: AWS::Serverless-2016-10-31
+Description: lamda for Petlock Nova
+
+Parameters:
+  PetTableName:
+    Type: String
+
+  GetPetFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: GetPetFunction
+      Runtime: Python 3.11
+      Handler: ../resources/functions/pet_handler/pet_handler.get_pet
+      Policies: 
+        - DynamoDBReadPolicy:
+            TableName: Ref PetTableName
+      Environment:
+        variables:
+          TABLE_NAME: Ref PetTableName
