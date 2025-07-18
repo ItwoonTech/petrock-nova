@@ -5,6 +5,8 @@ from enum import Enum
 
 from pydantic import BaseModel, Field
 
+from app.models.types import ContentfulString
+
 
 class UserRole(Enum):
     """ユーザーの種類"""
@@ -17,9 +19,9 @@ class UserRole(Enum):
 class User(BaseModel):
     """ユーザー"""
 
-    user_id: str = Field(min_length=1)
-    pet_id: str = Field(min_length=1)
-    user_name: str = Field(min_length=1)
+    user_id: ContentfulString
+    pet_id: ContentfulString
+    user_name: ContentfulString
     user_role: UserRole
     password: str = Field(min_length=4)
     created_at: datetime = Field(default_factory=lambda: datetime.now(UTC))
@@ -27,35 +29,13 @@ class User(BaseModel):
 
     def to_dict(self) -> dict:
         """ユーザーを辞書に変換する"""
-        return {
-            "user_id": self.user_id,
-            "pet_id": self.pet_id,
-            "user_name": self.user_name,
-            "user_role": self.user_role.value,
-            "password": self.password,
-            "created_at": self.created_at.isoformat(),
-            "updated_at": self.updated_at.isoformat(),
-        }
+        return self.model_dump(mode="json")
 
     @classmethod
     def from_dict(cls, data: dict) -> User:
         """辞書からUserオブジェクトを作成する"""
 
-        model_fields = cls.model_fields.keys()
-
-        for field in model_fields:
-            if field not in data:
-                raise ValueError(f"{field} is required")
-
-        return cls(
-            user_id=data["user_id"],
-            pet_id=data["pet_id"],
-            user_name=data["user_name"],
-            user_role=UserRole(data["user_role"]),
-            password=data["password"],
-            created_at=datetime.fromisoformat(data["created_at"]),
-            updated_at=datetime.fromisoformat(data["updated_at"]),
-        )
+        return cls.model_validate(data)
 
     def update(self, **kwargs) -> User:
         updated_attrs = {k: v for k, v in kwargs.items() if v is not None}
