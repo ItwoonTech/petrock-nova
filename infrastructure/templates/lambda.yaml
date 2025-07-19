@@ -3,9 +3,9 @@ Transform: AWS::Serverless-2016-10-31
 Description: Lambda functions for Petrock Nova
 
 Parameters:
-  PetTableName:
-    Type: String
   Environment:
+    Type: String
+  PetTableName:
     Type: String
 
 Conditions:
