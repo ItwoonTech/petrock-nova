@@ -16,7 +16,7 @@ class PetGender(Enum):
 
 
 class PetCareNoteIcon(Enum):
-    """ペットのお世話情報のアイコン"""
+    """ペットの飼育うのアイコン"""
 
     DOG = "dog"
     BONE = "bone"
@@ -27,7 +27,7 @@ class PetCareNoteIcon(Enum):
 
 
 class PetCareNote(BaseModel):
-    """ペットのお世話情報"""
+    """ペットの飼育情報"""
 
     title: ContentfulString
     description: ContentfulString
@@ -36,13 +36,13 @@ class PetCareNote(BaseModel):
     @classmethod
     def from_dict(cls, data: dict) -> PetCareNote:
         """
-        辞書からペットのお世話情報を作成する
+        辞書からペットの飼育情報を作成する
 
         Args:
             data (dict): 辞書
 
         Returns:
-            PetCareNote: ペットのお世話情報
+            PetCareNote: ペットの飼育情報
         """
 
         return cls.model_validate(data)
@@ -63,7 +63,7 @@ class Pet(BaseModel):
 
     @classmethod
     def from_dict(cls, data: dict) -> Pet:
-        """辞書からペットを作成する"""
+        """辞書からPetインスタンスを作成する"""
 
         return cls.model_validate(data)
 

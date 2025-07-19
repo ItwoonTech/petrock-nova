@@ -33,7 +33,7 @@ class User(BaseModel):
 
     @classmethod
     def from_dict(cls, data: dict) -> User:
-        """辞書からUserオブジェクトを作成する"""
+        """辞書からUserインスタンスを作成する"""
 
         return cls.model_validate(data)
 
