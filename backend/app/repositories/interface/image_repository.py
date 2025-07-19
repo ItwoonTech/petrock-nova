@@ -20,7 +20,7 @@ class ImageRepository(ABC):
         pass
 
     @abstractmethod
-    def put_imaage(
+    def put_image(
         self,
         image_path: str,
         image_bytes: bytes,
