@@ -1,0 +1,42 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Transform: AWS::Serverless-2016-10-31
+Description: lamda for Petlock Nova
+
+Parameters:
+  PetTableName:
+    Type: String
+  Environment:
+    Type: String
+
+Conditions:
+  IsLocalEnvironment: 
+    Fn::Equals: 
+      - Ref: Environment
+      - "local"
+
+Globals:
+  Function:
+    Runtime: python3.11
+    Architectures:
+      - x86_64
+
+Resources:
+  GetPetFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: GetPetFunction
+      CodeUri: ../resources/functions/pet_handler/
+      Handler: pet_handler.get_pet
+      Policies:
+        - DynamoDBReadPolicy:
+            TableName:
+              Ref: PetTableName
+      Environment:
+        Variables:
+          DYNAMODB_ENDPOINT_URL: 
+            Fn::If:
+              - IsLocalEnvironment
+              - "http://localstack:4566"
+              - Ref: "AWS::NoValue"
+          PET_TABLE_NAME:
+            Ref: PetTableName
