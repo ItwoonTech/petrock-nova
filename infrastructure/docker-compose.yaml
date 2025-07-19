@@ -6,7 +6,7 @@ services:
       - "4566:4566"           # API Gateway
       - "4510-4559:4510-4559" # 内部サービス用
     environment:
-      - SERVICES=cloudformation,iam,dynamodb,s3,lambda
+      - SERVICES=cloudformation,iam,dynamodb,s3,lambda,logs
       - DEBUG=1
       - PERSISTENCE=1
       - DATA_DIR=/tmp/localstack/data
