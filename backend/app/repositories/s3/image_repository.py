@@ -39,12 +39,12 @@ class S3ImageRepository(ImageRepository):
         """
         response = self.bucket.get_object(Bucket=self.bucket_name, Key=image_path)
 
-        if "Body" in response:
+        if "Body" not in response:
             return None
 
         return response["Body"].read()
 
-    def put_imaage(
+    def put_image(
         self,
         image_path: str,
         image_bytes: bytes,
@@ -64,7 +64,7 @@ class S3ImageRepository(ImageRepository):
 
     def get_presigned_url(
         self,
-        client_mathod: str,
+        client_method: str,
         params: dict,
         expires_in: int = 3600,
     ) -> str:
@@ -72,7 +72,7 @@ class S3ImageRepository(ImageRepository):
         S3の署名付きURLを取得する
 
         Args:
-            client_mathod (str): 署名付きURLによって許可する操作
+            client_method (str): 署名付きURLによって許可する操作
             params (dict): 操作を実行する時の引数
             expires_in (int, optional): URLの有効期限 (秒単位)
 
@@ -80,7 +80,7 @@ class S3ImageRepository(ImageRepository):
             str: 署名付きURL
         """
         return self.bucket.generate_presigned_url(
-            client_mathod,
+            client_method,
             Params=params,
             ExpiresIn=expires_in,
         )

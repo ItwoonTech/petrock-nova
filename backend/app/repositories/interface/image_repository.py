@@ -7,7 +7,7 @@ class ImageRepository(ABC):
     """
 
     @abstractmethod
-    def get_image(self, storage_name: str, image_path: str) -> bytes | None:
+    def get_image(self, image_path: str) -> bytes | None:
         """
         画像を取得する
 
@@ -37,7 +37,7 @@ class ImageRepository(ABC):
     @abstractmethod
     def get_presigned_url(
         self,
-        client_mathod: str,
+        client_method: str,
         params: dict,
         expires_in: int = 3600,
     ) -> str:
@@ -45,7 +45,7 @@ class ImageRepository(ABC):
         署名付きURLを取得する
 
         Args:
-            client_mathod (str): 署名付きURLによって許可する操作
+            client_method (str): 署名付きURLによって許可する操作
             params (dict): 操作を実行する時の引数
             expires_in (int, optional): URLの有効期限 (秒単位)
 
