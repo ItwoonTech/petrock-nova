@@ -38,10 +38,10 @@ pets/pet_id:
               picture_name:
                 type: string
                 description: 撮影した写真の名前
-              pet_info:
+              care_notes:
                 type: array
                 items:
-                  $ref: '#/components/schemas/PetInfo'
+                  $ref: '#/components/schemas/PetCareNote'
                 description: ペットの情報リスト
               image_name:
                 type: string
@@ -140,10 +140,10 @@ pets/pet_id:
           schema:
             type: object
             properties:
-              pet_info:
+              care_notes:
                 type: array
                 items:
-                  $ref: '#/components/schemas/PetInfo'
+                  $ref: '#/components/schemas/PetCareNote'
                 description: 更新するペットの情報リスト
     responses:
       '200':
@@ -194,10 +194,10 @@ components:
           type: string
           enum: [male, female, none]
           description: ペットの性別
-        pet_info:
+        care_notes:
           type: array
           items:
-            $ref: '#/components/schemas/PetInfo'
+            $ref: '#/components/schemas/PetCareNote'
           description: ペットの情報リスト
         image_name:
           type: string
@@ -211,22 +211,22 @@ components:
           format: date-time
           description: 更新された日時
 
-    PetInfo:
+    PetCareNote:
       type: object
       properties:
-        pet_info_title:
+        title:
           type: string
           description: ペットの情報のタイトル
-        pet_info_description:
+        description:
           type: string
           description: ペットの情報の説明
-        pet_info_icon:
+        icon:
           type: string
-          description: ペット情報のアイコン
+          description: ペットの情報のアイコン
       required:
-        - pet_info_title
-        - pet_info_description
-        - pet_info_icon
+        - title
+        - description
+        - icon
 
     Error:
       type: object
@@ -243,26 +243,26 @@ components:
         category: 'dog'
         birth_date: '2023-01-01'
         gender: 'male'
-        pet_info: [
+        care_notes: [
           {
-            pet_info_title: '好きな食べ物',
-            pet_info_description: 'ドッグフード',
-            pet_info_icon: 'Bone'
+            title: '好きな食べ物',
+            description: 'ドッグフード',
+            icon: 'Bone'
           },
           {
-            pet_info_title: '散歩の時間',
-            pet_info_description: '朝と夕方',
-            pet_info_icon: 'Dog'
+            title: '散歩の時間',
+            description: '朝と夕方',
+            icon: 'Dog'
           },
           {
-            pet_info_title: '好きなこと',
-            pet_info_description: '走る',
-            pet_info_icon: 'Smile'
+            title: '好きなこと',
+            description: '走る',
+            icon: 'Smile'
           },
           {
-            pet_info_title: '嫌いなもの',
-            pet_info_description: '玉ねぎ',
-            pet_info_icon: 'Frown'
+            title: '嫌いなもの',
+            description: '玉ねぎ',
+            icon: 'Frown'
           }
         ]
         image_name: 'https://picsum.photos/id/582/720/720'
