@@ -7,6 +7,10 @@ Parameters:
     Type: String
     Default: petrock-nova-user-table
 
+  ImageBucketName:
+    Type: String
+    Default: petrock-nova-image-bucket
+
 Resources:
   PetrockNovaAPI:
     Type: AWS::Serverless::Api
@@ -41,6 +45,10 @@ Resources:
             Ref: AWS::NoValue
           USER_TABLE_NAME:
             Ref: UserTableName
+          S3_ENDPOINT_URL:
+            Ref: AWS::NoValue
+          IMAGE_BUCKET_NAME:
+            Ref: ImageBucketName
 
 Outputs:
   ApiUrl:
