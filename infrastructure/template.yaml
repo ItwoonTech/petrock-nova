@@ -6,9 +6,9 @@ Parameters:
   Environment:
     Type: String
     AllowedValues:
-      - dev
-      - prod
-    Default: prod
+      - local
+      - remote
+    Default: remote
     Description: デプロイ先の環境
 
   UserTableName:
@@ -36,11 +36,11 @@ Resources:
       Location: templates/dynamodb.yaml
       Parameters:
         UserTableName:
-          Fn::Sub: "${Environment}-${UserTableName}"
+          Ref: UserTableName
         PetTableName:
-          Fn::Sub: "${Environment}-${PetTableName}"
+          Ref: PetTableName
         DiaryTableName:
-          Fn::Sub: "${Environment}-${DiaryTableName}"
+          Ref: DiaryTableName
 
   S3Stack:
     Type: AWS::CloudFormation::Stack
@@ -48,7 +48,17 @@ Resources:
       TemplateURL: templates/s3.yaml
       Parameters:
         PetImageBucketName:
-          Fn::Sub: "${Environment}-${PetImageBucketName}"
+          Ref: PetImageBucketName
+
+  LambdaStack:
+    Type: AWS::Serverless::Application
+    Properties:
+      Location: templates/lambda.yaml
+      Parameters:
+        Environment:
+          Ref: Environment
+        PetTableName:
+          Ref: PetTableName
 
 Outputs:
   UserTableName:
