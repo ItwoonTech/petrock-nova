@@ -16,8 +16,10 @@ pet_table = dynamodb.Table(PET_TABLE_NAME)
 
 
 def get_pet(event: dict, context: LambdaContext):
-    pet_id = event["pathParameters"]["pet_id"]
-    if not pet_id:
+    path_parameters = event.get("pathParameters", {})
+    pet_id = path_parameters.get("pet_id")
+
+    if pet_id is None:
         return {
             "statusCode": 400,
             # 日本語のメッセージをそのまま返すためにUnicodeエスケープを無効化
