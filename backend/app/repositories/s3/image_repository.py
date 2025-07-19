@@ -10,12 +10,18 @@ class S3ImageRepository(ImageRepository):
     S3に画像を保存するリポジトリの実装
     """
 
-    def __inti__(self, bucket_name: str):
+    def __init__(self, bucket_name: str, region_name: str = "ap-northeast-1"):
+        """コンストラクタ
+
+        Args:
+            bucket_name (str): バケット名
+            region_name (str, optional): リージョン名
+        """
         S3_ENDPOINT_URL = os.getenv("S3_ENDPOINT_URL")
 
         self.bucket = boto3.client(
             "s3",
-            region_name="ap-northeast1",
+            region_name=region_name,
             endpoint_url=S3_ENDPOINT_URL,
         )
 
