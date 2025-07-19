@@ -5,6 +5,7 @@ Description: FastAPI app on Lambda with Mangum
 Parameters:
   UserTableName:
     Type: String
+    Default: petrock-nova-user-table
 
 Resources:
   PetrockNovaAPI:
