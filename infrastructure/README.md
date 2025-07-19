@@ -31,6 +31,7 @@ DynamoDBやS3に保存されているデータは[LocalStack Desktop](https://do
 ```sh
 make build
 make deploy-local
+
 make delete-local
 ```
 
@@ -75,6 +76,7 @@ make invoke-lambda name=<function_name> payload=payload.json
 ```sh
 make build
 make deploy-remote profile=<profile_name>
+
 make delete-remote profile=<profile_name>
 ```
 
