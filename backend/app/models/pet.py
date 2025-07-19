@@ -18,12 +18,12 @@ class PetGender(Enum):
 class PetCareNoteIcon(Enum):
     """ペットの飼育うのアイコン"""
 
-    DOG = "dog"
-    BONE = "bone"
-    SMILE = "smile"
-    FROWN = "frown"
-    UTENSILS = "utensils"
-    COOKIE = "cookie"
+    DOG = "Dog"
+    BONE = "Bone"
+    SMILE = "Smile"
+    FROWN = "Frown"
+    UTENSILS = "Utensils"
+    COOKIE = "Cookie"
 
 
 class PetCareNote(BaseModel):
