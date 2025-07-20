@@ -65,7 +65,7 @@ class S3ImageRepository(ImageRepository):
     def get_presigned_url(
         self,
         client_method: str,
-        params: dict = None,
+        file_name: str,
         expires_in: int = 3600,
         http_method: str = None,
     ) -> str:
@@ -74,6 +74,7 @@ class S3ImageRepository(ImageRepository):
 
         Args:
             client_method (str): 署名付きURLによって許可する操作
+            file_name (str): アクセスするファイル名
             params (dict, optional): 操作を実行する時の引数
             expires_in (int, optional): URLの有効期限 (秒単位)
             http_method (str, optional): 署名付きURLによって許可するHTTPメソッド
@@ -83,7 +84,10 @@ class S3ImageRepository(ImageRepository):
         """
         return self.bucket.generate_presigned_url(
             client_method,
-            Params=params,
+            Params={
+                "Bucket": self.bucket_name,
+                "Key": file_name,
+            },
             ExpiresIn=expires_in,
             HttpMethod=http_method,
         )
