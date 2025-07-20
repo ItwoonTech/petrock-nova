@@ -12,20 +12,21 @@ s3/presigned-url:
         schema:
           type: string
           description: ペットID
-        example: 'golden'
-      - name: picture_name
+        example: '8afe3b59-159b-4923-94e4-b469725242c4'
+      - name: file_name
         in: query
         required: true
         schema:
           type: string
           description: ファイル名
         example: '985f4ed3-6164-4c7c-ae3e-c06038ae703c.jpg'
-      - name: operation
+      - name: http_method
         in: query
         required: false
         schema:
           type: string
-          description: ダウンロード(get:default)かアップロード(post)か
+          enum: [get, post]
+          description: ダウンロード(get)かアップロード(post)か
         example: 'post'
     responses:
       '201':
