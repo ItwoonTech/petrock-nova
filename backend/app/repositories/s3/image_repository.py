@@ -75,7 +75,6 @@ class S3ImageRepository(ImageRepository):
         Args:
             client_method (str): 署名付きURLによって許可する操作
             file_name (str): アクセスするファイル名
-            params (dict, optional): 操作を実行する時の引数
             expires_in (int, optional): URLの有効期限 (秒単位)
             http_method (str, optional): 署名付きURLによって許可するHTTPメソッド
 
