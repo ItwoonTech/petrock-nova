@@ -5,8 +5,10 @@ Description: DynamoDB Table for Petrock Nova
 Parameters:
   UserTableName:
     Type: String
+
   PetTableName:
     Type: String
+
   DiaryTableName:
     Type: String
 
@@ -59,10 +61,12 @@ Outputs:
     Description: User Table Name
     Value: 
       Ref: UserTable
+
   PetTableName:
     Description: Pet Table Name
     Value: 
       Ref: PetTable
+
   DiaryTableName:
     Description: Diary Table Name
     Value: 

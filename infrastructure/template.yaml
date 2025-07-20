@@ -15,10 +15,12 @@ Parameters:
     Type: String
     Default: petrock-nova-user-table
     Description: ユーザーの情報を保存しておくDynamoDBのテーブルの名前
+
   PetTableName:
     Type: String
     Default: petrock-nova-pet-table
     Description: ペットの情報を保存しておくDynamoDBのテーブルの名前
+
   DiaryTableName:
     Type: String
     Default: petrock-nova-diary-table
@@ -66,11 +68,13 @@ Outputs:
       Fn::GetAtt:
         - DynamodbStack
         - Outputs.UserTableName
+
   PetTableName:
     Value:
       Fn::GetAtt:
         - DynamodbStack
         - Outputs.PetTableName
+
   DiaryTableName:
     Value:
       Fn::GetAtt:
