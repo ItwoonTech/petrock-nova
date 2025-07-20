@@ -21,7 +21,7 @@ uv run fastapi dev
 `requirements.txt` を作成する．
 
 ```sh
-uv pip freeze > requirements.txt
+uv pip compile pyproject.toml --output-file requirements.txt
 ```
 
 > [!IMPORTANT]
