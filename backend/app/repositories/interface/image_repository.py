@@ -38,7 +38,7 @@ class ImageRepository(ABC):
     def get_presigned_url(
         self,
         client_method: str,
-        params: dict = None,
+        file_name: str,
         expires_in: int = 3600,
         http_method: str = None,
     ) -> str:
@@ -47,7 +47,7 @@ class ImageRepository(ABC):
 
         Args:
             client_method (str): 署名付きURLによって許可する操作
-            params (dict, optional): 操作を実行する時の引数
+            file_name (str): アクセスするファイル名
             expires_in (int, optional): URLの有効期限 (秒単位)
             http_method (str, optional): 署名付きURLによって許可するHTTPメソッド
 
