@@ -31,6 +31,7 @@ def generate_task(total_sub_task: int = 3) -> dict:
 
 def generate_diary(pet_id: str, diary_date: date, total_task: int = 1) -> dict:
     now = datetime.now()
+    date_of_birth = fake.date_of_birth().isoformat()
 
     return {
         "pet_id": pet_id,
@@ -42,7 +43,7 @@ def generate_diary(pet_id: str, diary_date: date, total_task: int = 1) -> dict:
         "weather": fake.word(),
         "temperature": str(round(random.uniform(10, 30), 1)),
         "category": fake.word(),
-        "birth_date": fake.date_of_birth().isoformat(),
+        "birth_date": date_of_birth,
         "task": [generate_task(random.randint(0, 2)) for _ in range(total_task)],
         "created_at": now.isoformat(timespec="seconds"),
         "updated_at": now.isoformat(timespec="seconds"),
