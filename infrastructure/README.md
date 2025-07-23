@@ -36,6 +36,12 @@ make delete-local
 ```
 
 > [!NOTE]
+> デプロイに失敗する場合はLocalStackのログを確認してみる
+> ```sh
+> docker compose logs localstack
+> ```
+
+> [!NOTE]
 > `samlocal` で削除しようとすると，SAM CLIがLocalStack上のS3のURLを解釈できずエラーになる
 
 ```sh
