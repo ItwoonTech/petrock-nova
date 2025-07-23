@@ -213,16 +213,16 @@ components:
     Task:
       type: object
       properties:
-        task_title:
+        title:
           type: string
           description: タスクのタイトル
-        task_description:
+        description:
           type: string
           description: タスクの概要
-        task_time:
+        scheduled_time:
           type: string
           format: time
-          description: タスクの時間
+          description: タスクの予定時刻
         completed:
           type: boolean
           description: タスクの完了状態
@@ -235,8 +235,8 @@ components:
             $ref: '#/components/schemas/SubTask'
           description: サブタスクのリスト
       required:
-        - task_title
-        - task_time
+        - title
+        - scheduled_time
         - completed
         - repeat
 
@@ -252,15 +252,15 @@ components:
         completed:
           type: boolean
           description: サブタスクの完了状態
-        sub_task_time:
+        scheduled_time:
           type: string
           format: time
-          description: サブタスクの時間
+          description: サブタスクの予定時刻
       required:
         - title
         - description
         - completed
-        - sub_task_time
+        - scheduled_time
 
     Diary:
       type: object
@@ -323,9 +323,9 @@ components:
         temperature: '20.5'
         task: [
           {
-            task_title: '朝の散歩',
-            task_description: '2km走る',
-            task_time: '08:00',
+            title: '朝の散歩',
+            description: '2km走る',
+            scheduled_time: '08:00',
             completed: true,
             repeat: true,
             sub_task: [
@@ -333,36 +333,36 @@ components:
                 title: 'リードの装着',
                 description: '首輪とリードを付ける',
                 completed: true,
-                sub_task_time: '07:55'
+                scheduled_time: '07:55'
               },
               {
                 title: '公園まで散歩',
                 description: '近所の公園まで散歩',
                 completed: false,
-                sub_task_time: '08:00'
+                scheduled_time: '08:00'
               }
             ]
           },
           {
-            task_title: 'おやつ',
-            task_description: 'お気に入りのおやつをあげる',
-            task_time: '10:00',
+            title: 'おやつ',
+            description: 'お気に入りのおやつをあげる',
+            scheduled_time: '10:00',
             completed: false,
             repeat: false,
             sub_task: []
           },
           {
-            task_title: 'ブラッシング',
-            task_description: '毛並みを整える',
-            task_time: '15:00',
+            title: 'ブラッシング',
+            description: '毛並みを整える',
+            scheduled_time: '15:00',
             completed: false,
             repeat: false,
             sub_task: []
           },
           {
-            task_title: 'シャンプー',
-            task_description: '体を清潔にする',
-            task_time: '18:00',
+            title: 'シャンプー',
+            description: '体を清潔にする',
+            scheduled_time: '18:00',
             completed: false,
             repeat: true,
             sub_task: []
@@ -383,9 +383,9 @@ components:
         temperature: '28.5'
         task: [
           {
-            task_title: '朝の散歩',
-            task_description: '1.5km走る',
-            task_time: '07:30',
+            title: '朝の散歩',
+            description: '1.5km走る',
+            scheduled_time: '07:30',
             completed: true,
             repeat: true,
             sub_task: [
@@ -393,36 +393,36 @@ components:
                 title: 'リードの装着',
                 description: '首輪とリードを付ける',
                 completed: true,
-                sub_task_time: '07:25'
+                scheduled_time: '07:25'
               },
               {
                 title: '公園まで散歩',
                 description: '近所の公園まで散歩',
                 completed: true,
-                sub_task_time: '07:30'
+                scheduled_time: '07:30'
               }
             ]
           },
           {
-            task_title: 'おやつ',
-            task_description: '夏用のおやつをあげる',
-            task_time: '11:00',
+            title: 'おやつ',
+            description: '夏用のおやつをあげる',
+            scheduled_time: '11:00',
             completed: true,
             repeat: false,
             sub_task: []
           },
           {
-            task_title: 'ブラッシング',
-            task_description: '毛並みを整える',
-            task_time: '16:00',
+            title: 'ブラッシング',
+            description: '毛並みを整える',
+            scheduled_time: '16:00',
             completed: true,
             repeat: false,
             sub_task: []
           },
           {
-            task_title: 'シャンプー',
-            task_description: '体を清潔にする',
-            task_time: '19:00',
+            title: 'シャンプー',
+            description: '体を清潔にする',
+            scheduled_time: '19:00',
             completed: true,
             repeat: true,
             sub_task: []
@@ -443,9 +443,9 @@ components:
         temperature: "20.5"
         task: [
           {
-            task_title: '朝の散歩',
-            task_description: '2km走る',
-            task_time: '08:00',
+            title: '朝の散歩',
+            description: '2km走る',
+            scheduled_time: '08:00',
             completed: true,
             repeat: true,
             sub_task: [
@@ -453,13 +453,13 @@ components:
                 title: 'リードの装着',
                 description: '首輪とリードを付ける',
                 completed: true,
-                sub_task_time: '07:55'
+                scheduled_time: '07:55'
               },
               {
                 title: '公園まで散歩',
                 description: '近所の公園まで散歩',
                 completed: false,
-                sub_task_time: '08:00'
+                scheduled_time: '08:00'
               }
             ]
           }
