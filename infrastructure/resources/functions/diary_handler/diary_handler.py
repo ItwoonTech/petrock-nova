@@ -41,7 +41,7 @@ def get_diary(event: dict, context: LambdaContext):
 
         items = response.get("Items", [])
 
-        if items is None:
+        if len(items) == 0:
             return {
                 "statusCode": 404,
                 "body": json.dumps(
@@ -53,7 +53,6 @@ def get_diary(event: dict, context: LambdaContext):
             "statusCode": 200,
             "body": json.dumps(items[0], ensure_ascii=False),
         }
-
     except Exception as e:
         return {
             "statusCode": 500,

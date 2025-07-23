@@ -40,7 +40,6 @@ def get_pet(event: dict, context: LambdaContext):
             }
 
         return {"statusCode": 200, "body": json.dumps(item, ensure_ascii=False)}
-
     except Exception as e:
         return {
             "statusCode": 500,
