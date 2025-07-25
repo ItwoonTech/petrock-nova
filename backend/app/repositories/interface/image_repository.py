@@ -7,12 +7,12 @@ class ImageRepository(ABC):
     """
 
     @abstractmethod
-    def get_image(self, image_path: str) -> bytes | None:
+    def get_image(self, image_key: str) -> bytes | None:
         """
         画像を取得する
 
         Args:
-            image_path (str): 取得する画像のパス
+            image_key (str): 取得する画像のキー
 
         Returns:
             bytes | None: 画像のバイナリデータ (見つからない場合はNone)
@@ -22,14 +22,14 @@ class ImageRepository(ABC):
     @abstractmethod
     def put_image(
         self,
-        image_path: str,
+        image_key: str,
         image_bytes: bytes,
     ) -> None:
         """
         画像を保存する
 
         Args:
-            image_path (str): 保存する画像のパス
+            image_key (str): 保存する画像のキー
             image_bytes (bytes): 保存する画像のバイナリデータ
         """
         pass
@@ -38,7 +38,7 @@ class ImageRepository(ABC):
     def get_presigned_url(
         self,
         client_method: str,
-        file_name: str,
+        image_key: str,
         expires_in: int = 3600,
         http_method: str = None,
     ) -> str:
@@ -47,7 +47,7 @@ class ImageRepository(ABC):
 
         Args:
             client_method (str): 署名付きURLによって許可する操作
-            file_name (str): アクセスするファイル名
+            image_key (str): アクセスする画像のキー
             expires_in (int, optional): URLの有効期限 (秒単位)
             http_method (str, optional): 署名付きURLによって許可するHTTPメソッド
 
