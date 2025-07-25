@@ -3,6 +3,10 @@ Transform: AWS::Serverless-2016-10-31
 Description: FastAPI app on Lambda with Mangum
 
 Parameters:
+  PetrockNovaApiSecretName:
+    Type: String
+    Default: petrock-nova-api-secrets
+
   UserTableName:
     Type: String
     Default: petrock-nova-user-table
@@ -43,6 +47,19 @@ Resources:
               Ref: PetrockNovaAPI
             Path: /{proxy+}
             Method: ANY
+      Policies:
+        - SecretsManagerReadPolicy:
+          SecretName:
+            Ref: PetrockNovaApiSecretName
+        - DynamoDBCrudPolicy:
+            TableName:
+              Ref: PetTableName
+        - DynamoDBCrudPolicy:
+            TableName:
+              Ref: UserTableName
+        - S3CrudPolicy:
+            BucketName:
+              Ref: ImageBucketName
       Environment:
         Variables:
           DYNAMODB_ENDPOINT_URL:
@@ -55,8 +72,11 @@ Resources:
             Ref: AWS::NoValue
           IMAGE_BUCKET_NAME:
             Ref: ImageBucketName
+          PETROCK_NOVA_API_SECRET_NAME:
+            Ref: PetrockNovaApiSecretName
 
 Outputs:
   ApiUrl:
     Description: "API Gateway endpoint URL"
-    Value: !Sub "https://${PetrockNovaAPI}.execute-api.${AWS::Region}.amazonaws.com/prod"
+    Value:
+      Fn::Sub: "https://${PetrockNovaAPI}.execute-api.${AWS::Region}.amazonaws.com/prod"
