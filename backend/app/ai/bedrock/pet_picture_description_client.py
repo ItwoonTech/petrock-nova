@@ -12,6 +12,12 @@ class BedrockPetPictureDescriptionClient(PetPictureDescriptionClient):
     MODEL_ID = "apac.anthropic.claude-3-7-sonnet-20250219-v1:0"
 
     def __init__(self, image_repository: ImageRepository, region_name: str = "ap-northeast-1"):
+        """コンストラクタ
+
+        Args:
+            image_repository (ImageRepository): 画像リポジトリ
+            region_name (str, optional): リージョン名. デフォルトは "ap-northeast-1".
+        """
         self.bedrock_agent_client = boto3.client(
             "bedrock-agent",
             region_name=region_name,
@@ -28,7 +34,15 @@ class BedrockPetPictureDescriptionClient(PetPictureDescriptionClient):
         self.image_repository = image_repository
 
     def describe(self, s3_image_key: str) -> str:
-        """Claude 3.7 Sonnet を使用して画像の説明文を生成"""
+        """
+        画像の説明文を生成する
+
+        Args:
+            s3_image_key (str): 画像の S3 キー
+
+        Returns:
+            str: 画像の説明文
+        """
         prompt_text = self.get_prompt()
 
         base64_image = self.get_base64_image(s3_image_key)
@@ -68,6 +82,12 @@ class BedrockPetPictureDescriptionClient(PetPictureDescriptionClient):
         return response_body["content"][0]["text"]
 
     def get_prompt(self) -> str:
+        """
+        画像の説明文を生成するためのプロンプトを取得する
+
+        Returns:
+            str: 画像の説明文を生成するためのプロンプト
+        """
         secret_name = os.getenv("PETROCK_NOVA_API_SECRET_NAME")
 
         if secret_name is None:
@@ -93,5 +113,21 @@ class BedrockPetPictureDescriptionClient(PetPictureDescriptionClient):
         raise ValueError("プロンプトが見つかりませんでした")
 
     def get_base64_image(self, s3_image_key: str) -> str:
+        """
+        画像を base64 エンコードして文字列に変換する
+
+        Args:
+            s3_image_key (str): 画像の S3 キー
+
+        Returns:
+            str: base64 エンコードされた画像の文字列
+
+        Raises:
+            ValueError: 画像が見つからない場合
+        """
         image_bytes = self.image_repository.get_image(s3_image_key)
+
+        if image_bytes is None:
+            raise ValueError(f"画像が見つかりませんでした: {s3_image_key}")
+
         return base64.b64encode(image_bytes).decode("utf-8")
