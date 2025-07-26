@@ -61,18 +61,19 @@ def update_chat(event: dict, context: LambdaContext) -> dict:
         }
 
         response = pet_table.get_item(Key={"pet_id": pet_id})
-        item = response.get("Item", {})
 
-        current_chat_history = item.get("chat_history", [])
-        current_chat_history.append(chat_message)
-
-        if not item:  # まだペットの情報が登録されていない(あり得ない)
+        if "Item" in response:  # まだペットの情報が登録されていない(あり得ない)
             new_item = {
                 "pet_id": pet_id,
-                "chat_history": current_chat_history,
+                "chat_history": [chat_message],
             }
             pet_table.put_item(Item=new_item)
         else:  # すでにペットの情報が登録されている
+            item = response.get("Item")
+
+            current_chat_history = item.get("chat_history", [])
+            current_chat_history.append(chat_message)
+
             pet_table.update_item(
                 Key={"pet_id": pet_id},
                 UpdateExpression="SET chat_history = :chat_history",
