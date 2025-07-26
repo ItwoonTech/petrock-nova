@@ -34,6 +34,14 @@ def update_chat(event: dict, context: LambdaContext) -> dict:
         path_parameters = event["pathParameters"]
         pet_id = path_parameters["pet_id"]
 
+        if pet_id is None:
+            return {
+                "statusCode": HTTPStatus.BAD_REQUEST,
+                "body": json.dumps(
+                    {"message": "ペットIDが必要です"}, ensure_ascii=False
+                ),
+            }
+
         request_body = json.loads(event["body"])
 
         try:
