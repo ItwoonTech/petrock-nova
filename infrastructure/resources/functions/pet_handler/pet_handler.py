@@ -5,8 +5,8 @@ from http import HTTPStatus
 import boto3
 from aws_lambda_powertools.utilities.typing import LambdaContext
 
-DYNAMODB_ENDPOINT_URL = os.environ.get("DYNAMODB_ENDPOINT_URL")
-PET_TABLE_NAME = os.environ.get("PET_TABLE_NAME")
+DYNAMODB_ENDPOINT_URL = os.getenv("DYNAMODB_ENDPOINT_URL")
+PET_TABLE_NAME = os.getenv("PET_TABLE_NAME")
 
 dynamodb = boto3.resource(
     "dynamodb",

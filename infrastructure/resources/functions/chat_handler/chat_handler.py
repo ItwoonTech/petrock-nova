@@ -8,8 +8,8 @@ from aws_lambda_powertools.utilities.typing import LambdaContext
 from aws_lambda_powertools.utilities.validation import SchemaValidationError, validate
 from schema import POST_INPUT_SCHEMA
 
-DYNAMODB_ENDPOINT_URL = os.environ.get("DYNAMODB_ENDPOINT_URL")
-PET_TABLE_NAME = os.environ.get("PET_TABLE_NAME")
+DYNAMODB_ENDPOINT_URL = os.getenv("DYNAMODB_ENDPOINT_URL")
+PET_TABLE_NAME = os.getenv("PET_TABLE_NAME")
 
 dynamodb = boto3.resource(
     "dynamodb",
@@ -61,6 +61,15 @@ def update_chat(event: dict, context: LambdaContext) -> dict:
         }
 
         response = pet_table.get_item(Key={"pet_id": pet_id})
+
+        if response is None:
+            return {
+                "statusCode": HTTPStatus.INTERNAL_SERVER_ERROR,
+                "body": json.dumps(
+                    {"message": "DynamoDBからデータを取得できませんでした"},
+                    ensure_ascii=False,
+                ),
+            }
 
         if "Item" in response:  # まだペットの情報が登録されていない(あり得ない)
             new_item = {

@@ -6,8 +6,8 @@ import boto3
 from aws_lambda_powertools.utilities.typing import LambdaContext
 from boto3.dynamodb.conditions import Key
 
-DYNAMODB_ENDPOINT_URL = os.environ.get("DYNAMODB_ENDPOINT_URL")
-DIARY_TABLE_NAME = os.environ.get("DIARY_TABLE_NAME")
+DYNAMODB_ENDPOINT_URL = os.getenv("DYNAMODB_ENDPOINT_URL")
+DIARY_TABLE_NAME = os.getenv("DIARY_TABLE_NAME")
 
 dynamodb = boto3.resource(
     "dynamodb",
