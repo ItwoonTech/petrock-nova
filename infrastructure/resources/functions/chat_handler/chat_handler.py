@@ -71,10 +71,12 @@ def update_chat(event: dict, context: LambdaContext) -> dict:
                 ),
             }
 
-        if "Item" in response:  # まだペットの情報が登録されていない(あり得ない)
+        if "Item" not in response:  # まだペットの情報が登録されていない(あり得ない)
+            current_chat_history = [chat_message]
+
             new_item = {
                 "pet_id": pet_id,
-                "chat_history": [chat_message],
+                "chat_history": current_chat_history,
             }
             pet_table.put_item(Item=new_item)
         else:  # すでにペットの情報が登録されている
