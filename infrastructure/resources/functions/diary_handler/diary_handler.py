@@ -1,12 +1,13 @@
 import json
 import os
+from http import HTTPStatus
 
 import boto3
 from aws_lambda_powertools.utilities.typing import LambdaContext
 from boto3.dynamodb.conditions import Key
 
-DYNAMODB_ENDPOINT_URL = os.environ.get("DYNAMODB_ENDPOINT_URL")
-DIARY_TABLE_NAME = os.environ.get("DIARY_TABLE_NAME")
+DYNAMODB_ENDPOINT_URL = os.getenv("DYNAMODB_ENDPOINT_URL")
+DIARY_TABLE_NAME = os.getenv("DIARY_TABLE_NAME")
 
 dynamodb = boto3.resource(
     "dynamodb",
@@ -34,13 +35,13 @@ def get_diary(event: dict, context: LambdaContext) -> dict:
 
     if pet_id is None:
         return {
-            "statusCode": 400,
+            "statusCode": HTTPStatus.BAD_REQUEST,
             "body": json.dumps({"message": "ペットIDが必要です"}, ensure_ascii=False),
         }
 
     if date is None:
         return {
-            "statusCode": 400,
+            "statusCode": HTTPStatus.BAD_REQUEST,
             "body": json.dumps({"message": "日付が必要です"}, ensure_ascii=False),
         }
 
@@ -53,18 +54,18 @@ def get_diary(event: dict, context: LambdaContext) -> dict:
 
         if len(items) == 0:
             return {
-                "statusCode": 404,
+                "statusCode": HTTPStatus.NOT_FOUND,
                 "body": json.dumps(
                     {"message": "日記が見つかりませんでした"}, ensure_ascii=False
                 ),
             }
 
         return {
-            "statusCode": 200,
+            "statusCode": HTTPStatus.OK,
             "body": json.dumps(items[0], ensure_ascii=False),
         }
     except Exception as e:
         return {
-            "statusCode": 500,
-            "body": json.dumps({"error": str(e)}, ensure_ascii=False),
+            "statusCode": HTTPStatus.INTERNAL_SERVER_ERROR,
+            "body": json.dumps({"message": str(e)}, ensure_ascii=False),
         }

@@ -1,11 +1,12 @@
 import json
 import os
+from http import HTTPStatus
 
 import boto3
 from aws_lambda_powertools.utilities.typing import LambdaContext
 
-DYNAMODB_ENDPOINT_URL = os.environ.get("DYNAMODB_ENDPOINT_URL")
-PET_TABLE_NAME = os.environ.get("PET_TABLE_NAME")
+DYNAMODB_ENDPOINT_URL = os.getenv("DYNAMODB_ENDPOINT_URL")
+PET_TABLE_NAME = os.getenv("PET_TABLE_NAME")
 
 dynamodb = boto3.resource(
     "dynamodb",
@@ -31,7 +32,7 @@ def get_pet(event: dict, context: LambdaContext) -> dict:
 
     if pet_id is None:
         return {
-            "statusCode": 400,
+            "statusCode": HTTPStatus.BAD_REQUEST,
             # 日本語のメッセージをそのまま返すためにUnicodeエスケープを無効化
             "body": json.dumps({"message": "ペットIDが必要です"}, ensure_ascii=False),
         }
@@ -42,16 +43,19 @@ def get_pet(event: dict, context: LambdaContext) -> dict:
 
         if not item:
             return {
-                "statusCode": 404,
+                "statusCode": HTTPStatus.NOT_FOUND,
                 "body": json.dumps(
                     {"message": "ペットが見つかりませんでした"},
                     ensure_ascii=False,
                 ),
             }
 
-        return {"statusCode": 200, "body": json.dumps(item, ensure_ascii=False)}
+        return {
+            "statusCode": HTTPStatus.OK,
+            "body": json.dumps(item, ensure_ascii=False),
+        }
     except Exception as e:
         return {
-            "statusCode": 500,
-            "body": json.dumps({"error": str(e)}, ensure_ascii=False),
+            "statusCode": HTTPStatus.INTERNAL_SERVER_ERROR,
+            "body": json.dumps({"message": str(e)}, ensure_ascii=False),
         }
