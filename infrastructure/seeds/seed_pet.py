@@ -26,7 +26,7 @@ def generate_pets(total_pet: int = 5) -> list[dict]:
             "pet_id": fake.uuid4(),
             "name": fake["ja_JP"].name(),
             "category": fake["ja_JP"].word(),
-            "birth_date": fake.date_of_birth().strftime("%Y-%m-%d"),
+            "birth_date": fake.date_of_birth().isoformat(),
             "gender": fake.random_element(pet_genders),
             "picture_name": f"{fake['en_US'].word()}.jpg",
             "care_notes": [

@@ -5,7 +5,11 @@ Description: Lambda functions for Petrock Nova
 Parameters:
   Environment:
     Type: String
+
   PetTableName:
+    Type: String
+
+  DiaryTableName:
     Type: String
 
 Conditions:
@@ -40,3 +44,23 @@ Resources:
               - Ref: "AWS::NoValue"
           PET_TABLE_NAME:
             Ref: PetTableName
+
+  GetDiaryFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: GetDiaryFunction
+      CodeUri: ../resources/functions/diary_handler/
+      Handler: diary_handler.get_diary
+      Policies:
+        - DynamoDBReadPolicy:
+            TableName:
+              Ref: DiaryTableName
+      Environment:
+        Variables:
+          DYNAMODB_ENDPOINT_URL:
+            Fn::If:
+              - IsLocalEnvironment
+              - "http://localstack:4566"
+              - Ref: "AWS::NoValue"
+          DIARY_TABLE_NAME:
+            Ref: DiaryTableName

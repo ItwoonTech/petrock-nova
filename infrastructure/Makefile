@@ -26,6 +26,7 @@ delete-remote:
 
 seed:
 	uv run python seeds/seed_pet.py
+	uv run python seeds/seed_diary.py
 
 list-table:
 	aws dynamodb list-tables --endpoint-url $(ENDPOINT_URL)
