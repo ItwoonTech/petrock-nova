@@ -20,16 +20,6 @@ pet_table = dynamodb.Table(PET_TABLE_NAME)
 
 
 def update_chat(event: dict, context: LambdaContext) -> dict:
-    """
-    チャットを更新する
-
-    Args:
-        event (dict): イベント
-        context (LambdaContext): コンテキスト
-
-    Returns:
-        dict: 更新後のチャット
-    """
     try:
         path_parameters = event["pathParameters"]
         pet_id = path_parameters["pet_id"]
@@ -107,20 +97,17 @@ def update_chat(event: dict, context: LambdaContext) -> dict:
             "body": json.dumps({"message": str(e)}, ensure_ascii=False),
         }
 
+
 def get_chat(event: dict, context: LambdaContext) -> dict:
-    
     path_parameters = event["pathParameters"]
     pet_id = path_parameters["pet_id"]
 
     if pet_id is None:
         return {
             "statusCode": HTTPStatus.BAD_REQUEST,
-            "body": json.dumps(
-                {"message": "ペットIDが必要です"}, 
-                ensure_ascil=False
-            )
+            "body": json.dumps({"message": "ペットIDが必要です"}, ensure_ascil=False),
         }
-    
+
     try:
         response = pet_table.get_item(Key={"pet_id": pet_id})
         item = response.get("Item")
@@ -134,11 +121,11 @@ def get_chat(event: dict, context: LambdaContext) -> dict:
                 ),
             }
 
-        return{
+        return {
             "statusCode": HTTPStatus.OK,
-            "body": json.dumps(item, ensure_ascii=False)
+            "body": json.dumps(item, ensure_ascii=False),
         }
-    
+
     except Exception as e:
         return {
             "statusCode": HTTPStatus.INTERNAL_SERVER_ERROR,
