@@ -87,3 +87,23 @@ Resources:
               - Ref: "AWS::NoValue"
           PET_TABLE_NAME:
             Ref: PetTableName
+
+  GetChatFunction:
+      Type: AWS::Serverless::Function
+      Properties:
+        FunctionName: GetChatFunction
+        CodeUri: ../resources/functions/chat_handler/
+        Handler: chat_handler.get_chat
+        Policies:
+          - DynamoDBReadPolicy:
+              TableName:
+                Ref: PetTableName
+        Environment:
+          Variables:
+            DYNAMODB_ENDPOINT_URL:
+              Fn::If:
+                - IsLocalEnvironment
+                - "http://localstack:4566"
+                - Ref: "AWS::NoValue"
+            PET_TABLE_NAME:
+              Ref: PetTableName
