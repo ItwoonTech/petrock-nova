@@ -111,7 +111,7 @@ def get_chat(event: dict, context: LambdaContext) -> dict:
     try:
         response = pet_table.get_item(
             Key={"pet_id": pet_id},
-            ProjectionExpression="sender, content, created_at"
+            ProjectionExpression="chat_history"
         )
         item = response.get("Item")
 
