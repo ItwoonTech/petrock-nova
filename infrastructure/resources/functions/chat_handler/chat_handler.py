@@ -105,11 +105,14 @@ def get_chat(event: dict, context: LambdaContext) -> dict:
     if pet_id is None:
         return {
             "statusCode": HTTPStatus.BAD_REQUEST,
-            "body": json.dumps({"message": "ペットIDが必要です"}, ensure_ascil=False),
+            "body": json.dumps({"message": "ペットIDが必要です"}, ensure_ascii=False),
         }
 
     try:
-        response = pet_table.get_item(Key={"pet_id": pet_id})
+        response = pet_table.get_item(
+            Key={"pet_id": pet_id},
+            projection_expression="sender, content, created_at"
+        )
         item = response.get("Item")
 
         if not item:
