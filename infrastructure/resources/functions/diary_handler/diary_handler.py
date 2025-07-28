@@ -18,16 +18,6 @@ diary_table = dynamodb.Table(DIARY_TABLE_NAME)
 
 
 def get_diary(event: dict, context: LambdaContext) -> dict:
-    """
-    日記を取得する
-
-    Args:
-        event (dict): イベント
-        context (LambdaContext): コンテキスト
-
-    Returns:
-        dict: 日記
-    """
     path_parameters = event.get("pathParameters", {})
 
     pet_id = path_parameters.get("pet_id")

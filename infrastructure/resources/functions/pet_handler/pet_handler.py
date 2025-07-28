@@ -17,16 +17,6 @@ pet_table = dynamodb.Table(PET_TABLE_NAME)
 
 
 def get_pet(event: dict, context: LambdaContext) -> dict:
-    """
-    ペットを取得する
-
-    Args:
-        event (dict): イベント
-        context (LambdaContext): コンテキスト
-
-    Returns:
-        dict: ペット
-    """
     path_parameters = event.get("pathParameters", {})
     pet_id = path_parameters.get("pet_id")
 
