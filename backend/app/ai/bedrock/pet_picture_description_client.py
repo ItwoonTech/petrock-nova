@@ -4,6 +4,7 @@ import os
 
 import boto3
 
+from app.ai.dtos.pet_picture_description import PetPictureDescription
 from app.ai.interface.pet_picture_description_client import PetPictureDescriptionClient
 from app.repositories.interface.image_repository import ImageRepository
 
@@ -79,7 +80,13 @@ class BedrockPetPictureDescriptionClient(PetPictureDescriptionClient):
         )
 
         response_body = json.loads(response["body"].read())
-        return response_body["content"][0]["text"]
+        description_text = response_body["content"][0]["text"]
+
+        description_dict = json.loads(description_text)
+        return PetPictureDescription(
+            positive_prompt=description_dict["positive_prompt"],
+            negative_prompt=description_dict["negative_prompt"],
+        )
 
     def get_prompt(self) -> str:
         """
