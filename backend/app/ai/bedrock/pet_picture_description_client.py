@@ -82,7 +82,11 @@ class BedrockPetPictureDescriptionClient(PetPictureDescriptionClient):
         response_body = json.loads(response["body"].read())
         description_text = response_body["content"][0]["text"]
 
-        description_dict = json.loads(description_text)
+        try:
+            description_dict = json.loads(description_text)
+        except json.JSONDecodeError as e:
+            raise ValueError(f"AIからのレスポンスをJSONに変換できませんでした: {e}")
+
         return PetPictureDescription(
             positive_prompt=description_dict["positive_prompt"],
             negative_prompt=description_dict["negative_prompt"],
