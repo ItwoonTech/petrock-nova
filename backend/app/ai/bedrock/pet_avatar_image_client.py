@@ -3,10 +3,10 @@ import json
 import boto3
 
 from app.ai.dtos.pet_picture_description import PetPictureDescription
-from app.ai.interface.pet_avator_image_client import PetAvatorImageClient
+from app.ai.interface.pet_avatar_image_client import PetAvatarImageClient
 
 
-class BedrockPetAvatorImageClient(PetAvatorImageClient):
+class BedrockPetAvatarImageClient(PetAvatarImageClient):
     MODEL_ID = "amazon.titan-image-generator-v2:0"
     TITAN_MAX_PROMPT_LENGTH = 512
 
@@ -70,4 +70,4 @@ class BedrockPetAvatorImageClient(PetAvatorImageClient):
 
             return response_body["images"][0]
         except Exception as exception:
-            raise exception from Exception
+            raise exception

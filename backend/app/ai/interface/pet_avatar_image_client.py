@@ -3,7 +3,7 @@ from abc import ABC, abstractmethod
 from app.ai.dtos.pet_picture_description import PetPictureDescription
 
 
-class PetAvatorImageClient(ABC):
+class PetAvatarImageClient(ABC):
     @abstractmethod
     def generate(self, description: PetPictureDescription) -> str:
         """
