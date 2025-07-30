@@ -1,14 +1,16 @@
 from abc import ABC, abstractmethod
 
+from app.ai.dtos.pet_picture_description import PetPictureDescription
+
 
 class PetAvatorImageClient(ABC):
     @abstractmethod
-    def generate(self, description: str) -> str:
+    def generate(self, description: PetPictureDescription) -> str:
         """
         アバター画像を生成する
 
         Args:
-            description: アバターの説明
+            PetPictureDescription: アバターの説明
 
         Returns:
             str: アバター画像のURL
