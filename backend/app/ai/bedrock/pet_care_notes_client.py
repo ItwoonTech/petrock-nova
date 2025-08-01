@@ -17,7 +17,6 @@ class BedrockPetCareNotesClient(PetCareNotesClient):
         "Smile",
         "Frown",
         "Utensils",
-        "Frown",
         "Cookie",
     ]
 
@@ -59,7 +58,7 @@ class BedrockPetCareNotesClient(PetCareNotesClient):
             "gender": {
                 "text": prompt_variables.gender.value,
             },
-            "cate_note_icons": {
+            "care_note_icons": {
                 "text": ", ".join(self.CARE_NOTE_ICONS),
             },
         }
