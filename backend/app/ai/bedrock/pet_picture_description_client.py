@@ -4,8 +4,10 @@ import os
 
 import boto3
 
-from app.ai.dtos.pet_picture_description import PetPictureDescription
-from app.ai.interface.pet_picture_description_client import PetPictureDescriptionClient
+from app.ai.interface.pet_picture_description_client import (
+    PetPictureDescription,
+    PetPictureDescriptionClient,
+)
 from app.repositories.interface.image_repository import ImageRepository
 
 
