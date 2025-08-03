@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 
-from app.ai.dtos.pet_picture_description import PetPictureDescription
+from app.ai.interface.pet_picture_description_client import PetPictureDescription
 
 
 class PetAvatarImageClient(ABC):
@@ -10,7 +10,7 @@ class PetAvatarImageClient(ABC):
         アバター画像を生成する
 
         Args:
-            PetPictureDescription: アバターの説明
+            description (PetPictureDescription): アバターの説明
 
         Returns:
             str: アバター画像のURL

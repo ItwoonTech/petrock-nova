@@ -3,7 +3,7 @@ from __future__ import annotations
 from datetime import UTC, datetime
 from enum import Enum
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, SerializationInfo, field_serializer
 
 from app.models.types import ContentfulString
 
@@ -32,6 +32,10 @@ class PetCareNote(BaseModel):
     title: ContentfulString
     description: ContentfulString
     icon: PetCareNoteIcon
+
+    @field_serializer("icon")
+    def serialize_icon(self, icon: PetCareNoteIcon, _info: SerializationInfo) -> str:
+        return icon.value
 
     @classmethod
     def from_dict(cls, data: dict) -> PetCareNote:
