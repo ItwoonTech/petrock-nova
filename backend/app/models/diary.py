@@ -1,10 +1,6 @@
 from __future__ import annotations
-
 from datetime import UTC, datetime
-from enum import Enum
-
 from pydantic import BaseModel, Field
-
 from app.models.types import ContentfulString
 
 class DiaryTask(BaseModel):
@@ -20,7 +16,7 @@ class DiaryTask(BaseModel):
 class Diary(BaseModel):
     """日記"""
     pet_id: ContentfulString
-    date: datetime = Field(default_factory=lambda: datetime.now(UTC))
+    date:datetime = Field(default_factory=lambda: datetime.now(UTC))
     image_name: ContentfulString
     reacted: bool
     advice: ContentfulString
@@ -29,7 +25,7 @@ class Diary(BaseModel):
     temperature: float
     tasks: list[DiaryTask]
     created_at: datetime = Field(default_factory=lambda: datetime.now(UTC))
-    updated_at:	datetime = Field(default_factory=lambda: datetime.now(UTC))
+    updated_at: datetime = Field(default_factory=lambda: datetime.now(UTC))
 
     @classmethod
     def from_dict(cls, data: dict) -> Diary:

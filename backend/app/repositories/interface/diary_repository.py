@@ -5,7 +5,7 @@ class DiaryRepository(ABC):
     """日記リポジトリのインターフェース"""
 
     @abstractmethod
-    def get_by_id(self, diary_id: str, date: str) -> Diary | None:
+    def get_by_id(self, pet_id: str, date: str) -> Diary | None:
         """日記を取得する"""
         pass
     

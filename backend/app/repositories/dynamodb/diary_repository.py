@@ -24,17 +24,17 @@ class DynamoDBDiaryRepository(DiaryRepository):
 
         self.table = self.dynamodb.Table(table_name)
 
-        def get_by_id(self, diary_id: str, date: str) -> Diary | None:
+        def get_by_id(self, pet_id: str, date: str) -> Diary | None:
             """日記を取得する
 
             Args:
-                diary_id (str): 日記ID
+                pet_id (str): 日記ID
                 date (str): 日付
 
             Returns:
                 Diary | None: 日記
             """
-            response = self.table.get_item(Key={"diary_id": diary_id, "date": date})
+            response = self.table.get_item(Key={"pet_id": pet_id, "date": date})
 
             if "Item" not in response:
                 return None
