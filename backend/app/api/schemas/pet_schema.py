@@ -13,3 +13,11 @@ class GetPetResponseBody(BaseModel):
     gender: PetGender
     care_notes: list[PetCareNote]
     image_name: str
+
+
+class CreatePetRequestBody(BaseModel):
+    name: str
+    category: str
+    birth_date: datetime
+    gender: PetGender
+    picture_name: str
