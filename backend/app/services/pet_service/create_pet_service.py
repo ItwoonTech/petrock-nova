@@ -73,14 +73,16 @@ class CreatePetService:
         self.image_repository = image_repository
 
     def execute(self, request: CreatePetServiceRequest) -> CreatePetServiceResponse:
+        last_exception = None
+
         for _ in range(self.MAX_RETRY):
             try:
                 return self.try_create_pet(request)
             except Exception as e:
                 logger.exception(str(e))
-                continue
+                last_exception = e
 
-        raise Exception("ペットの作成に失敗しました")
+        raise Exception("ペットの作成に失敗しました") from last_exception
 
     def try_create_pet(self, request: CreatePetServiceRequest) -> CreatePetServiceResponse:
         # ペットの画像から説明文を生成
