@@ -27,7 +27,7 @@ class S3ImageRepository(ImageRepository):
 
         self.bucket_name = bucket_name
 
-    def get_image(self, image_key: str) -> bytes | None:
+    def get_by_key(self, image_key: str) -> bytes | None:
         """
         S3から画像を取得する
 
@@ -44,7 +44,7 @@ class S3ImageRepository(ImageRepository):
 
         return response["Body"].read()
 
-    def put_image(
+    def save(
         self,
         image_key: str,
         image_bytes: bytes,
