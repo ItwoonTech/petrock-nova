@@ -56,7 +56,9 @@ class CreatePetServiceResponse(BaseModel):
 
 class CreatePetService:
     MAX_RETRY = 3
-    AVATAR_IMAGE_NAME = "avatar.jpg"  # FIXME: 拡張子がこれでいいか不明
+
+    # Titanのデフォルトの画像フォーマットはPNG (GitHubのサンプルノートブック参照)
+    AVATAR_IMAGE_NAME = "avatar.png"
 
     def __init__(
         self,
