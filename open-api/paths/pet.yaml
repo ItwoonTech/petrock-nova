@@ -38,14 +38,6 @@ pets/pet_id:
               picture_name:
                 type: string
                 description: 撮影した写真の名前
-              care_notes:
-                type: array
-                items:
-                  $ref: '#/components/schemas/PetCareNote'
-                description: ペットの情報リスト
-              image_name:
-                type: string
-                description: ペットのプロフィール画像の名前
             required:
               - name
               - category
