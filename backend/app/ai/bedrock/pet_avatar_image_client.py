@@ -2,8 +2,8 @@ import json
 
 import boto3
 
-from app.ai.dtos.pet_picture_description import PetPictureDescription
 from app.ai.interface.pet_avatar_image_client import PetAvatarImageClient
+from app.ai.interface.pet_picture_description_client import PetPictureDescription
 
 
 class BedrockPetAvatarImageClient(PetAvatarImageClient):

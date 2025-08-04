@@ -1,6 +1,11 @@
 from abc import ABC, abstractmethod
+from dataclasses import dataclass
 
-from app.ai.dtos.pet_picture_description import PetPictureDescription
+
+@dataclass(frozen=True)
+class PetPictureDescription:
+    positive_prompt: str
+    negative_prompt: str
 
 
 class PetPictureDescriptionClient(ABC):
