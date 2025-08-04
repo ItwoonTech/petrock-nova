@@ -6,15 +6,31 @@ class DiaryRepository(ABC):
 
     @abstractmethod
     def get_by_id(self, pet_id: str, date: str) -> Diary | None:
-        """日記を取得する"""
+        """日記を取得する
+
+            Args:
+                pet_id (str): 日記ID
+                date (str): 日付
+
+            Returns:
+                Diary | None: 日記
+            """
         pass
     
     @abstractmethod
     def create(self, diary: Diary) -> Diary:
-        """日記を作成する"""
+        """日記を作成する
+
+            Args:
+                diary (Diary): 日記
+            """
         pass
 
     @abstractmethod
     def update(self, diary: Diary) -> Diary:
-        """日記を更新する"""
+        """日記を更新する
+
+            Args:
+                diary (Diary): 日記
+            """
         pass

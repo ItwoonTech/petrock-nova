@@ -24,40 +24,40 @@ class DynamoDBDiaryRepository(DiaryRepository):
 
         self.table = self.dynamodb.Table(table_name)
 
-        def get_by_id(self, pet_id: str, date: str) -> Diary | None:
-            """日記を取得する
+    def get_by_id(self, pet_id: str, date: str) -> Diary | None:
+        """日記を取得する
 
-            Args:
-                pet_id (str): 日記ID
-                date (str): 日付
+        Args:
+            pet_id (str): 日記ID
+            date (str): 日付
 
-            Returns:
-                Diary | None: 日記
-            """
-            response = self.table.get_item(Key={"pet_id": pet_id, "date": date})
+        Returns:
+            Diary | None: 日記
+        """
+        response = self.table.get_item(Key={"pet_id": pet_id, "date": date})
 
-            if "Item" not in response:
-                return None
+        if "Item" not in response:
+            return None
 
-            return Diary.from_dict(response["Item"])
+        return Diary.from_dict(response["Item"])
 
-        def create(self, diary: Diary) -> Diary:
-            """日記を作成する
+    def create(self, diary: Diary) -> Diary:
+        """日記を作成する
 
-            Args:
-                diary (Diary): 日記
-            """
-            self.table.put_item(Item=diary.to_dict())
+        Args:
+            diary (Diary): 日記
+        """
+        self.table.put_item(Item=diary.to_dict())
 
-            return diary
-        
-        def update(self, diary: Diary) -> Diary:
-            """日記を更新する
+        return diary
+    
+    def update(self, diary: Diary) -> Diary:
+        """日記を更新する
 
-            Args:
-                diary (Diary): 日記
-            """
-            self.table.put_item(Item=diary.to_dict())
+        Args:
+            diary (Diary): 日記
+        """
+        self.table.put_item(Item=diary.to_dict())
 
-            return diary
+        return diary
         

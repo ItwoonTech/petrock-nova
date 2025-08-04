@@ -16,7 +16,7 @@ class DiaryTask(BaseModel):
 class Diary(BaseModel):
     """日記"""
     pet_id: ContentfulString
-    date:datetime = Field(default_factory=lambda: datetime.now(UTC))
+    date: datetime = Field(default_factory=lambda: datetime.now(UTC))
     image_name: ContentfulString
     reacted: bool
     advice: ContentfulString
@@ -29,7 +29,11 @@ class Diary(BaseModel):
 
     @classmethod
     def from_dict(cls, data: dict) -> Diary:
-        """辞書からDiaryインスタンスを作成する"""
+        """辞書からDiaryインスタンスを作成する
+        
+        Args:
+            data (dict): 日記データ
+            """
         return cls.model_validate(data)
     
     def to_dict(self) -> dict:
