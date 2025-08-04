@@ -3,10 +3,6 @@ Transform: AWS::Serverless-2016-10-31
 Description: FastAPI app on Lambda with Mangum
 
 Parameters:
-  PetrockNovaApiSecretName:
-    Type: String
-    Default: petrock-nova-api-secrets
-
   UserTableName:
     Type: String
     Default: petrock-nova-user-table
@@ -18,6 +14,17 @@ Parameters:
   ImageBucketName:
     Type: String
     Default: petrock-nova-image-bucket
+
+  PetrockNovaApiSecretName:
+    Type: String
+    Default: petrock-nova-api-secrets
+
+Globals:
+  Function:
+    Environment:
+      Variables:
+        POWERTOOLS_SERVICE_NAME: petrock-nova-api
+        POWERTOOLS_LOG_LEVEL: INFO
 
 Resources:
   PetrockNovaAPI:
