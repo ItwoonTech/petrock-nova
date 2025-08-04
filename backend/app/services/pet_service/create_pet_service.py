@@ -24,6 +24,9 @@ class CreatePetServiceRequest(BaseModel):
     gender: PetGender
     picture_name: str
 
+    def get_picture_image_key(self) -> str:
+        return f"{self.pet_id}/{self.picture_name}"
+
 
 class CreatePetServiceResponse(BaseModel):
     pet_id: str
@@ -31,7 +34,7 @@ class CreatePetServiceResponse(BaseModel):
     category: str
     birth_date: datetime
     gender: PetGender
-    picture_name: str
+    image_name: str
     care_notes: list[PetCareNote]
     created_at: datetime
     updated_at: datetime
@@ -44,7 +47,7 @@ class CreatePetServiceResponse(BaseModel):
             category=pet.category,
             birth_date=pet.birth_date,
             gender=pet.gender,
-            picture_name=pet.image_name,
+            image_name=pet.image_name,
             care_notes=pet.care_notes,
             created_at=pet.created_at,
             updated_at=pet.updated_at,
@@ -81,7 +84,7 @@ class CreatePetService:
 
     def try_create_pet(self, request: CreatePetServiceRequest) -> CreatePetServiceResponse:
         # ペットの画像から説明文を生成
-        picture_image_key = f"{request.pet_id}/{request.picture_name}"
+        picture_image_key = request.get_picture_image_key()
         description = self.pet_picture_description_client.describe(picture_image_key)
 
         # ペットのアバター画像を生成
