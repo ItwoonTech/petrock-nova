@@ -19,7 +19,8 @@ class BedrockPetPictureDescriptionClient(PetPictureDescriptionClient):
         image_repository: ImageRepository,
         region_name: str = "ap-northeast-1",
     ):
-        """コンストラクタ
+        """
+        コンストラクタ
 
         Args:
             image_repository (ImageRepository): 画像リポジトリ

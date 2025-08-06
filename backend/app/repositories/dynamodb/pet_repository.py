@@ -13,7 +13,8 @@ class DynamoDBPetRepository(PetRepository):
         dynamodb_endpoint_url: str,
         region_name: str = "ap-northeast-1",
     ):
-        """コンストラクタ
+        """
+        コンストラクタ
 
         Args:
             table_name (str): テーブル名

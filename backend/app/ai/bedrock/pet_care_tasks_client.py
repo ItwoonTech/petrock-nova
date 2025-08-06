@@ -17,7 +17,8 @@ class BedrockPetCareTasksClient(PetCareTasksClient):
         image_repository: ImageRepository,
         region_name: str = "ap-northeast-1",
     ):
-        """コンストラクタ
+        """
+        コンストラクタ
 
         Args:
             secret_name (str): プロンプトの情報が入ったシークレット名

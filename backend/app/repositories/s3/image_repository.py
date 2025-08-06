@@ -9,7 +9,8 @@ class S3ImageRepository(ImageRepository):
     """
 
     def __init__(self, bucket_name: str, s3_endpoint_url: str, region_name: str = "ap-northeast-1"):
-        """コンストラクタ
+        """
+        コンストラクタ
 
         Args:
             bucket_name (str): バケット名
