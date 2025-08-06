@@ -249,13 +249,14 @@ components:
         description:
           type: string
           description: サブタスクの説明
-        completed:
-          type: boolean
-          description: サブタスクの完了状態
         scheduled_time:
           type: string
           format: time
           description: サブタスクの予定時刻
+        completed:
+          type: boolean
+          description: サブタスクの完了状態
+
       required:
         - title
         - description
@@ -303,6 +304,7 @@ components:
           type: string
           format: date-time
           description: 更新された日時
+
     Error:
       type: object
       properties:
