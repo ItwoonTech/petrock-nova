@@ -67,10 +67,22 @@ class Pet(BaseModel):
 
     @classmethod
     def from_dict(cls, data: dict) -> Pet:
-        """辞書からPetインスタンスを作成する"""
+        """
+        辞書からPetインスタンスを作成する
 
+        Args:
+            data (dict): ペットのデータ
+
+        Returns:
+            Pet: ペットのインスタンス
+        """
         return cls.model_validate(data)
 
     def to_dict(self) -> dict:
-        """ペットを辞書に変換する"""
+        """
+        ペットを辞書に変換する
+
+        Returns:
+            dict: ペットのデータ
+        """
         return self.model_dump(mode="json")
