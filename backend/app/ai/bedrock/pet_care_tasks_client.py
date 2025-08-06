@@ -80,7 +80,7 @@ class BedrockPetCareTasksClient(PetCareTasksClient):
                                     "type": "image",
                                     "source": {
                                         "type": "base64",
-                                        "media_type": "image/jpeg",
+                                        "media_type": "image/jpeg",  # FIXME: ペットの画像がJPEGとは限らない
                                         "data": base64_pet_picture,
                                     },
                                 },
