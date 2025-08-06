@@ -1,6 +1,5 @@
 import base64
 import json
-import os
 
 import boto3
 
@@ -14,7 +13,12 @@ from app.repositories.interface.image_repository import ImageRepository
 class BedrockPetPictureDescriptionClient(PetPictureDescriptionClient):
     MODEL_ID = "apac.anthropic.claude-3-7-sonnet-20250219-v1:0"
 
-    def __init__(self, image_repository: ImageRepository, region_name: str = "ap-northeast-1"):
+    def __init__(
+        self,
+        secret_name: str,
+        image_repository: ImageRepository,
+        region_name: str = "ap-northeast-1",
+    ):
         """コンストラクタ
 
         Args:
@@ -34,21 +38,23 @@ class BedrockPetPictureDescriptionClient(PetPictureDescriptionClient):
             region_name=region_name,
         )
 
+        self.secret_name = secret_name
         self.image_repository = image_repository
 
-    def describe(self, s3_image_key: str) -> str:
+    def describe(self, pet_picture_key: str) -> PetPictureDescription:
         """
         画像の説明文を生成する
 
         Args:
-            s3_image_key (str): 画像の S3 キー
+            secret_name (str): プロンプトの情報が入ったシークレット名
+            pet_picture_key (str): ペットの画像へのパス
 
         Returns:
-            str: 画像の説明文
+            PetPictureDescription: 画像の説明文
         """
         prompt_text = self.get_prompt()
 
-        base64_image = self.get_base64_image(s3_image_key)
+        base64_pet_picture = self.get_base64_image(pet_picture_key)
 
         response = self.bedrock_runtime_client.invoke_model(
             modelId=self.MODEL_ID,
@@ -67,7 +73,7 @@ class BedrockPetPictureDescriptionClient(PetPictureDescriptionClient):
                                     "source": {
                                         "type": "base64",
                                         "media_type": "image/jpeg",
-                                        "data": base64_image,
+                                        "data": base64_pet_picture,
                                     },
                                 },
                                 {
@@ -101,12 +107,7 @@ class BedrockPetPictureDescriptionClient(PetPictureDescriptionClient):
         Returns:
             str: 画像の説明文を生成するためのプロンプト
         """
-        secret_name = os.getenv("PETROCK_NOVA_API_SECRET_NAME")
-
-        if secret_name is None:
-            raise ValueError("PETROCK_NOVA_API_SECRET_NAME が設定されていません")
-
-        secrets_response = self.secrets_manager_client.get_secret_value(SecretId=secret_name)
+        secrets_response = self.secrets_manager_client.get_secret_value(SecretId=self.secret_name)
         secrets = json.loads(secrets_response["SecretString"])
 
         prompt_identifier = secrets["pictureDescriptionPromptIdentifier"]

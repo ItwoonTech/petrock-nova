@@ -1,5 +1,4 @@
 import json
-import os
 
 import boto3
 
@@ -20,11 +19,12 @@ class BedrockPetCareNotesClient(PetCareNotesClient):
         "Cookie",
     ]
 
-    def __init__(self, region_name: str = "ap-northeast-1") -> None:
+    def __init__(self, secret_name: str, region_name: str = "ap-northeast-1") -> None:
         """
         コンストラクタ
 
         Args:
+            secret_name (str): プロンプトの情報が入ったシークレット名
             region_name (str, optional): リージョン名. デフォルトは "ap-northeast-1".
         """
         self.bedrock_runtime_client = boto3.client(
@@ -36,6 +36,8 @@ class BedrockPetCareNotesClient(PetCareNotesClient):
             region_name=region_name,
         )
 
+        self.secret_name = secret_name
+
     def generate(self, prompt_variables: CareNotesPromptVariables) -> list[PetCareNote]:
         """
         ペットの飼育情報を生成する
@@ -46,7 +48,7 @@ class BedrockPetCareNotesClient(PetCareNotesClient):
         Returns:
             list[PetCareNote]: ペットの飼育情報
         """
-        prompt_arn = self.get_prompt_arn()
+        prompt_arn = self.get_prompt_arn(self.secret_name)
 
         prompt_variables = {
             "category": {
@@ -89,15 +91,16 @@ class BedrockPetCareNotesClient(PetCareNotesClient):
             for care_note in care_notes
         ]
 
-    def get_prompt_arn(self) -> str:
+    def get_prompt_arn(self, secret_name: str) -> str:
         """
         プロンプトの ARN を取得する
+
+        Args:
+            secret_name (str): プロンプトの情報が入ったシークレット名
+
+        Returns:
+            str: プロンプトの ARN
         """
-        secret_name = os.getenv("PETROCK_NOVA_API_SECRET_NAME")
-
-        if secret_name is None:
-            raise ValueError("PETROCK_NOVA_API_SECRET_NAME が設定されていません")
-
         secrets_response = self.secrets_manager_client.get_secret_value(SecretId=secret_name)
         secrets = json.loads(secrets_response["SecretString"])
 
