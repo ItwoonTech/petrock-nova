@@ -70,7 +70,7 @@ class Diary(BaseModel):
     comment: ContentfulString
     weather: Weather
     temperature: float
-    tasks: list[DiaryTask]
+    task: list[DiaryTask]
     created_at: datetime = Field(default_factory=lambda: datetime.now(UTC))
     updated_at: datetime = Field(default_factory=lambda: datetime.now(UTC))
 
