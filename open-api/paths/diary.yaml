@@ -24,46 +24,21 @@ pet/pet_id/diaries/date:
         application/json:
           schema:
             properties:
-              date:
-                type: string
-                format: date
-                description: 日付
               picture_name:
                 type: string
                 description: 日付に紐づく写真のファイル名
-              reacted:
-                type: boolean
-                description: 親のリアクション
-              advice:
-                type: string
-                description: AIのアドバイス
-              comment:
-                type: string
-                description: ユーザのコメント
               weather:
                 type: string
+                enum: ['晴れ', '曇り', '雨', '雪']
                 description: 天気
               temperature:
-                type: string
+                type: number
+                format: float
                 description: 気温
-              category:
-                type: string
-                description: ペットのカテゴリー
-              birth_date:
-                type: string
-                format: date
-                description: ペットの誕生日
-              task:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Task'
-                description: タスクのリスト
             required:
               - picture_name
               - weather
               - temperature
-              - category
-              - birth_date
     responses:
       '201':
         description: 日記の作成に成功
@@ -176,7 +151,7 @@ pet/pet_id/diaries/date:
               task:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Task'
+                  $ref: '#/components/schemas/DiaryTask'
                 description: 更新されたタスクのリスト
 
     responses:
@@ -210,7 +185,7 @@ pet/pet_id/diaries/date:
 
 components:
   schemas:
-    Task:
+    DiaryTask:
       type: object
       properties:
         title:
@@ -232,7 +207,7 @@ components:
         sub_task:
           type: array
           items:
-            $ref: '#/components/schemas/SubTask'
+            $ref: '#/components/schemas/DiarySubTask'
           description: サブタスクのリスト
       required:
         - title
@@ -240,7 +215,7 @@ components:
         - completed
         - repeat
 
-    SubTask:
+    DiarySubTask:
       type: object
       properties:
         title:
@@ -294,7 +269,7 @@ components:
         task:
           type: array
           items:
-            $ref: '#/components/schemas/Task'
+            $ref: '#/components/schemas/DiaryTask'
           description: タスクのリスト
         created_at:
           type: string
