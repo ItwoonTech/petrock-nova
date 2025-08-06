@@ -53,6 +53,19 @@ wheels = [
 ]
 
 [[package]]
+name = "aws-lambda-powertools"
+version = "3.18.0"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "jmespath" },
+    { name = "typing-extensions" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/0b/d9/5ba420bbe1aef011559e035a1d1ef82a6d30500610116e7feb2f2b5dcda7/aws_lambda_powertools-3.18.0.tar.gz", hash = "sha256:74f484b03dfb733769828bf8e9f33ac427cd57c477a9ceae2dc19f643051e3c3", size = 686276, upload-time = "2025-07-29T08:22:50.901Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/42/b1/ca638f5ce0f4d1c4c75412342c08d124142facf89104f9d3659e9c395c63/aws_lambda_powertools-3.18.0-py3-none-any.whl", hash = "sha256:5afb230abf4e64bce00d35e858a4e83ae99c667f648c1f4d246e4bb022715df8", size = 828005, upload-time = "2025-07-29T08:22:48.807Z" },
+]
+
+[[package]]
 name = "blessed"
 version = "1.21.0"
 source = { registry = "https://pypi.org/simple" }
@@ -878,6 +891,7 @@ name = "petrock-nova-api"
 version = "0.0.0"
 source = { virtual = "." }
 dependencies = [
+    { name = "aws-lambda-powertools" },
     { name = "boto3" },
     { name = "fastapi", extra = ["standard"] },
     { name = "mangum" },
@@ -895,6 +909,7 @@ dev = [
 
 [package.metadata]
 requires-dist = [
+    { name = "aws-lambda-powertools", specifier = ">=3.18.0" },
     { name = "boto3", specifier = ">=1.39.1" },
     { name = "fastapi", extras = ["standard"], specifier = ">=0.115.14" },
     { name = "mangum", specifier = ">=0.19.0" },

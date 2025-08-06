@@ -138,7 +138,7 @@ class BedrockPetPictureDescriptionClient(PetPictureDescriptionClient):
         Raises:
             ValueError: 画像が見つからない場合
         """
-        image_bytes = self.image_repository.get_image(s3_image_key)
+        image_bytes = self.image_repository.get_by_key(s3_image_key)
 
         if image_bytes is None:
             raise ValueError(f"画像が見つかりませんでした: {s3_image_key}")

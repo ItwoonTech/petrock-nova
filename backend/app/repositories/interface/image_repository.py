@@ -7,7 +7,7 @@ class ImageRepository(ABC):
     """
 
     @abstractmethod
-    def get_image(self, image_key: str) -> bytes | None:
+    def get_by_key(self, image_key: str) -> bytes | None:
         """
         画像を取得する
 
@@ -20,7 +20,7 @@ class ImageRepository(ABC):
         pass
 
     @abstractmethod
-    def put_image(
+    def save(
         self,
         image_key: str,
         image_bytes: bytes,

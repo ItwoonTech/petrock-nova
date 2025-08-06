@@ -13,6 +13,6 @@ class PetAvatarImageClient(ABC):
             description (PetPictureDescription): アバターの説明
 
         Returns:
-            str: アバター画像のURL
+            str: Base64でエンコードされたアバター画像
         """
         pass
