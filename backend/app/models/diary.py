@@ -31,10 +31,32 @@ class DiaryTask(BaseModel):
 
     title: ContentfulString
     description: ContentfulString
-    scheduled_time: time
+    scheduled_time: time | None
     completed: bool
     repeat: bool
     sub_task: list[DiarySubtask]
+
+    @classmethod
+    def from_dict(cls, data: dict) -> DiaryTask:
+        """
+        辞書からDiaryTaskインスタンスを作成する
+
+        Args:
+            data (dict): タスクデータ
+
+        Returns:
+            DiaryTask: タスクのインスタンス
+        """
+        return cls.model_validate(data)
+
+    def to_dict(self) -> dict:
+        """
+        タスクを辞書に変換する
+
+        Returns:
+            dict: タスクのデータ
+        """
+        return self.model_dump(mode="json")
 
 
 class Diary(BaseModel):
