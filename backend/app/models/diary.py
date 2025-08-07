@@ -1,9 +1,9 @@
 from __future__ import annotations
 
 from datetime import UTC, datetime, time
+from enum import Enum
 
 from pydantic import BaseModel, Field
-from zmq import Enum
 
 from app.models.types import ContentfulString
 
