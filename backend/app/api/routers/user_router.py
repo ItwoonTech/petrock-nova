@@ -90,7 +90,6 @@ def update_user(
 ):
     request = UpdateUserServiceRequest(
         user_id=user_id,
-        user_name=request_body.user_name,
         user_role=request_body.user_role,
         password=request_body.password,
     )
