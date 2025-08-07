@@ -10,9 +10,11 @@ from app.ai.interface.pet_care_notes_client import PetCareNotesClient
 from app.ai.interface.pet_picture_description_client import PetPictureDescriptionClient
 from app.repositories.dynamodb.pet_repository import DynamoDBPetRepository
 from app.repositories.dynamodb.user_repository import DynamoDBUserRepository
+from app.repositories.dynamodb.diary_repository import DynamoDBDiaryRepository
 from app.repositories.interface.image_repository import ImageRepository
 from app.repositories.interface.pet_repository import PetRepository
 from app.repositories.interface.user_repository import UserRepository
+from app.repositories.interface.diary_repository import DiaryRepository
 from app.repositories.s3.image_repository import S3ImageRepository
 from app.services.pet_service.create_pet_service import CreatePetService
 from app.services.pet_service.get_pet_service import GetPetService
@@ -20,12 +22,14 @@ from app.services.s3_service.get_presigned_url_service import GetPresignedUrlSer
 from app.services.user_service.create_user_service import CreateUserService
 from app.services.user_service.get_user_service import GetUserService
 from app.services.user_service.update_user_service import UpdateUserService
+from app.services.diary_service.get_diary_service import GetDiaryService
 
 DYNAMODB_ENDPOINT_URL = os.getenv("DYNAMODB_ENDPOINT_URL")
 S3_ENDPOINT_URL = os.getenv("S3_ENDPOINT_URL")
 
 USER_TABLE_NAME = os.getenv("USER_TABLE_NAME")
 PET_TABLE_NAME = os.getenv("PET_TABLE_NAME")
+DIARY_TABLE_NAME = os.getenv("DIARY_TABLE_NAME")
 IMAGE_BUCKET_NAME = os.getenv("IMAGE_BUCKET_NAME")
 
 SECRET_NAME = os.getenv("PETROCK_NOVA_API_SECRET_NAME")
@@ -41,6 +45,9 @@ def get_pet_repository() -> PetRepository:
 
 def get_image_repository() -> ImageRepository:
     return S3ImageRepository(IMAGE_BUCKET_NAME, S3_ENDPOINT_URL)
+
+def get_diary_repository() -> DiaryRepository:
+    return DynamoDBDiaryRepository(DIARY_TABLE_NAME)
 
 
 def get_pet_picture_description_client(
@@ -101,3 +108,8 @@ def get_get_presigned_url_service(
     image_repository: ImageRepository = Depends(get_image_repository),
 ) -> GetPresignedUrlService:
     return GetPresignedUrlService(image_repository)
+
+def get_get_diary_service(
+        diary_repository: DiaryRepository = Depends(get_diary_repository)
+) -> GetDiaryService:
+    return GetDiaryService(diary_repository)
