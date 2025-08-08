@@ -1,5 +1,5 @@
 import boto3
-
+from datetime import date
 from app.models.diary import Diary
 from app.repositories.interface.diary_repository import DiaryRepository
 
@@ -29,7 +29,7 @@ class DynamoDBDiaryRepository(DiaryRepository):
 
         self.table = self.dynamodb.Table(table_name)
 
-    def get_by_id(self, pet_id: str, date: str) -> Diary | None:
+    def get_by_id(self, pet_id: str, date: date) -> Diary | None:
         """日記を取得する
 
         Args:
@@ -39,7 +39,11 @@ class DynamoDBDiaryRepository(DiaryRepository):
         Returns:
             Diary | None: 日記
         """
-        response = self.table.get_item(Key={"pet_id": pet_id, "date": date})
+        print("get_item実行前だよ！！！！１")
+
+        response = self.table.get_item(Key={"pet_id": pet_id, "date": date.isoformat()})
+
+        print("get_item実行後！！！！１")
 
         if "Item" not in response:
             return None

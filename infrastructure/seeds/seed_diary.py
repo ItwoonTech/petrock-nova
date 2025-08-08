@@ -8,6 +8,8 @@ from faker import Faker
 
 fake = Faker(["ja_JP", "en_US"])
 
+weathers = ["晴れ", "曇り", "雨", "雪"]
+
 
 def generate_sub_task() -> dict:
     return {
@@ -40,7 +42,7 @@ def generate_diary(pet_id: str, diary_date: date, total_task: int = 1) -> dict:
         "reacted": fake.boolean(),
         "advice": fake["ja_JP"].sentence(),
         "comment": fake["ja_JP"].sentence(),
-        "weather": fake.word(),
+        "weather": fake.random_element(weathers),
         "temperature": str(round(random.uniform(10, 30), 1)),
         "category": fake.word(),
         "birth_date": date_of_birth,

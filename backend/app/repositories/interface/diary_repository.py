@@ -1,16 +1,17 @@
 from abc import ABC, abstractmethod
+from datetime import date
 
 from app.models.diary import Diary
 class DiaryRepository(ABC):
     """日記リポジトリのインターフェース"""
 
     @abstractmethod
-    def get_by_id(self, pet_id: str, date: str) -> Diary | None:
+    def get_by_id(self, pet_id: str, date: date) -> Diary | None:
         """日記を取得する
 
             Args:
                 pet_id (str): 日記ID
-                date (str): 日付
+                date (date): 日付
 
             Returns:
                 Diary | None: 日記

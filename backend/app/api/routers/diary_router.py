@@ -1,4 +1,5 @@
 from fastapi import APIRouter, Depends, HTTPException, status
+from datetime import date
 from app.models.types import ContentfulString
 from app.api.dependencies import get_get_diary_service
 from app.api.schemas.diary_schema import GetDiaryResponseBody
@@ -15,9 +16,10 @@ router = APIRouter()
 )
 def get_diary(
         pet_id: ContentfulString,
-        date: ContentfulString,
+        date: date,
         get_diary_service: GetDiaryService = Depends(get_get_diary_service),
 ):
+    print("router確認")
     request = GetDiaryServiceRequest(pet_id=pet_id, date=date)
     response = get_diary_service.execute(request)
 
@@ -30,11 +32,11 @@ def get_diary(
     return GetDiaryResponseBody(
         pet_id=response.pet_id,
         date=response.date,
-        image_name=response.image_name,
+        picture_name=response.picture_name,
         reacted=response.reacted,
         advice=response.advice,
         comment=response.comment,
         weather=response.weather,
         temperature=response.temperature,
-        tasks=response.tasks,
+        task=response.task,
     )
