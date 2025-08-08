@@ -1,5 +1,5 @@
 from fastapi import APIRouter, Depends, HTTPException, status
-
+from app.models.types import ContentfulString
 from app.api.dependencies import get_get_diary_service
 from app.api.schemas.diary_schema import GetDiaryResponseBody
 from app.services.diary_service.get_diary_service import GetDiaryService, GetDiaryServiceRequest
@@ -8,14 +8,14 @@ router = APIRouter()
 
 @router.get(
         "/{pet_id}/{date}",
-        respon_model=GetDiaryResponseBody,
+        response_model=GetDiaryResponseBody,
         tags=["Diary"],
         summary="日記を所得する",
         operation_id="get_diary"
 )
 def get_diary(
-        pet_id: str,
-        date: str,
+        pet_id: ContentfulString,
+        date: ContentfulString,
         get_diary_service: GetDiaryService = Depends(get_get_diary_service),
 ):
     request = GetDiaryServiceRequest(pet_id=pet_id, date=date)

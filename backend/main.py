@@ -11,6 +11,6 @@ app = FastAPI()
 app.include_router(user_router, prefix="/users", tags=["User"])
 app.include_router(pet_router, prefix="/pets", tags=["Pet"])
 app.include_router(s3_router, prefix="/s3", tags=["S3"])
-app.include_router(diary_router, prefix="/diarys", tags=["Diary"])
+app.include_router(diary_router, prefix="/diaries", tags=["Diary"])
 
 handler = Mangum(app)
