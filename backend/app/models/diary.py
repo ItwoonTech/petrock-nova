@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from datetime import UTC, datetime, time
+from datetime import UTC, date, datetime, time
 from enum import Enum
 
 from pydantic import BaseModel, Field
@@ -63,7 +63,7 @@ class Diary(BaseModel):
     """日記"""
 
     pet_id: ContentfulString
-    date: datetime
+    date: date
     picture_name: ContentfulString
     reacted: bool
     advice: ContentfulString
