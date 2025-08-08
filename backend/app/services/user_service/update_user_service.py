@@ -8,7 +8,6 @@ from app.repositories.interface.user_repository import UserRepository
 
 class UpdateUserServiceRequest(BaseModel):
     user_id: str
-    user_name: str | None
     user_role: UserRole | None
     password: str | None
 

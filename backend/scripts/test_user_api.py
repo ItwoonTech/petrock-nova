@@ -53,8 +53,8 @@ def update_user(user_id: str) -> None:
     url = f"{API_BASE_URL}/users/{user_id}"
     headers = {"Content-Type": "application/json"}
     request_body = {
+        "user_name": "sora",
         "password": "5678",
-        "invalid_key": "invalid_value",
     }
 
     try:
