@@ -10,12 +10,6 @@ source .venv/bin/activate
 deactivate
 ```
 
-## FastAPIの起動
-
-```
-uv run fastapi dev
-```
-
 ## Lambdaの起動
 
 `requirements.txt` を作成する．
