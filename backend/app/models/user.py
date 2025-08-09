@@ -33,11 +33,27 @@ class User(BaseModel):
 
     @classmethod
     def from_dict(cls, data: dict) -> User:
-        """辞書からUserインスタンスを作成する"""
+        """
+        辞書からUserインスタンスを作成する
 
+        Args:
+            data (dict): ユーザーのデータ
+
+        Returns:
+            User: ユーザーのインスタンス
+        """
         return cls.model_validate(data)
 
     def update(self, **kwargs) -> User:
+        """
+        ユーザーの属性を更新する
+
+        Args:
+            **kwargs: 更新する属性とその値
+
+        Returns:
+            User: 更新後のユーザーのインスタンス
+        """
         updated_attrs = {k: v for k, v in kwargs.items() if v is not None}
         updated_attrs.setdefault("updated_at", datetime.now(UTC))
 

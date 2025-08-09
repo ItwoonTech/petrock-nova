@@ -3,14 +3,12 @@ import json
 
 import boto3
 
-from app.ai.interface.pet_picture_description_client import (
-    PetPictureDescription,
-    PetPictureDescriptionClient,
-)
+from app.ai.interface.pet_care_tasks_client import CareTasksPromptVariables, PetCareTasksClient
+from app.models.diary import DiaryTask
 from app.repositories.interface.image_repository import ImageRepository
 
 
-class BedrockPetPictureDescriptionClient(PetPictureDescriptionClient):
+class BedrockPetCareTasksClient(PetCareTasksClient):
     MODEL_ID = "apac.anthropic.claude-3-7-sonnet-20250219-v1:0"
 
     def __init__(
@@ -23,6 +21,7 @@ class BedrockPetPictureDescriptionClient(PetPictureDescriptionClient):
         コンストラクタ
 
         Args:
+            secret_name (str): プロンプトの情報が入ったシークレット名
             image_repository (ImageRepository): 画像リポジトリ
             region_name (str, optional): リージョン名. デフォルトは "ap-northeast-1".
         """
@@ -42,18 +41,27 @@ class BedrockPetPictureDescriptionClient(PetPictureDescriptionClient):
         self.secret_name = secret_name
         self.image_repository = image_repository
 
-    def describe(self, pet_picture_key: str) -> PetPictureDescription:
+    def generate(
+        self,
+        prompt_variables: CareTasksPromptVariables,
+        pet_picture_key: str,
+    ) -> list[DiaryTask]:
         """
-        画像の説明文を生成する
+        ペットの飼育タスクを生成する
 
         Args:
-            secret_name (str): プロンプトの情報が入ったシークレット名
+            prompt_variables (CareTasksPromptVariables): ペットの飼育情報を生成するための情報
             pet_picture_key (str): ペットの画像へのパス
 
         Returns:
-            PetPictureDescription: 画像の説明文
+            list[DiaryTask]: ペットの飼育タスク
         """
-        prompt_text = self.get_prompt()
+        prompt_template = self.get_prompt()
+
+        prompt_text = prompt_template.format(
+            category=prompt_variables.category,
+            birth_date=prompt_variables.birth_date,
+        )
 
         base64_pet_picture = self.get_base64_image(pet_picture_key)
 
@@ -73,7 +81,7 @@ class BedrockPetPictureDescriptionClient(PetPictureDescriptionClient):
                                     "type": "image",
                                     "source": {
                                         "type": "base64",
-                                        "media_type": "image/jpeg",
+                                        "media_type": "image/jpeg",  # FIXME: ペットの画像がJPEGとは限らない
                                         "data": base64_pet_picture,
                                     },
                                 },
@@ -82,28 +90,28 @@ class BedrockPetPictureDescriptionClient(PetPictureDescriptionClient):
                                     "text": prompt_text,
                                 },
                             ],
-                        }
+                        },
                     ],
                 }
             ),
         )
 
         response_body = json.loads(response["body"].read())
-        description_text = response_body["content"][0]["text"]
+        tasks_text = response_body["content"][0]["text"]
 
         try:
-            description_dict = json.loads(description_text)
+            tasks_dict = json.loads(tasks_text)
         except json.JSONDecodeError as e:
             raise ValueError(f"AIからのレスポンスをJSONに変換できませんでした: {e}")
 
-        return PetPictureDescription(
-            positive_prompt=description_dict["positive_prompt"],
-            negative_prompt=description_dict["negative_prompt"],
-        )
+        return [DiaryTask.from_dict(task) for task in tasks_dict]
 
     def get_prompt(self) -> str:
         """
         画像の説明文を生成するためのプロンプトを取得する
+
+        Args:
+            secret_name (str): プロンプトの情報が入ったシークレット名
 
         Returns:
             str: 画像の説明文を生成するためのプロンプト
@@ -111,8 +119,8 @@ class BedrockPetPictureDescriptionClient(PetPictureDescriptionClient):
         secrets_response = self.secrets_manager_client.get_secret_value(SecretId=self.secret_name)
         secrets = json.loads(secrets_response["SecretString"])
 
-        prompt_identifier = secrets["pictureDescriptionPromptIdentifier"]
-        prompt_version = secrets["pictureDescriptionPromptVersion"]
+        prompt_identifier = secrets["petCareTasksPromptIdentifier"]
+        prompt_version = secrets["petCareTasksPromptVersion"]
 
         response = self.bedrock_agent_client.get_prompt(
             promptIdentifier=prompt_identifier,

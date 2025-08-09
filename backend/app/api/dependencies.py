@@ -21,27 +21,32 @@ from app.services.user_service.create_user_service import CreateUserService
 from app.services.user_service.get_user_service import GetUserService
 from app.services.user_service.update_user_service import UpdateUserService
 
+DYNAMODB_ENDPOINT_URL = os.getenv("DYNAMODB_ENDPOINT_URL")
+S3_ENDPOINT_URL = os.getenv("S3_ENDPOINT_URL")
+
 USER_TABLE_NAME = os.getenv("USER_TABLE_NAME")
 PET_TABLE_NAME = os.getenv("PET_TABLE_NAME")
 IMAGE_BUCKET_NAME = os.getenv("IMAGE_BUCKET_NAME")
 
+SECRET_NAME = os.getenv("PETROCK_NOVA_API_SECRET_NAME")
+
 
 def get_user_repository() -> UserRepository:
-    return DynamoDBUserRepository(USER_TABLE_NAME)
+    return DynamoDBUserRepository(USER_TABLE_NAME, DYNAMODB_ENDPOINT_URL)
 
 
 def get_pet_repository() -> PetRepository:
-    return DynamoDBPetRepository(PET_TABLE_NAME)
+    return DynamoDBPetRepository(PET_TABLE_NAME, DYNAMODB_ENDPOINT_URL)
 
 
 def get_image_repository() -> ImageRepository:
-    return S3ImageRepository(IMAGE_BUCKET_NAME)
+    return S3ImageRepository(IMAGE_BUCKET_NAME, S3_ENDPOINT_URL)
 
 
 def get_pet_picture_description_client(
     image_repository: ImageRepository = Depends(get_image_repository),
 ) -> PetPictureDescriptionClient:
-    return BedrockPetPictureDescriptionClient(image_repository)
+    return BedrockPetPictureDescriptionClient(SECRET_NAME, image_repository)
 
 
 def get_pet_avatar_image_client() -> PetAvatarImageClient:
@@ -49,7 +54,7 @@ def get_pet_avatar_image_client() -> PetAvatarImageClient:
 
 
 def get_pet_care_notes_client() -> PetCareNotesClient:
-    return BedrockPetCareNotesClient()
+    return BedrockPetCareNotesClient(SECRET_NAME)
 
 
 def get_get_user_service(

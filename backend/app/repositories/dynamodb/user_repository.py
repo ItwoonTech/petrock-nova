@@ -1,5 +1,3 @@
-import os
-
 import boto3
 
 from app.models.user import User
@@ -9,19 +7,24 @@ from app.repositories.interface.user_repository import UserRepository
 class DynamoDBUserRepository(UserRepository):
     """DynamoDBのユーザーリポジトリ"""
 
-    def __init__(self, table_name: str, region_name: str = "ap-northeast-1"):
-        """コンストラクタ
+    def __init__(
+        self,
+        table_name: str,
+        dynamodb_endpoint_url: str,
+        region_name: str = "ap-northeast-1",
+    ):
+        """
+        コンストラクタ
 
         Args:
             table_name (str): テーブル名
+            dynamodb_endpoint_url (str): DynamoDBのエンドポイントURL
             region_name (str, optional): リージョン名
         """
-        DYNAMODB_ENDPOINT_URL = os.getenv("DYNAMODB_ENDPOINT_URL")
-
         self.dynamodb = boto3.resource(
             "dynamodb",
             region_name=region_name,
-            endpoint_url=DYNAMODB_ENDPOINT_URL,
+            endpoint_url=dynamodb_endpoint_url,
         )
         self.table = self.dynamodb.Table(table_name)
 
