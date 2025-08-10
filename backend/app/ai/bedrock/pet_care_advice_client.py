@@ -109,13 +109,10 @@ class BedrockPetCareAdviceClient(PetCareAdviceClient):
 
     def get_prompt(self) -> str:
         """
-        画像の説明文を生成するためのプロンプトを取得する
-
-        Args:
-            secret_name (str): プロンプトの情報が入ったシークレット名
+        飼育アドバイスを生成するためのプロンプトを取得する
 
         Returns:
-            str: 画像の説明文を生成するためのプロンプト
+            str: 飼育アドバイスを生成するためのプロンプト
         """
         secrets_response = self.secrets_manager_client.get_secret_value(SecretId=self.secret_name)
         secrets = json.loads(secrets_response["SecretString"])

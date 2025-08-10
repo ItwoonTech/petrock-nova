@@ -48,7 +48,7 @@ class BedrockPetCareNotesClient(PetCareNotesClient):
         Returns:
             list[PetCareNote]: ペットの飼育情報
         """
-        prompt_arn = self.get_prompt_arn(self.secret_name)
+        prompt_arn = self.get_prompt_arn()
 
         prompt_variables = {
             "category": {
@@ -91,17 +91,14 @@ class BedrockPetCareNotesClient(PetCareNotesClient):
             for care_note in care_notes
         ]
 
-    def get_prompt_arn(self, secret_name: str) -> str:
+    def get_prompt_arn(self) -> str:
         """
         プロンプトの ARN を取得する
-
-        Args:
-            secret_name (str): プロンプトの情報が入ったシークレット名
 
         Returns:
             str: プロンプトの ARN
         """
-        secrets_response = self.secrets_manager_client.get_secret_value(SecretId=secret_name)
+        secrets_response = self.secrets_manager_client.get_secret_value(SecretId=self.secret_name)
         secrets = json.loads(secrets_response["SecretString"])
 
         return secrets["careNotesPromptArn"]

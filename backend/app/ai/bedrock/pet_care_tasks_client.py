@@ -110,9 +110,6 @@ class BedrockPetCareTasksClient(PetCareTasksClient):
         """
         画像の説明文を生成するためのプロンプトを取得する
 
-        Args:
-            secret_name (str): プロンプトの情報が入ったシークレット名
-
         Returns:
             str: 画像の説明文を生成するためのプロンプト
         """
