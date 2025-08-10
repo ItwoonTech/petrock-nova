@@ -3,22 +3,24 @@ from datetime import date
 from fastapi import APIRouter, Depends, HTTPException, status
 
 from app.api.dependencies import get_get_diary_service
-from app.api.schemas.diary_schema import GetDiaryResponseBody
-from app.models.types import ContentfulString
-from app.services.diary_service.get_diary_service import GetDiaryService, GetDiaryServiceRequest
+from app.services.diary_service.get_diary_service import (
+    GetDiaryService,
+    GetDiaryServiceRequest,
+    GetDiaryServiceResponse,
+)
 
 router = APIRouter()
 
 
 @router.get(
-    "/{pet_id}/{date}",
-    response_model=GetDiaryResponseBody,
+    "/{date}",
+    response_model=GetDiaryServiceResponse,
     tags=["Diary"],
-    summary="日記を所得する",
+    summary="日記を取得する",
     operation_id="get_diary",
 )
 def get_diary(
-    pet_id: ContentfulString,
+    pet_id: str,
     date: date,
     get_diary_service: GetDiaryService = Depends(get_get_diary_service),
 ):
@@ -31,14 +33,4 @@ def get_diary(
             detail="日記が見つかりませんでした",
         )
 
-    return GetDiaryResponseBody(
-        pet_id=response.pet_id,
-        date=response.date,
-        picture_name=response.picture_name,
-        reacted=response.reacted,
-        advice=response.advice,
-        comment=response.comment,
-        weather=response.weather,
-        temperature=response.temperature,
-        task=response.task,
-    )
+    return response
