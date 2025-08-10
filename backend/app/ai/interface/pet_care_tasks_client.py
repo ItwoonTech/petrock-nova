@@ -3,12 +3,11 @@ from dataclasses import dataclass
 from datetime import datetime
 
 from app.models.diary import DiaryTask
-from app.models.types import ContentfulString
 
 
 @dataclass(frozen=True)
 class CareTasksPromptVariables:
-    category: ContentfulString
+    category: str
     birth_date: datetime
 
 

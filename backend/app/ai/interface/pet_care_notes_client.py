@@ -3,12 +3,11 @@ from dataclasses import dataclass
 from datetime import datetime
 
 from app.models.pet import PetCareNote, PetGender
-from app.models.types import ContentfulString
 
 
 @dataclass(frozen=True)
 class CareNotesPromptVariables:
-    category: ContentfulString
+    category: str
     birth_date: datetime
     gender: PetGender
 
