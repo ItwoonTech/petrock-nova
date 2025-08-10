@@ -1,13 +1,16 @@
-from datetime import datetime, date
+from datetime import date, datetime
+
 from pydantic import BaseModel
-from app.models.types import ContentfulString
+
 from app.models.diary import DiaryTask
+from app.models.types import ContentfulString
 from app.repositories.interface.diary_repository import DiaryRepository
 
 
 class GetDiaryServiceRequest(BaseModel):
     pet_id: ContentfulString
     date: date
+
 
 class GetDiaryServiceResponse(BaseModel):
     pet_id: ContentfulString
@@ -18,7 +21,7 @@ class GetDiaryServiceResponse(BaseModel):
     comment: ContentfulString
     weather: ContentfulString
     temperature: float
-    task: list[DiaryTask]    
+    task: list[DiaryTask]
     created_at: datetime
     updated_at: datetime
 
@@ -30,9 +33,7 @@ class GetDiaryService:
     def execute(self, request: GetDiaryServiceRequest) -> GetDiaryServiceResponse | None:
         diary = self.diary_repository.get_by_id(request.pet_id, request.date)
 
-        print("Aaaaaaaaaaaaaaa")
-
         if diary is None:
             return None
-        
+
         return GetDiaryServiceResponse(**diary.to_dict())
