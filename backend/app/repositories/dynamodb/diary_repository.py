@@ -1,3 +1,5 @@
+from datetime import date
+
 import boto3
 
 from app.models.diary import Diary
@@ -29,17 +31,17 @@ class DynamoDBDiaryRepository(DiaryRepository):
 
         self.table = self.dynamodb.Table(table_name)
 
-    def get_by_id(self, pet_id: str, date: str) -> Diary | None:
+    def get_by_id(self, pet_id: str, date: date) -> Diary | None:
         """日記を取得する
 
         Args:
-            pet_id (str): 日記ID
-            date (str): 日付
+            pet_id (str): ペットID
+            date (date): 日付
 
         Returns:
             Diary | None: 日記
         """
-        response = self.table.get_item(Key={"pet_id": pet_id, "date": date})
+        response = self.table.get_item(Key={"pet_id": pet_id, "date": date.isoformat()})
 
         if "Item" not in response:
             return None

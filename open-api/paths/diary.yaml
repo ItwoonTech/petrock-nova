@@ -204,7 +204,7 @@ components:
         repeat:
           type: boolean
           description: タスクの繰り返し設定
-        sub_task:
+        sub_tasks:
           type: array
           items:
             $ref: '#/components/schemas/DiarySubTask'
@@ -266,7 +266,7 @@ components:
         temperature:
           type: string
           description: 気温
-        task:
+        tasks:
           type: array
           items:
             $ref: '#/components/schemas/DiaryTask'
@@ -298,14 +298,14 @@ components:
         comment: '楽しかったね！'
         weather: '晴れ'
         temperature: '20.5'
-        task: [
+        tasks: [
           {
             title: '朝の散歩',
             description: '2km走る',
             scheduled_time: '08:00',
             completed: true,
             repeat: true,
-            sub_task: [
+            sub_tasks: [
               {
                 title: 'リードの装着',
                 description: '首輪とリードを付ける',
@@ -326,7 +326,7 @@ components:
             scheduled_time: '10:00',
             completed: false,
             repeat: false,
-            sub_task: []
+            sub_tasks: []
           },
           {
             title: 'ブラッシング',
@@ -334,7 +334,7 @@ components:
             scheduled_time: '15:00',
             completed: false,
             repeat: false,
-            sub_task: []
+            sub_tasks: []
           },
           {
             title: 'シャンプー',
@@ -342,7 +342,7 @@ components:
             scheduled_time: '18:00',
             completed: false,
             repeat: true,
-            sub_task: []
+            sub_tasks: []
           }
         ]
         created_at: '2025-06-15T10:00:00Z'
@@ -358,14 +358,14 @@ components:
         comment: '元気いっぱいだったよ！'
         weather: '晴れ'
         temperature: '28.5'
-        task: [
+        tasks: [
           {
             title: '朝の散歩',
             description: '1.5km走る',
             scheduled_time: '07:30',
             completed: true,
             repeat: true,
-            sub_task: [
+            sub_tasks: [
               {
                 title: 'リードの装着',
                 description: '首輪とリードを付ける',
@@ -386,7 +386,7 @@ components:
             scheduled_time: '11:00',
             completed: true,
             repeat: false,
-            sub_task: []
+            sub_tasks: []
           },
           {
             title: 'ブラッシング',
@@ -394,7 +394,7 @@ components:
             scheduled_time: '16:00',
             completed: true,
             repeat: false,
-            sub_task: []
+            sub_tasks: []
           },
           {
             title: 'シャンプー',
@@ -402,7 +402,7 @@ components:
             scheduled_time: '19:00',
             completed: true,
             repeat: true,
-            sub_task: []
+            sub_tasks: []
           }
         ]
         created_at: '2025-06-16T10:00:00Z'
@@ -418,14 +418,14 @@ components:
         comment: '楽しかったね！'
         weather: '晴れ'
         temperature: "20.5"
-        task: [
+        tasks: [
           {
             title: '朝の散歩',
             description: '2km走る',
             scheduled_time: '08:00',
             completed: true,
             repeat: true,
-            sub_task: [
+            sub_tasks: [
               {
                 title: 'リードの装着',
                 description: '首輪とリードを付ける',

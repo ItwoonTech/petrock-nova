@@ -5,7 +5,7 @@ from enum import Enum
 
 from pydantic import BaseModel, Field
 
-from app.models.types import ContentfulString
+from app.models.types import NonEmptyString
 
 
 class Weather(Enum):
@@ -20,8 +20,8 @@ class Weather(Enum):
 class DiarySubtask(BaseModel):
     """サブタスク"""
 
-    title: ContentfulString
-    description: ContentfulString
+    title: NonEmptyString
+    description: str
     scheduled_time: time
     completed: bool
 
@@ -29,12 +29,12 @@ class DiarySubtask(BaseModel):
 class DiaryTask(BaseModel):
     """タスク"""
 
-    title: ContentfulString
-    description: ContentfulString
-    scheduled_time: time | None
+    title: NonEmptyString
+    description: str
+    scheduled_time: time | None  # サブタスクがある時はNone
     completed: bool
     repeat: bool
-    sub_task: list[DiarySubtask]
+    sub_tasks: list[DiarySubtask]
 
     @classmethod
     def from_dict(cls, data: dict) -> DiaryTask:
@@ -62,12 +62,12 @@ class DiaryTask(BaseModel):
 class Diary(BaseModel):
     """日記"""
 
-    pet_id: ContentfulString
+    pet_id: NonEmptyString
     date: date
-    picture_name: ContentfulString
+    picture_name: NonEmptyString
     reacted: bool
-    advice: ContentfulString
-    comment: ContentfulString
+    advice: NonEmptyString
+    comment: str
     weather: Weather
     temperature: float
     tasks: list[DiaryTask]
