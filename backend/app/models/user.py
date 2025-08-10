@@ -5,7 +5,7 @@ from enum import Enum
 
 from pydantic import BaseModel, Field
 
-from app.models.types import ContentfulString
+from app.models.types import NonEmptyString
 
 
 class UserRole(Enum):
@@ -19,9 +19,9 @@ class UserRole(Enum):
 class User(BaseModel):
     """ユーザー"""
 
-    user_id: ContentfulString
-    pet_id: ContentfulString
-    user_name: ContentfulString
+    user_id: NonEmptyString
+    pet_id: NonEmptyString
+    user_name: NonEmptyString
     user_role: UserRole
     password: str = Field(min_length=4)
     created_at: datetime = Field(default_factory=lambda: datetime.now(UTC))

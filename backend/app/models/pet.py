@@ -5,7 +5,7 @@ from enum import Enum
 
 from pydantic import BaseModel, Field, SerializationInfo, field_serializer
 
-from app.models.types import ContentfulString
+from app.models.types import NonEmptyString
 
 
 class PetGender(Enum):
@@ -29,8 +29,8 @@ class PetCareNoteIcon(Enum):
 class PetCareNote(BaseModel):
     """ペットの飼育情報"""
 
-    title: ContentfulString
-    description: ContentfulString
+    title: NonEmptyString
+    description: NonEmptyString
     icon: PetCareNoteIcon
 
     @field_serializer("icon")
@@ -55,13 +55,13 @@ class PetCareNote(BaseModel):
 class Pet(BaseModel):
     """ペット"""
 
-    pet_id: ContentfulString
-    name: ContentfulString
-    category: ContentfulString
+    pet_id: NonEmptyString
+    name: NonEmptyString
+    category: NonEmptyString
     birth_date: datetime = Field(default_factory=lambda: datetime.now(UTC))
     gender: PetGender
     care_notes: list[PetCareNote]
-    image_name: ContentfulString
+    image_name: NonEmptyString
     created_at: datetime = Field(default_factory=lambda: datetime.now(UTC))
     updated_at: datetime = Field(default_factory=lambda: datetime.now(UTC))
 
