@@ -31,10 +31,10 @@ class DiaryTask(BaseModel):
 
     title: NonEmptyString
     description: str
-    scheduled_time: time | None
+    scheduled_time: time | None  # サブタスクがある時はNone
     completed: bool
     repeat: bool
-    sub_task: list[DiarySubtask]
+    sub_tasks: list[DiarySubtask]
 
     @classmethod
     def from_dict(cls, data: dict) -> DiaryTask:
@@ -66,11 +66,11 @@ class Diary(BaseModel):
     date: date
     picture_name: NonEmptyString
     reacted: bool
-    advice: str
+    advice: NonEmptyString
     comment: str
     weather: Weather
     temperature: float
-    task: list[DiaryTask]
+    tasks: list[DiaryTask]
     created_at: datetime = Field(default_factory=lambda: datetime.now(UTC))
     updated_at: datetime = Field(default_factory=lambda: datetime.now(UTC))
 

@@ -27,7 +27,7 @@ def generate_task(total_sub_task: int = 3) -> dict:
         "scheduled_time": fake.time(pattern="%H:%M"),
         "completed": False,
         "repeat": fake.boolean(),
-        "sub_task": [generate_sub_task() for _ in range(total_sub_task)],
+        "sub_tasks": [generate_sub_task() for _ in range(total_sub_task)],
     }
 
 
@@ -46,7 +46,7 @@ def generate_diary(pet_id: str, diary_date: date, total_task: int = 1) -> dict:
         "temperature": str(round(random.uniform(10, 30), 1)),
         "category": fake.word(),
         "birth_date": date_of_birth,
-        "task": [generate_task(random.randint(0, 2)) for _ in range(total_task)],
+        "tasks": [generate_task(random.randint(0, 2)) for _ in range(total_task)],
         "created_at": now.isoformat(timespec="seconds"),
         "updated_at": now.isoformat(timespec="seconds"),
     }
