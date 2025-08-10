@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 import base64
-from datetime import UTC, datetime
+from datetime import UTC, date, datetime
 
 from aws_lambda_powertools import Logger
 from pydantic import BaseModel
@@ -20,7 +20,7 @@ class CreatePetServiceRequest(BaseModel):
     pet_id: str
     name: str
     category: str
-    birth_date: datetime
+    birth_date: date
     gender: PetGender
     picture_name: str
 
@@ -32,7 +32,7 @@ class CreatePetServiceResponse(BaseModel):
     pet_id: str
     name: str
     category: str
-    birth_date: datetime
+    birth_date: date
     gender: PetGender
     image_name: str
     care_notes: list[PetCareNote]

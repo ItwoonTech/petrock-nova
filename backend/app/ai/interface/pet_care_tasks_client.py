@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
-from datetime import datetime
+from datetime import date
 
 from app.models.diary import DiaryTask
 
@@ -8,7 +8,7 @@ from app.models.diary import DiaryTask
 @dataclass(frozen=True)
 class CareTasksPromptVariables:
     category: str
-    birth_date: datetime
+    birth_date: date
 
 
 class PetCareTasksClient(ABC):

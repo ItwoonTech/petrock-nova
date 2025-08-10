@@ -60,7 +60,7 @@ class BedrockPetCareTasksClient(PetCareTasksClient):
 
         prompt_text = prompt_template.format(
             category=prompt_variables.category,
-            birth_date=prompt_variables.birth_date,
+            birth_date=prompt_variables.birth_date.isoformat(),
         )
 
         base64_pet_picture = self.get_base64_image(pet_picture_key)

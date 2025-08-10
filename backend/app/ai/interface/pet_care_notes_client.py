@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
-from datetime import datetime
+from datetime import date
 
 from app.models.pet import PetCareNote, PetGender
 
@@ -8,7 +8,7 @@ from app.models.pet import PetCareNote, PetGender
 @dataclass(frozen=True)
 class CareNotesPromptVariables:
     category: str
-    birth_date: datetime
+    birth_date: date
     gender: PetGender
 
 

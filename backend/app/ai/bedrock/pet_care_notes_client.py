@@ -55,7 +55,7 @@ class BedrockPetCareNotesClient(PetCareNotesClient):
                 "text": prompt_variables.category,
             },
             "birth_date": {
-                "text": prompt_variables.birth_date.strftime("%Y-%m-%d"),
+                "text": prompt_variables.birth_date.isoformat(),
             },
             "gender": {
                 "text": prompt_variables.gender.value,

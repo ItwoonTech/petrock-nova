@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import date, datetime
 
 from pydantic import BaseModel
 
@@ -14,7 +14,7 @@ class GetPetServiceResponse(BaseModel):
     pet_id: str
     name: str
     category: str
-    birth_date: datetime
+    birth_date: date
     gender: PetGender
     care_notes: list[PetCareNote]
     image_name: str
