@@ -1,20 +1,24 @@
 from fastapi import APIRouter, Depends, HTTPException, status
 
 from app.api.dependencies import get_create_pet_service, get_get_pet_service
-from app.api.schemas.pet_schema import CreatePetRequestBody, GetPetResponseBody
+from app.api.schemas.pet_schema import CreatePetRequestBody
 from app.services.pet_service.create_pet_service import (
     CreatePetService,
     CreatePetServiceRequest,
     CreatePetServiceResponse,
 )
-from app.services.pet_service.get_pet_service import GetPetService, GetPetServiceRequest
+from app.services.pet_service.get_pet_service import (
+    GetPetService,
+    GetPetServiceRequest,
+    GetPetServiceResponse,
+)
 
 router = APIRouter()
 
 
 @router.get(
     "/{pet_id}",
-    response_model=GetPetResponseBody,
+    response_model=GetPetServiceResponse,
     tags=["Pet"],
     summary="ペットを取得する",
     operation_id="get_pet",
@@ -32,15 +36,7 @@ def get_pet(
             detail="ペットが見つかりませんでした",
         )
 
-    return GetPetResponseBody(
-        pet_id=response.pet_id,
-        name=response.name,
-        category=response.category,
-        birth_date=response.birth_date,
-        gender=response.gender,
-        care_notes=response.care_notes,
-        image_name=response.image_name,
-    )
+    return response
 
 
 @router.post(
