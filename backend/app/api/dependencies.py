@@ -3,10 +3,14 @@ import os
 from fastapi import Depends
 
 from app.ai.bedrock.pet_avatar_image_client import BedrockPetAvatarImageClient
+from app.ai.bedrock.pet_care_advice_client import BedrockPetCareAdviceClient
 from app.ai.bedrock.pet_care_notes_client import BedrockPetCareNotesClient
+from app.ai.bedrock.pet_care_tasks_client import BedrockPetCareTasksClient
 from app.ai.bedrock.pet_picture_description_client import BedrockPetPictureDescriptionClient
 from app.ai.interface.pet_avatar_image_client import PetAvatarImageClient
+from app.ai.interface.pet_care_advice_client import PetCareAdviceClient
 from app.ai.interface.pet_care_notes_client import PetCareNotesClient
+from app.ai.interface.pet_care_tasks_client import PetCareTasksClient
 from app.ai.interface.pet_picture_description_client import PetPictureDescriptionClient
 from app.repositories.dynamodb.diary_repository import DynamoDBDiaryRepository
 from app.repositories.dynamodb.pet_repository import DynamoDBPetRepository
@@ -16,6 +20,7 @@ from app.repositories.interface.image_repository import ImageRepository
 from app.repositories.interface.pet_repository import PetRepository
 from app.repositories.interface.user_repository import UserRepository
 from app.repositories.s3.image_repository import S3ImageRepository
+from app.services.diary_service.create_diary_service import CreateDiaryService
 from app.services.diary_service.get_diary_service import GetDiaryService
 from app.services.pet_service.create_pet_service import CreatePetService
 from app.services.pet_service.get_pet_service import GetPetService
@@ -64,6 +69,18 @@ def get_pet_care_notes_client() -> PetCareNotesClient:
     return BedrockPetCareNotesClient(SECRET_NAME)
 
 
+def get_pet_care_tasks_client(
+    image_repository: ImageRepository = Depends(get_image_repository),
+) -> PetCareTasksClient:
+    return BedrockPetCareTasksClient(SECRET_NAME, image_repository)
+
+
+def get_pet_care_advice_client(
+    image_repository: ImageRepository = Depends(get_image_repository),
+) -> PetCareAdviceClient:
+    return BedrockPetCareAdviceClient(SECRET_NAME, image_repository)
+
+
 def get_get_user_service(
     user_repository: UserRepository = Depends(get_user_repository),
 ) -> GetUserService:
@@ -104,13 +121,25 @@ def get_create_pet_service(
     )
 
 
-def get_get_presigned_url_service(
-    image_repository: ImageRepository = Depends(get_image_repository),
-) -> GetPresignedUrlService:
-    return GetPresignedUrlService(image_repository)
-
-
 def get_get_diary_service(
     diary_repository: DiaryRepository = Depends(get_diary_repository),
 ) -> GetDiaryService:
     return GetDiaryService(diary_repository)
+
+
+def get_create_diary_service(
+    pet_care_tasks_client: PetCareTasksClient = Depends(get_pet_care_tasks_client),
+    pet_care_advice_client: PetCareAdviceClient = Depends(get_pet_care_advice_client),
+    diary_repository: DiaryRepository = Depends(get_diary_repository),
+) -> CreateDiaryService:
+    return CreateDiaryService(
+        pet_care_tasks_client,
+        pet_care_advice_client,
+        diary_repository,
+    )
+
+
+def get_get_presigned_url_service(
+    image_repository: ImageRepository = Depends(get_image_repository),
+) -> GetPresignedUrlService:
+    return GetPresignedUrlService(image_repository)
