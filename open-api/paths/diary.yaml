@@ -24,6 +24,13 @@ pet/pet_id/diaries/date:
         application/json:
           schema:
             properties:
+              category:
+                type: string
+                description: ペットのカテゴリ
+              birth_date:
+                type: string
+                format: date
+                description: ペットの誕生日
               picture_name:
                 type: string
                 description: 日付に紐づく写真のファイル名
@@ -39,6 +46,8 @@ pet/pet_id/diaries/date:
               - picture_name
               - weather
               - temperature
+              - category
+              - birth_date
     responses:
       '201':
         description: 日記の作成に成功
