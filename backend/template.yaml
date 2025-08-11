@@ -48,7 +48,7 @@ Resources:
       Handler: main.handler
       Runtime: python3.11
       CodeUri: ./
-      Timeout: 30
+      Timeout: 60
       MemorySize: 512
       Events:
         PetrockNovaAPI:
