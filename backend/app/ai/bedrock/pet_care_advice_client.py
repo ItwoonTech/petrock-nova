@@ -3,12 +3,14 @@ import json
 
 import boto3
 
-from app.ai.interface.pet_care_tasks_client import CareTasksPromptVariables, PetCareTasksClient
-from app.models.diary import DiaryTask
+from app.ai.interface.pet_care_advice_client import (
+    PetCareAdviceClient,
+    PetCareAdvicePromptVariables,
+)
 from app.repositories.interface.image_repository import ImageRepository
 
 
-class BedrockPetCareTasksClient(PetCareTasksClient):
+class BedrockPetCareAdviceClient(PetCareAdviceClient):
     MODEL_ID = "apac.anthropic.claude-3-7-sonnet-20250219-v1:0"
 
     def __init__(
@@ -43,24 +45,27 @@ class BedrockPetCareTasksClient(PetCareTasksClient):
 
     def generate(
         self,
-        prompt_variables: CareTasksPromptVariables,
+        prompt_variables: PetCareAdvicePromptVariables,
         pet_picture_key: str,
-    ) -> list[DiaryTask]:
+    ) -> str:
         """
-        ペットの飼育タスクを生成する
+        飼育アドバイスを生成する
 
         Args:
-            prompt_variables (CareTasksPromptVariables): ペットの飼育情報を生成するための情報
+            prompt_variables (PetCareAdvicePromptVariables): プロンプトに埋め込む変数
             pet_picture_key (str): ペットの画像へのパス
 
         Returns:
-            list[DiaryTask]: ペットの飼育タスク
+            str: 飼育アドバイス
         """
         prompt_template = self.get_prompt()
 
         prompt_text = prompt_template.format(
-            category=prompt_variables.category,
             birth_date=prompt_variables.birth_date.isoformat(),
+            category=prompt_variables.category,
+            date=prompt_variables.date.isoformat(),
+            weather=prompt_variables.weather.value,
+            temperature=prompt_variables.temperature,
         )
 
         base64_pet_picture = self.get_base64_image(pet_picture_key)
@@ -73,6 +78,7 @@ class BedrockPetCareTasksClient(PetCareTasksClient):
                 {
                     "anthropic_version": "bedrock-2023-05-31",
                     "max_tokens": 1000,
+                    "temperature": 0.5,
                     "messages": [
                         {
                             "role": "user",
@@ -97,27 +103,22 @@ class BedrockPetCareTasksClient(PetCareTasksClient):
         )
 
         response_body = json.loads(response["body"].read())
-        tasks_text = response_body["content"][0]["text"]
+        advice_text = response_body["content"][0]["text"]
 
-        try:
-            tasks_dict = json.loads(tasks_text)
-        except json.JSONDecodeError as e:
-            raise ValueError(f"AIからのレスポンスをJSONに変換できませんでした: {e}")
-
-        return [DiaryTask.from_dict(task) for task in tasks_dict]
+        return advice_text
 
     def get_prompt(self) -> str:
         """
-        画像の説明文を生成するためのプロンプトを取得する
+        飼育アドバイスを生成するためのプロンプトを取得する
 
         Returns:
-            str: 画像の説明文を生成するためのプロンプト
+            str: 飼育アドバイスを生成するためのプロンプト
         """
         secrets_response = self.secrets_manager_client.get_secret_value(SecretId=self.secret_name)
         secrets = json.loads(secrets_response["SecretString"])
 
-        prompt_identifier = secrets["petCareTasksPromptIdentifier"]
-        prompt_version = secrets["petCareTasksPromptVersion"]
+        prompt_identifier = secrets["petCareAdvicePromptIdentifier"]
+        prompt_version = secrets["petCareAdvicePromptVersion"]
 
         response = self.bedrock_agent_client.get_prompt(
             promptIdentifier=prompt_identifier,

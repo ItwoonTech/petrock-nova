@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from datetime import UTC, datetime
+from datetime import UTC, date, datetime
 from enum import Enum
 
 from pydantic import BaseModel, Field, SerializationInfo, field_serializer
@@ -16,7 +16,7 @@ class PetGender(Enum):
 
 
 class PetCareNoteIcon(Enum):
-    """ペットの飼育うのアイコン"""
+    """ペットの飼育情報のアイコン"""
 
     DOG = "Dog"
     BONE = "Bone"
@@ -58,7 +58,7 @@ class Pet(BaseModel):
     pet_id: NonEmptyString
     name: NonEmptyString
     category: NonEmptyString
-    birth_date: datetime = Field(default_factory=lambda: datetime.now(UTC))
+    birth_date: date
     gender: PetGender
     care_notes: list[PetCareNote]
     image_name: NonEmptyString
