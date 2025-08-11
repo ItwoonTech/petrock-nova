@@ -19,7 +19,7 @@ class GetDiaryServiceResponse(BaseModel):
     advice: str
     comment: str
     weather: Weather
-    temperature: float
+    temperature: str
     tasks: list[DiaryTask]
     created_at: datetime
     updated_at: datetime
