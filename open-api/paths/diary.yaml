@@ -67,7 +67,7 @@ pet/pet_id/diaries/date:
             schema:
               $ref: '#/components/schemas/Error'
             example:
-              message: 'task must be an array'
+              message: '飼育タスクは配列でないといけません'
       '500':
         description: サーバーエラー
         content:
@@ -157,7 +157,7 @@ pet/pet_id/diaries/date:
               comment:
                 type: string
                 description: ユーザのコメント
-              task:
+              tasks:
                 type: array
                 items:
                   $ref: '#/components/schemas/DiaryTask'
