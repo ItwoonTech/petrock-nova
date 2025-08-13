@@ -80,7 +80,7 @@ class BedrockPetCareNotesClient(PetCareNotesClient):
         try:
             care_notes = json.loads(care_notes_text)
         except json.JSONDecodeError as e:
-            raise ValueError(f"AIからのレスポンスをJSONに変換できませんでした: {e}")
+            raise json.JSONDecodeError(f"AIからのレスポンスをJSONに変換できませんでした: {e}")
 
         return [
             PetCareNote(
