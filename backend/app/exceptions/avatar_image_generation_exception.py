@@ -1,0 +1,2 @@
+class AvatarImageGenerationException(Exception):
+    pass

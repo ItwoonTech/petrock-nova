@@ -4,6 +4,7 @@ import boto3
 
 from app.ai.interface.pet_avatar_image_client import PetAvatarImageClient
 from app.ai.interface.pet_picture_description_client import PetPictureDescription
+from app.exceptions.avatar_image_generation_exception import AvatarImageGenerationException
 
 
 class BedrockPetAvatarImageClient(PetAvatarImageClient):
@@ -63,10 +64,14 @@ class BedrockPetAvatarImageClient(PetAvatarImageClient):
             response_body = json.loads(response["body"].read())
 
             if "images" not in response_body:
-                raise Exception("画像生成に失敗しました: レスポンスに画像が含まれていません")
+                raise AvatarImageGenerationException(
+                    "画像生成に失敗しました: レスポンスに画像が含まれていません"
+                )
 
             if not response_body["images"]:
-                raise Exception("画像生成に失敗しました: レスポンスの画像が空です")
+                raise AvatarImageGenerationException(
+                    "画像生成に失敗しました: レスポンスの画像が空です"
+                )
 
             return response_body["images"][0]
         except Exception as exception:
