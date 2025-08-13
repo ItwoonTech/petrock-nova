@@ -19,10 +19,11 @@ class DynamoDBChatRepository(ChatRepository):
         self.table = dynamodb.Table(table_name)
 
     def get_by_pet_id(self, pet_id: str) -> list[ChatMessage] | None:
-        """ペットIDに基づいてチャット履歴を取得する
+        """
+        ペットidに基づいてチャット履歴を取得する
 
         Args:
-            pet_id (str): ペットID
+            pet_id (str): ペットid
 
         Returns:
             list[ChatMessage] | None: チャットメッセージのリスト（存在しない場合はNone）
@@ -41,24 +42,26 @@ class DynamoDBChatRepository(ChatRepository):
         return [ChatMessage.from_dict(message) for message in chat_history]
 
     def append_message(self, pet_id: str, message: ChatMessage) -> None:
-        """チャット履歴にメッセージを追加する
+        """
+        チャット履歴にメッセージを追加する
 
         Args:
-            pet_id (str): ペットID
+            pet_id (str): ペットid
             message (ChatMessage): 追加するメッセージ
         """
-        response = self.table.get_item(Key={"pet_id": pet_id}, ProjectionExpression="chat_history")
-
-        if "Item" not in response:
-            raise Exception("ペットが作成されていません")
-
-        item = response["Item"]
-
-        chat_history = item.get("chat_history", [])
-        chat_history.append(message.model_dump())
-
         self.table.update_item(
             Key={"pet_id": pet_id},
-            UpdateExpression="SET chat_history = :chat_history",
-            ExpressionAttributeValues={":chat_history": chat_history},
+            UpdateExpression="""
+                SET chat_history = list_append(
+                    if_not_exists(
+                        chat_history,
+                        :empty_list
+                    ),
+                    :chat_message
+                )
+            """,
+            ExpressionAttributeValues={
+                ":empty_list": [],
+                ":chat_message": [message.model_dump()],
+            },
         )
