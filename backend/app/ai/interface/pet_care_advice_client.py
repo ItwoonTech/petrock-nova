@@ -6,26 +6,26 @@ from app.models.diary import Weather
 
 
 @dataclass(frozen=True)
-class PetCareAdvicePromptVariables:
+class CareAdvicePromptVariables:
     birth_date: date
     category: str
     date: date
     weather: Weather
-    temperature: float
+    temperature: str
 
 
 class PetCareAdviceClient(ABC):
     @abstractmethod
     def generate(
         self,
-        prompt_variables: PetCareAdvicePromptVariables,
+        prompt_variables: CareAdvicePromptVariables,
         pet_picture_key: str,
     ) -> str:
         """
         飼育アドバイスを生成する
 
         Args:
-            prompt_variables (PetCareAdvicePromptVariables): プロンプトに埋め込む変数
+            prompt_variables (CareAdvicePromptVariables): プロンプトに埋め込む変数
             pet_picture_key (str): ペットの画像へのパス
 
         Returns:

@@ -8,22 +8,8 @@ API_BASE_URL = "http://localhost:3000"
 
 
 class PetAPIAction(Enum):
-    GET = "GET /pets/{pet_id}"
     POST = "POST /pets/{pet_id}"
-
-
-def get_pet(pet_id: str) -> None:
-    print(f"Testing GET /pets/{pet_id}")
-
-    url = f"{API_BASE_URL}/pets/{pet_id}"
-    headers = {"Content-Type": "application/json"}
-
-    try:
-        response = requests.get(url, headers=headers)
-        print(f"Status: {response.status_code}")
-        print(response.json())
-    except requests.exceptions.RequestException as exception:
-        print(exception)
+    GET = "GET /pets/{pet_id}"
 
 
 def create_pet(pet_id: str) -> None:
@@ -51,6 +37,20 @@ def create_pet(pet_id: str) -> None:
         print(exception)
 
 
+def get_pet(pet_id: str) -> None:
+    print(f"Testing GET /pets/{pet_id}")
+
+    url = f"{API_BASE_URL}/pets/{pet_id}"
+    headers = {"Content-Type": "application/json"}
+
+    try:
+        response = requests.get(url, headers=headers)
+        print(f"Status: {response.status_code}")
+        print(response.json())
+    except requests.exceptions.RequestException as exception:
+        print(exception)
+
+
 def show_menu() -> None:
     pet_id = "460b1c2d-5d81-4ca7-8bd7-ab3a50809c08"
 
@@ -60,8 +60,8 @@ def show_menu() -> None:
                 "action",
                 message="PetRock Pet API Test CLI",
                 choices=[
-                    PetAPIAction.GET.value,
                     PetAPIAction.POST.value,
+                    PetAPIAction.GET.value,
                     "Exit",
                 ],
             )
@@ -72,10 +72,10 @@ def show_menu() -> None:
             break
 
         action = answers["action"]
-        if action == PetAPIAction.GET.value:
-            get_pet(pet_id)
-        elif action == PetAPIAction.POST.value:
+        if action == PetAPIAction.POST.value:
             create_pet(pet_id)
+        elif action == PetAPIAction.GET.value:
+            get_pet(pet_id)
         elif action == "Exit":
             break
 

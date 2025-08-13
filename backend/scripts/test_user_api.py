@@ -8,23 +8,9 @@ API_BASE_URL = "http://localhost:3000"
 
 
 class UserAPIAction(Enum):
-    GET = "GET /users/{user_id}"
     POST = "POST /users/{user_id}"
+    GET = "GET /users/{user_id}"
     PUT = "PUT /users/{user_id}"
-
-
-def get_user(user_id: str) -> None:
-    print(f"Testing GET /users/{user_id}")
-
-    url = f"{API_BASE_URL}/users/{user_id}"
-    headers = {"Content-Type": "application/json"}
-
-    try:
-        response = requests.get(url, headers=headers)
-        print(f"Status: {response.status_code}")
-        print(response.json())
-    except requests.exceptions.RequestException as exception:
-        print(exception)
 
 
 def create_user(user_id: str) -> None:
@@ -41,6 +27,20 @@ def create_user(user_id: str) -> None:
 
     try:
         response = requests.post(url, headers=headers, json=request_body)
+        print(f"Status: {response.status_code}")
+        print(response.json())
+    except requests.exceptions.RequestException as exception:
+        print(exception)
+
+
+def get_user(user_id: str) -> None:
+    print(f"Testing GET /users/{user_id}")
+
+    url = f"{API_BASE_URL}/users/{user_id}"
+    headers = {"Content-Type": "application/json"}
+
+    try:
+        response = requests.get(url, headers=headers)
         print(f"Status: {response.status_code}")
         print(response.json())
     except requests.exceptions.RequestException as exception:
@@ -74,8 +74,8 @@ def show_menu() -> None:
                 "action",
                 message="PetRock API Test CLI",
                 choices=[
-                    UserAPIAction.GET.value,
                     UserAPIAction.POST.value,
+                    UserAPIAction.GET.value,
                     UserAPIAction.PUT.value,
                     "Exit",
                 ],
@@ -87,10 +87,10 @@ def show_menu() -> None:
             break
 
         action = answers["action"]
-        if action == UserAPIAction.GET.value:
-            get_user(user_id)
-        elif action == UserAPIAction.POST.value:
+        if action == UserAPIAction.POST.value:
             create_user(user_id)
+        elif action == UserAPIAction.GET.value:
+            get_user(user_id)
         elif action == UserAPIAction.PUT.value:
             update_user(user_id)
         elif action == "Exit":
