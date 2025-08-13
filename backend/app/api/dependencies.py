@@ -12,14 +12,17 @@ from app.ai.interface.pet_care_advice_client import PetCareAdviceClient
 from app.ai.interface.pet_care_notes_client import PetCareNotesClient
 from app.ai.interface.pet_care_tasks_client import PetCareTasksClient
 from app.ai.interface.pet_picture_description_client import PetPictureDescriptionClient
+from app.repositories.dynamodb.chat_repository import DynamoDBChatRepository
 from app.repositories.dynamodb.diary_repository import DynamoDBDiaryRepository
 from app.repositories.dynamodb.pet_repository import DynamoDBPetRepository
 from app.repositories.dynamodb.user_repository import DynamoDBUserRepository
+from app.repositories.interface.chat_repository import ChatRepository
 from app.repositories.interface.diary_repository import DiaryRepository
 from app.repositories.interface.image_repository import ImageRepository
 from app.repositories.interface.pet_repository import PetRepository
 from app.repositories.interface.user_repository import UserRepository
 from app.repositories.s3.image_repository import S3ImageRepository
+from app.services.chat_service.get_chat_service import GetChatService
 from app.services.diary_service.create_diary_service import CreateDiaryService
 from app.services.diary_service.get_diary_service import GetDiaryService
 from app.services.pet_service.create_pet_service import CreatePetService
@@ -53,6 +56,10 @@ def get_image_repository() -> ImageRepository:
 
 def get_diary_repository() -> DiaryRepository:
     return DynamoDBDiaryRepository(DIARY_TABLE_NAME, DYNAMODB_ENDPOINT_URL)
+
+
+def get_chat_repository() -> ChatRepository:
+    return DynamoDBChatRepository(PET_TABLE_NAME, DYNAMODB_ENDPOINT_URL)
 
 
 def get_pet_picture_description_client(
@@ -137,6 +144,12 @@ def get_create_diary_service(
         pet_care_advice_client,
         diary_repository,
     )
+
+
+def get_get_chat_service(
+    chat_repository: ChatRepository = Depends(get_chat_repository),
+) -> GetChatService:
+    return GetChatService(chat_repository)
 
 
 def get_get_presigned_url_service(

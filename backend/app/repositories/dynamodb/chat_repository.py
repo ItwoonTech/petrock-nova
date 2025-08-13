@@ -1,5 +1,6 @@
 import boto3
 
+from app.exceptions.pet_not_found_exception import PetNotFoundException
 from app.models.chat import ChatMessage
 from app.repositories.interface.chat_repository import ChatRepository
 
@@ -26,17 +27,20 @@ class DynamoDBChatRepository(ChatRepository):
             pet_id (str): ペットid
 
         Returns:
-            list[ChatMessage] | None: チャットメッセージのリスト（存在しない場合はNone）
+            list[ChatMessage] | None: チャット履歴（存在しない場合はNone）
+
+        Raises:
+            PetNotFoundException: ペットが存在しない場合
         """
         response = self.table.get_item(Key={"pet_id": pet_id}, ProjectionExpression="chat_history")
 
         if "Item" not in response:
-            return None
+            raise PetNotFoundException(f"ペットが見つかりませんでした: {pet_id}")
 
         item = response["Item"]
 
         if "chat_history" not in item:
-            return []
+            return None
 
         chat_history = item["chat_history"]
         return [ChatMessage.from_dict(message) for message in chat_history]
