@@ -6,7 +6,7 @@ from app.ai.interface.pet_care_notes_client import (
     CareNotesPromptVariables,
     PetCareNotesClient,
 )
-from app.exceptions.care_notes_generaton_exception import CareNotesGenerationException
+from app.exceptions.care_notes_generation_exception import CareNotesGenerationException
 from app.models.pet import PetCareNote
 
 
