@@ -1,0 +1,2 @@
+class CareTasksGenerationException(Exception):
+    pass

@@ -1,0 +1,2 @@
+class PictureDescriptionException(Exception):
+    pass

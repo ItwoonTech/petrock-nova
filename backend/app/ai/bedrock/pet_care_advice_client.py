@@ -7,6 +7,8 @@ from app.ai.interface.pet_care_advice_client import (
     CareAdvicePromptVariables,
     PetCareAdviceClient,
 )
+from app.exceptions.image_not_found_exception import ImageNotFoundException
+from app.exceptions.prompt_not_found_exception import PromptNotFoundException
 from app.repositories.interface.image_repository import ImageRepository
 
 
@@ -131,7 +133,7 @@ class BedrockPetCareAdviceClient(PetCareAdviceClient):
             if variant["name"] == default_variant_name:
                 return variant["templateConfiguration"]["text"]["text"]
 
-        raise ValueError("プロンプトが見つかりませんでした")
+        raise PromptNotFoundException("プロンプトが見つかりませんでした")
 
     def get_base64_image(self, s3_image_key: str) -> str:
         """
@@ -149,6 +151,6 @@ class BedrockPetCareAdviceClient(PetCareAdviceClient):
         image_bytes = self.image_repository.get_by_key(s3_image_key)
 
         if image_bytes is None:
-            raise ValueError(f"画像が見つかりませんでした: {s3_image_key}")
+            raise ImageNotFoundException(f"画像が見つかりませんでした: {s3_image_key}")
 
         return base64.b64encode(image_bytes).decode("utf-8")

@@ -5,6 +5,7 @@ from pydantic import BaseModel
 
 from app.ai.interface.pet_care_advice_client import CareAdvicePromptVariables, PetCareAdviceClient
 from app.ai.interface.pet_care_tasks_client import CareTasksPromptVariables, PetCareTasksClient
+from app.exceptions.diary_creation_exception import DiaryCreationException
 from app.models.diary import Diary, DiaryTask, Weather
 from app.repositories.interface.diary_repository import DiaryRepository
 
@@ -56,7 +57,7 @@ class CreateDiaryService:
                 logger.exception(str(e))
                 last_exception = e
 
-        raise Exception("日記の作成に失敗しました") from last_exception
+        raise DiaryCreationException("日記の作成に失敗しました") from last_exception
 
     def try_create_diary(self, request: CreateDiaryServiceRequest) -> CreateDiaryServiceResponse:
         # 飼育タスクを生成

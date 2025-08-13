@@ -6,6 +6,7 @@ from app.ai.interface.pet_care_notes_client import (
     CareNotesPromptVariables,
     PetCareNotesClient,
 )
+from app.exceptions.care_notes_generation_exception import CareNotesGenerationException
 from app.models.pet import PetCareNote
 
 
@@ -80,7 +81,9 @@ class BedrockPetCareNotesClient(PetCareNotesClient):
         try:
             care_notes = json.loads(care_notes_text)
         except json.JSONDecodeError as e:
-            raise ValueError(f"AIからのレスポンスをJSONに変換できませんでした: {e}")
+            raise CareNotesGenerationException(
+                f"AIからのレスポンスをJSONに変換できませんでした: {e}"
+            ) from e
 
         return [
             PetCareNote(

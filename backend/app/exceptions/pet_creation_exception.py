@@ -1,0 +1,2 @@
+class PetCreationException(Exception):
+    pass

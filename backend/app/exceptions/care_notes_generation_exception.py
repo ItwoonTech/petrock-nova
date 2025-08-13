@@ -1,0 +1,2 @@
+class CareNotesGenerationException(Exception):
+    pass
