@@ -23,13 +23,13 @@ class DynamoDBDiaryRepository(DiaryRepository):
             dynamodb_endpoint_url (str): DynamoDBのエンドポイントURL
             region_name (str, optional): リージョン名
         """
-        self.dynamodb = boto3.resource(
+        dynamodb = boto3.resource(
             "dynamodb",
             region_name=region_name,
             endpoint_url=dynamodb_endpoint_url,
         )
 
-        self.table = self.dynamodb.Table(table_name)
+        self.table = dynamodb.Table(table_name)
 
     def get_by_id(self, pet_id: str, date: date) -> Diary | None:
         """日記を取得する
