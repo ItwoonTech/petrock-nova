@@ -4,7 +4,6 @@ from app.api.dependencies import get_get_chat_service
 from app.services.chat_service.get_chat_service import (
     GetChatService,
     GetChatServiceRequest,
-    GetChatServiceResponse,
 )
 
 router = APIRouter()
@@ -12,7 +11,7 @@ router = APIRouter()
 
 @router.get(
     "",
-    response_model=GetChatServiceResponse,
+    response_model=list[str],
     tags=["Chat"],
     summary="チャット履歴を取得する",
     operation_id="get_chat",
@@ -30,4 +29,4 @@ def get_chat(
             detail="チャット履歴が見つかりませんでした",
         )
 
-    return response
+    return [message.content for message in response.chat_history]
