@@ -9,6 +9,7 @@ from pydantic import BaseModel
 from app.ai.interface.pet_avatar_image_client import PetAvatarImageClient
 from app.ai.interface.pet_care_notes_client import CareNotesPromptVariables, PetCareNotesClient
 from app.ai.interface.pet_picture_description_client import PetPictureDescriptionClient
+from app.exceptions.pet_creation_exception import PetCreationException
 from app.models.pet import Pet, PetCareNote, PetGender
 from app.repositories.interface.image_repository import ImageRepository
 from app.repositories.interface.pet_repository import PetRepository
@@ -84,7 +85,7 @@ class CreatePetService:
                 logger.exception(str(e))
                 last_exception = e
 
-        raise Exception("ペットの作成に失敗しました") from last_exception
+        raise PetCreationException("ペットの作成に失敗しました") from last_exception
 
     def try_create_pet(self, request: CreatePetServiceRequest) -> CreatePetServiceResponse:
         # ペットの画像から説明文を生成
