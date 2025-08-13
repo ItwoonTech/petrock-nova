@@ -7,7 +7,7 @@ s3_prefix = "petrock-nova-infra"
 region = "ap-northeast-1"
 confirm_changeset = true
 capabilities = "CAPABILITY_IAM CAPABILITY_AUTO_EXPAND"
-parameter_overrides = "Environment=\"dev\""
+parameter_overrides = "Environment=\"local\""
 image_repositories = []
 
 [prod.deploy.parameters]
@@ -17,5 +17,5 @@ s3_prefix = "petrock-nova-infra"
 region = "ap-northeast-1"
 confirm_changeset = true
 capabilities = "CAPABILITY_IAM CAPABILITY_AUTO_EXPAND"
-parameter_overrides = "Environment=\"prod\""
+parameter_overrides = "Environment=\"remote\""
 image_repositories = []
