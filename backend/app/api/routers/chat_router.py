@@ -1,6 +1,7 @@
 from fastapi import APIRouter, Depends, HTTPException, status
 
 from app.api.dependencies import get_get_chat_service
+from app.exceptions.pet_not_found_exception import PetNotFoundException
 from app.services.chat_service.get_chat_service import (
     GetChatService,
     GetChatServiceRequest,
@@ -21,7 +22,14 @@ def get_chat(
     get_chat_service: GetChatService = Depends(get_get_chat_service),
 ):
     request = GetChatServiceRequest(pet_id=pet_id)
-    response = get_chat_service.execute(request)
+
+    try:
+        response = get_chat_service.execute(request)
+    except PetNotFoundException:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="ペットが見つかりませんでした",
+        )
 
     if response is None:
         raise HTTPException(
