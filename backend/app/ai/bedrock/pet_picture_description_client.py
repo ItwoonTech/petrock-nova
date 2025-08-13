@@ -8,6 +8,7 @@ from app.ai.interface.pet_picture_description_client import (
     PetPictureDescriptionClient,
 )
 from app.exceptions.image_not_found_exception import ImageNotFoundException
+from app.exceptions.picture_description_exception import PictureDescriptionException
 from app.exceptions.prompt_not_found_exception import PromptNotFoundException
 from app.repositories.interface.image_repository import ImageRepository
 
@@ -96,7 +97,9 @@ class BedrockPetPictureDescriptionClient(PetPictureDescriptionClient):
         try:
             description_dict = json.loads(description_text)
         except json.JSONDecodeError as e:
-            raise json.JSONDecodeError(f"AIからのレスポンスをJSONに変換できませんでした: {e}")
+            raise PictureDescriptionException(
+                f"AIからのレスポンスをJSONに変換できませんでした: {e}"
+            ) from e
 
         return PetPictureDescription(
             positive_prompt=description_dict["positive_prompt"],
