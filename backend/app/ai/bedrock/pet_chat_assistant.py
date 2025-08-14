@@ -2,12 +2,12 @@ import json
 
 import boto3
 
-from app.ai.interface.pet_chat_assisstant import PetChatAssistant
+from app.ai.interface.pet_chat_assistant import PetChatAssistant
 from app.models.chat import ChatMessage
 from app.repositories.interface.chat_repository import ChatRepository
 
 
-class BedrockPetChatAssisstant(PetChatAssistant):
+class BedrockPetChatAssistant(PetChatAssistant):
     def __init__(
         self,
         secret_name: str,
@@ -72,8 +72,8 @@ class BedrockPetChatAssisstant(PetChatAssistant):
         secret_response = self.secret_manager_client.get_secret_value(SecretId=self.secret_name)
         secrets = json.loads(secret_response["SecretString"])
 
-        agent_id = secrets["chatAssisstantAgentId"]
-        agent_alias_id = secrets["chatAssisstantAgentAliasId"]
+        agent_id = secrets.get("chatAssistantAgentId")
+        agent_alias_id = secrets.get("chatAssistantAgentAliasId")
 
         if agent_id is None:
             raise ValueError("agent_id がシークレットに存在しません")
