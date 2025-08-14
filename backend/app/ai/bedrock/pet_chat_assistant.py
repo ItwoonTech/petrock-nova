@@ -26,7 +26,7 @@ class BedrockPetChatAssistant(PetChatAssistant):
         self.secret_name = secret_name
         self.chat_repository = chat_repository
 
-    def chat(self, pet_id: str, user_message: ChatMessage) -> ChatMessage:
+    def converse(self, pet_id: str, user_message: ChatMessage) -> ChatMessage:
         """
         AIアシスタントと会話する
 

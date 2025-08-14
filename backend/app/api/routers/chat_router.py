@@ -48,9 +48,9 @@ def get_chat(
     response_model=str,
     tags=["Chat"],
     summary="メッセージを送信して応答を得る",
-    operation_id="chat",
+    operation_id="converse",
 )
-def chat(
+def converse(
     pet_id: str,
     request_body: ChatRequestBody,
     chat_service: ChatService = Depends(get_chat_service),
