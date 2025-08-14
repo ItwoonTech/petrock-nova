@@ -110,6 +110,9 @@ wheels = [
 bedrock-agent = [
     { name = "mypy-boto3-bedrock-agent" },
 ]
+bedrock-agent-runtime = [
+    { name = "mypy-boto3-bedrock-agent-runtime" },
+]
 bedrock-runtime = [
     { name = "mypy-boto3-bedrock-runtime" },
 ]
@@ -752,6 +755,18 @@ wheels = [
 ]
 
 [[package]]
+name = "mypy-boto3-bedrock-agent-runtime"
+version = "1.39.0"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "typing-extensions", marker = "python_full_version < '3.12'" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/00/59/6d1bdff8a5a1583d8e72e5d34a6fb8aeb594d465fdca4639cbba9f2e2ae8/mypy_boto3_bedrock_agent_runtime-1.39.0.tar.gz", hash = "sha256:03337e9793dba735c95a2e08d6f545d3bc11e71edea0335a5fb7a19d622e80c7", size = 41063, upload-time = "2025-06-30T19:34:03.752Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/ba/1f/7a58994c9140f5b916586505fe51297f1c6ea4be60ca8066a2be6891f3e8/mypy_boto3_bedrock_agent_runtime-1.39.0-py3-none-any.whl", hash = "sha256:c1c87c6824157517ecda03f6b6334331271063df82a637b04b6ee75560503a59", size = 49743, upload-time = "2025-06-30T19:34:02.209Z" },
+]
+
+[[package]]
 name = "mypy-boto3-bedrock-runtime"
 version = "1.39.7"
 source = { registry = "https://pypi.org/simple" }
@@ -900,7 +915,7 @@ dependencies = [
 
 [package.dev-dependencies]
 dev = [
-    { name = "boto3-stubs", extra = ["bedrock-agent", "bedrock-runtime", "essential", "secretsmanager"] },
+    { name = "boto3-stubs", extra = ["bedrock-agent", "bedrock-agent-runtime", "bedrock-runtime", "essential", "secretsmanager"] },
     { name = "inquirer" },
     { name = "ipykernel" },
     { name = "requests" },
@@ -918,7 +933,7 @@ requires-dist = [
 
 [package.metadata.requires-dev]
 dev = [
-    { name = "boto3-stubs", extras = ["bedrock-agent", "bedrock-runtime", "essential", "secretsmanager"], specifier = ">=1.39.11" },
+    { name = "boto3-stubs", extras = ["bedrock-agent", "bedrock-agent-runtime", "bedrock-runtime", "essential", "secretsmanager"], specifier = ">=1.39.11" },
     { name = "inquirer", specifier = ">=3.4.0" },
     { name = "ipykernel", specifier = ">=6.30.0" },
     { name = "requests", specifier = ">=2.32.4" },

@@ -10,7 +10,7 @@ class ChatRepository(ABC):
         チャット履歴を取得する
 
         Args:
-            pet_id (str): ペットid
+            pet_id (str): ペットID
         """
         pass
 
@@ -20,7 +20,7 @@ class ChatRepository(ABC):
         チャット履歴にメッセージを追加する
 
         Args:
-            pet_id (str): ペットid
+            pet_id (str): ペットID
             message (ChatMessage): チャットメッセージ
 
         Notes:
