@@ -21,10 +21,10 @@ class DynamoDBChatRepository(ChatRepository):
 
     def get_by_pet_id(self, pet_id: str) -> list[ChatMessage] | None:
         """
-        ペットidに基づいてチャット履歴を取得する
+        ペットIDに基づいてチャット履歴を取得する
 
         Args:
-            pet_id (str): ペットid
+            pet_id (str): ペットID
 
         Returns:
             list[ChatMessage] | None: チャット履歴（存在しない場合はNone）
@@ -50,7 +50,7 @@ class DynamoDBChatRepository(ChatRepository):
         チャット履歴にメッセージを追加する
 
         Args:
-            pet_id (str): ペットid
+            pet_id (str): ペットID
             message (ChatMessage): 追加するメッセージ
         """
         self.table.update_item(

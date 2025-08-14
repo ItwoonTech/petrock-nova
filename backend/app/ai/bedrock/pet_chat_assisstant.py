@@ -31,7 +31,7 @@ class BedrockPetChatAssisstant(PetChatAssistant):
         AIアシスタントと会話する
 
         Args:
-            pet_id: ペットid
+            pet_id: ペットID
             user_message: ユーザーからのメッセージ
 
         Returns:
