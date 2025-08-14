@@ -6,11 +6,13 @@ from app.ai.bedrock.pet_avatar_image_client import BedrockPetAvatarImageClient
 from app.ai.bedrock.pet_care_advice_client import BedrockPetCareAdviceClient
 from app.ai.bedrock.pet_care_notes_client import BedrockPetCareNotesClient
 from app.ai.bedrock.pet_care_tasks_client import BedrockPetCareTasksClient
+from app.ai.bedrock.pet_chat_assistant import BedrockPetChatAssistant
 from app.ai.bedrock.pet_picture_description_client import BedrockPetPictureDescriptionClient
 from app.ai.interface.pet_avatar_image_client import PetAvatarImageClient
 from app.ai.interface.pet_care_advice_client import PetCareAdviceClient
 from app.ai.interface.pet_care_notes_client import PetCareNotesClient
 from app.ai.interface.pet_care_tasks_client import PetCareTasksClient
+from app.ai.interface.pet_chat_assistant import PetChatAssistant
 from app.ai.interface.pet_picture_description_client import PetPictureDescriptionClient
 from app.repositories.dynamodb.chat_repository import DynamoDBChatRepository
 from app.repositories.dynamodb.diary_repository import DynamoDBDiaryRepository
@@ -22,6 +24,7 @@ from app.repositories.interface.image_repository import ImageRepository
 from app.repositories.interface.pet_repository import PetRepository
 from app.repositories.interface.user_repository import UserRepository
 from app.repositories.s3.image_repository import S3ImageRepository
+from app.services.chat_service.chat_service import ChatService
 from app.services.chat_service.get_chat_service import GetChatService
 from app.services.diary_service.create_diary_service import CreateDiaryService
 from app.services.diary_service.get_diary_service import GetDiaryService
@@ -88,6 +91,12 @@ def get_pet_care_advice_client(
     return BedrockPetCareAdviceClient(SECRET_NAME, image_repository)
 
 
+def get_pet_chat_assistant(
+    chat_repository: ChatRepository = Depends(get_chat_repository),
+) -> PetChatAssistant:
+    return BedrockPetChatAssistant(SECRET_NAME, chat_repository)
+
+
 def get_get_user_service(
     user_repository: UserRepository = Depends(get_user_repository),
 ) -> GetUserService:
@@ -150,6 +159,13 @@ def get_get_chat_service(
     chat_repository: ChatRepository = Depends(get_chat_repository),
 ) -> GetChatService:
     return GetChatService(chat_repository)
+
+
+def get_chat_service(
+    pet_chat_assistant: PetChatAssistant = Depends(get_pet_chat_assistant),
+    chat_repository: ChatRepository = Depends(get_chat_repository),
+) -> ChatService:
+    return ChatService(pet_chat_assistant, chat_repository)
 
 
 def get_get_presigned_url_service(

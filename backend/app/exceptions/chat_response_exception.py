@@ -1,0 +1,2 @@
+class ChatResponseException(Exception):
+    pass

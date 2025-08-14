@@ -5,7 +5,7 @@ from app.models.chat import ChatMessage
 
 class PetChatAssistant(ABC):
     @abstractmethod
-    def chat(self, pet_id: str, user_message: ChatMessage) -> ChatMessage:
+    def converse(self, pet_id: str, user_message: ChatMessage) -> ChatMessage:
         """
         AIアシスタントと会話する
 

@@ -1,7 +1,10 @@
 from fastapi import APIRouter, Depends, HTTPException, status
 
-from app.api.dependencies import get_get_chat_service
+from app.api.dependencies import get_chat_service, get_get_chat_service
+from app.api.schemas.chat_schema import ChatRequestBody
 from app.exceptions.pet_not_found_exception import PetNotFoundException
+from app.models.chat import ChatMessage
+from app.services.chat_service.chat_service import ChatService, ChatServiceRequest
 from app.services.chat_service.get_chat_service import (
     GetChatService,
     GetChatServiceRequest,
@@ -38,3 +41,24 @@ def get_chat(
         )
 
     return [message.content for message in response.chat_history]
+
+
+@router.post(
+    "",
+    response_model=str,
+    tags=["Chat"],
+    summary="メッセージを送信して応答を得る",
+    operation_id="converse",
+)
+def converse(
+    pet_id: str,
+    request_body: ChatRequestBody,
+    chat_service: ChatService = Depends(get_chat_service),
+) -> str:
+    request = ChatServiceRequest(
+        pet_id=pet_id,
+        user_message=ChatMessage(content=request_body.content),
+    )
+    response = chat_service.execute(request)
+
+    return response.assistant_response.content
