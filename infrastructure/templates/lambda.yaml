@@ -28,9 +28,9 @@ Resources:
   GetPetFunction:
     Type: AWS::Serverless::Function
     Properties:
-      FunctionName: GetPetFunction
+      FunctionName: petrock-nova-GetPetFunction
       CodeUri: ../resources/functions/pet_handler/
-      Handler: pet_handler.get_pet
+      Handler: pet_handler.lambda_handler
       Policies:
         - DynamoDBReadPolicy:
             TableName:
@@ -48,9 +48,9 @@ Resources:
   GetDiaryFunction:
     Type: AWS::Serverless::Function
     Properties:
-      FunctionName: GetDiaryFunction
+      FunctionName: petrock-nova-GetDiaryFunction
       CodeUri: ../resources/functions/diary_handler/
-      Handler: diary_handler.get_diary
+      Handler: diary_handler.lambda_handler
       Policies:
         - DynamoDBReadPolicy:
             TableName:
@@ -65,35 +65,12 @@ Resources:
           DIARY_TABLE_NAME:
             Ref: DiaryTableName
 
-  UpdateChatFunction:
-    Type: AWS::Serverless::Function
-    Properties:
-      FunctionName: UpdateChatFunction
-      CodeUri: ../resources/functions/chat_handler/
-      Handler: chat_handler.update_chat
-      Policies:
-        - DynamoDBReadPolicy:
-            TableName:
-              Ref: PetTableName
-        - DynamoDBWritePolicy:
-            TableName:
-              Ref: PetTableName
-      Environment:
-        Variables:
-          DYNAMODB_ENDPOINT_URL:
-            Fn::If:
-              - IsLocalEnvironment
-              - "http://localstack:4566"
-              - Ref: "AWS::NoValue"
-          PET_TABLE_NAME:
-            Ref: PetTableName
-
   GetChatFunction:
       Type: AWS::Serverless::Function
       Properties:
-        FunctionName: GetChatFunction
+        FunctionName: petrock-nova-GetChatFunction
         CodeUri: ../resources/functions/chat_handler/
-        Handler: chat_handler.get_chat
+        Handler: chat_handler.lambda_handler
         Policies:
           - DynamoDBReadPolicy:
               TableName:

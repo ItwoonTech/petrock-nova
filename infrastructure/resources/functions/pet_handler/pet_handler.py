@@ -1,8 +1,12 @@
-import json
 import os
-from http import HTTPStatus
 
 import boto3
+from aws_lambda_powertools.event_handler import BedrockAgentFunctionResolver
+from aws_lambda_powertools.event_handler.exceptions import (
+    BadRequestError,
+    InternalServerError,
+    NotFoundError,
+)
 from aws_lambda_powertools.utilities.typing import LambdaContext
 
 DYNAMODB_ENDPOINT_URL = os.getenv("DYNAMODB_ENDPOINT_URL")
@@ -15,37 +19,28 @@ dynamodb = boto3.resource(
 )
 pet_table = dynamodb.Table(PET_TABLE_NAME)
 
+app = BedrockAgentFunctionResolver()
 
-def get_pet(event: dict, context: LambdaContext) -> dict:
-    path_parameters = event.get("pathParameters", {})
-    pet_id = path_parameters.get("pet_id")
+
+@app.tool(name="getPet", description="特定のペットに関する情報を取得する")
+def get_pet() -> dict:
+    session_attributes = app.current_event.session_attributes
+    pet_id = session_attributes.get("petId")
 
     if pet_id is None:
-        return {
-            "statusCode": HTTPStatus.BAD_REQUEST,
-            # 日本語のメッセージをそのまま返すためにUnicodeエスケープを無効化
-            "body": json.dumps({"message": "ペットIDが必要です"}, ensure_ascii=False),
-        }
+        raise BadRequestError("ペットidが必要です")
 
     try:
         response = pet_table.get_item(Key={"pet_id": pet_id})
         item = response.get("Item")
 
         if not item:
-            return {
-                "statusCode": HTTPStatus.NOT_FOUND,
-                "body": json.dumps(
-                    {"message": "ペットが見つかりませんでした"},
-                    ensure_ascii=False,
-                ),
-            }
+            raise NotFoundError("ペットが見つかりませんでした")
 
-        return {
-            "statusCode": HTTPStatus.OK,
-            "body": json.dumps(item, ensure_ascii=False),
-        }
+        return item
     except Exception as e:
-        return {
-            "statusCode": HTTPStatus.INTERNAL_SERVER_ERROR,
-            "body": json.dumps({"message": str(e)}, ensure_ascii=False),
-        }
+        raise InternalServerError(str(e))
+
+
+def lambda_handler(event: dict, context: LambdaContext) -> dict:
+    return app.resolve(event, context)
