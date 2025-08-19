@@ -2,8 +2,15 @@ from datetime import date
 
 from fastapi import APIRouter, Depends, HTTPException, status
 
-from app.api.dependencies import get_create_diary_service, get_get_diary_service
-from app.api.schemas.diary_schema import CreateDiaryResponseBody
+from app.api.dependencies import(
+    get_create_diary_service,
+    get_get_diary_service,
+    get_update_diary_service,
+)
+from app.api.schemas.diary_schema import (
+    CreateDiaryResponseBody,
+    UpdateDiaryRequestBody,
+)
 from app.services.diary_service.create_diary_service import (
     CreateDiaryService,
     CreateDiaryServiceRequest,
@@ -13,6 +20,11 @@ from app.services.diary_service.get_diary_service import (
     GetDiaryService,
     GetDiaryServiceRequest,
     GetDiaryServiceResponse,
+)
+from app.services.diary_service.update_diary_service import(
+    UpdateDiaryService,
+    UpdateDiaryServiceRequest,
+    UpdateDiaryServiceResponse,
 )
 
 router = APIRouter()
@@ -66,3 +78,31 @@ def create_diary(
     )
 
     return create_diary_service.execute(request)
+
+@router.put(
+    "/{date}",
+    response_model=UpdateDiaryServiceResponse,
+    tags=["Diary"],
+    summary="日記を更新する",
+    operation_id="update_diary",
+)
+def update_diary(
+    pet_id: str,
+    date: date,
+    request_body: UpdateDiaryRequestBody,
+    update_diary_service: UpdateDiaryService = Depends(get_update_diary_service),
+):
+    request = UpdateDiaryServiceRequest(
+        pet_id=pet_id,
+        date=date,
+        reacted=request_body.reacted,
+        comment=request_body.comment,
+        tasks=request_body.tasks,
+    )
+    response = update_diary_service.execute(request)
+    if response is None:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="日記が見つかりませんでした",
+        )
+    return response

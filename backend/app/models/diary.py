@@ -94,3 +94,19 @@ class Diary(BaseModel):
             dict: 日記のデータ
         """
         return self.model_dump(mode="json")
+    
+    def update(self, **kwargs) -> Diary:
+        """
+        日記の属性を更新する
+
+        Args:
+            **kwargs: 更新する属性とその値
+
+        Returns:
+            Diary: 更新後の日記のインスタンス
+        """
+        updated_attrs = {k: v for k, v in kwargs.items() if v is not None}
+        updated_attrs.setdefault("updated_at", datetime.now(UTC))
+
+        # モデルに含まれていない属性は無視される
+        return self.model_copy(update=updated_attrs)
