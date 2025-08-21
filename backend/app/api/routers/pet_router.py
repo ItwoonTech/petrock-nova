@@ -86,14 +86,4 @@ def update_pet(
             detail="ペットが見つかりませんでした",
         )
 
-    return UpdatePetServiceResponse(
-        pet_id=response.pet_id,
-        name=response.name,
-        category=response.category,
-        birth_date=response.birth_date,
-        gender=response.gender,
-        care_notes=response.care_notes,
-        image_name=response.image_name,
-        created_at=response.created_at, 
-        updated_at=response.updated_at, 
-    )
+    return response
