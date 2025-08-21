@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, date
 
 from pydantic import BaseModel
 
@@ -15,7 +15,7 @@ class UpdatePetServiceResponse(BaseModel):
     pet_id: str
     name: str
     category: str
-    birth_date: datetime
+    birth_date: date
     gender: PetGender
     care_notes: list[PetCareNote]
     image_name: str
@@ -31,7 +31,7 @@ class UpdatePetService:
         current_pet = self.pet_repository.get_by_id(request.pet_id)
 
         if current_pet is None:
-            raise ValueError("ユーザーが見つかりませんでした")
+            raise ValueError("ペットが見つかりませんでした")
 
         updated_pet: Pet = current_pet.update(**request.model_dump())
         self.pet_repository.update(updated_pet)
