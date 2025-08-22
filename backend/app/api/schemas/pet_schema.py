@@ -2,7 +2,7 @@ from datetime import date
 
 from pydantic import BaseModel
 
-from app.models.pet import PetGender
+from app.models.pet import PetGender, PetCareNote
 
 
 class CreatePetRequestBody(BaseModel):
@@ -11,3 +11,6 @@ class CreatePetRequestBody(BaseModel):
     birth_date: date
     gender: PetGender
     picture_name: str
+
+class UpdatePetRequestBody(BaseModel):
+    care_notes: list[PetCareNote]

@@ -30,6 +30,7 @@ from app.services.diary_service.create_diary_service import CreateDiaryService
 from app.services.diary_service.get_diary_service import GetDiaryService
 from app.services.pet_service.create_pet_service import CreatePetService
 from app.services.pet_service.get_pet_service import GetPetService
+from app.services.pet_service.update_pet_service import UpdatePetService
 from app.services.s3_service.get_presigned_url_service import GetPresignedUrlService
 from app.services.user_service.create_user_service import CreateUserService
 from app.services.user_service.get_user_service import GetUserService
@@ -166,6 +167,12 @@ def get_chat_service(
     chat_repository: ChatRepository = Depends(get_chat_repository),
 ) -> ChatService:
     return ChatService(pet_chat_assistant, chat_repository)
+
+
+def get_update_pet_service(
+    pet_repository: PetRepository = Depends(get_pet_repository),
+) -> UpdatePetService:
+    return UpdatePetService(pet_repository)
 
 
 def get_get_presigned_url_service(

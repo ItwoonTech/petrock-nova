@@ -1,4 +1,4 @@
-from datetime import datetime, timedelta
+from datetime import date, timedelta
 from enum import Enum
 
 import inquirer
@@ -19,7 +19,7 @@ def create_pet(pet_id: str) -> None:
     headers = {"Content-Type": "application/json"}
 
     # 1年前の誕生日を設定
-    birth_date = datetime.now() - timedelta(days=365)
+    birth_date = date.today() - timedelta(days=365)
 
     request_body = {
         "name": "名前",
