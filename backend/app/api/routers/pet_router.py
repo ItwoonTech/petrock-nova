@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends, HTTPException, status
 
 from app.api.dependencies import get_create_pet_service, get_get_pet_service, get_update_pet_service
-from app.api.schemas.pet_schema import CreatePetRequestBody
+from app.api.schemas.pet_schema import CreatePetRequestBody, UpdatePetRequestBody
 from app.services.pet_service.create_pet_service import (
     CreatePetService,
     CreatePetServiceRequest,
@@ -75,9 +75,13 @@ def create_pet(
 )
 def update_pet(
     pet_id: str,
+    request_body: UpdatePetRequestBody,
     update_pet_service: UpdatePetService = Depends(get_update_pet_service),
 ):
-    request = UpdatePetServiceRequest(pet_id=pet_id)
+    request = UpdatePetServiceRequest(
+        pet_id=pet_id,
+        care_notes=request_body.care_notes
+    )
     response = update_pet_service.execute(request)
 
     if response is None:
