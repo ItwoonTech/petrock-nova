@@ -33,7 +33,7 @@ class UpdatePetService:
         if current_pet is None:
             raise ValueError("ペットが見つかりませんでした")
 
-        updated_pet: Pet = current_pet.update(**request.model_dump())
+        updated_pet: Pet = current_pet.model_copy(update=request.model_dump())
         self.pet_repository.update(updated_pet)
 
         return UpdatePetServiceResponse(**updated_pet.to_dict())
