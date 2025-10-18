@@ -13,6 +13,7 @@ class PetGender(Enum):
 
     MALE = "male"
     FEMALE = "female"
+    NONE = "none"
 
 
 class PetCareNoteIcon(Enum):
